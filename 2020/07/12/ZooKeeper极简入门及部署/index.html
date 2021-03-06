@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.4.0">
+
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -13,40 +15,17 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
 
-<script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('http://zhaoyangmushiyi.github.io').hostname,
-    root: '/',
-    scheme: 'Muse',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":true,"show_result":true,"style":"default"},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: 'search.xml',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
-
-  <meta name="description" content="简介Apache ZooKeeper是Apache软件基金会的一个软件项目，它为大型分布式计算提供开源的分布式配置服务、同步服务和命名注册。ZooKeeper曾经是Hadoop的一个子项目，但现在是一个独立的顶级项目。 ZooKeeper的架构通过冗余服务实现高可用性。因此，如果第一次无应答，客户端就可以询问另一台ZooKeeper主机。ZooKeeper节点将它们的数据存储于一个分层的命名空间，">
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="简介Apache ZooKeeper是Apache软件基金会的一个软件项目，它为大型分布式计算提供开源的分布式配置服务、同步服务和命名注册。ZooKeeper曾经是Hadoop的一个子项目，但现在是一个独立的顶级项目。 ZooKeeper的架构通过冗余服务实现高可用性。因此，如果第一次无应答，客户端就可以询问另一台ZooKeeper主机。ZooKeeper节点将它们的数据存储于一个分层的命名空间，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ZooKeeper极简入门及部署">
 <meta property="og:url" content="http://zhaoyangmushiyi.github.io/2020/07/12/ZooKeeper%E6%9E%81%E7%AE%80%E5%85%A5%E9%97%A8%E5%8F%8A%E9%83%A8%E7%BD%B2/index.html">
@@ -61,161 +40,237 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://github.com/play-with-docker/stacks/raw/cff22438cb4195ace27f9b15784bbb497047afa7/assets/images/button.png">
 
+
 <link rel="canonical" href="http://zhaoyangmushiyi.github.io/2020/07/12/ZooKeeper%E6%9E%81%E7%AE%80%E5%85%A5%E9%97%A8%E5%8F%8A%E9%83%A8%E7%BD%B2/">
 
 
-<script id="page-configurations">
+<script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: true
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
   };
 </script>
-
-  <title>ZooKeeper极简入门及部署 | 朝阳暮逝忆</title>
+<title>ZooKeeper极简入门及部署 | 朝阳暮逝忆</title>
   
-
-
 
 
 
 
   <noscript>
   <style>
-  .use-motion .brand,
+  body { margin-top: 2rem; }
+
   .use-motion .menu-item,
-  .sidebar-inner,
+  .use-motion .sidebar,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle {
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
   </style>
 </noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
+  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">朝阳暮逝忆</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">朝阳暮逝忆</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
 
 
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
       </li>
   </ul>
-
 </nav>
-  <div class="site-search">
-    <div class="popup search-popup">
-    <div class="search-header">
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
            placeholder="搜索..." spellcheck="false"
-           type="text" id="search-input">
+           type="search" class="search-input">
   </div>
-  <span class="popup-btn-close">
+  <span class="popup-btn-close" role="button">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">本地部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E6%9C%BA%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.</span> <span class="nav-text">单机部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">2.1.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.2.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8CZookeeper-Server"><span class="nav-number">2.1.3.</span> <span class="nav-text">运行Zookeeper Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.1.4.</span> <span class="nav-text">测试连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">2.2.</span> <span class="nav-text">集群部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%E9%83%A8%E7%BD%B2"><span class="nav-number">3.</span> <span class="nav-text">Docker部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pull-image"><span class="nav-number">3.1.</span> <span class="nav-text">pull image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Start-a-Zookeeper-server-instance"><span class="nav-number">3.2.</span> <span class="nav-text">Start a Zookeeper server instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connect-to-Zookeeper-from-an-application-in-another-Docker-container"><span class="nav-number">3.3.</span> <span class="nav-text">Connect to Zookeeper from an application in another Docker container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connect-to-Zookeeper-from-the-Zookeeper-command-line-client"><span class="nav-number">3.4.</span> <span class="nav-text">Connect to Zookeeper from the Zookeeper command line client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%A6-via-docker-stack-deploy-or-docker-compose"><span class="nav-number">3.5.</span> <span class="nav-text">… via docker stack deploy or docker-compose</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">3.6.</span> <span class="nav-text">Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Environment-variables"><span class="nav-number">3.7.</span> <span class="nav-text">Environment variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-TICK-TIME"><span class="nav-number">3.8.</span> <span class="nav-text">ZOO_TICK_TIME</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-INIT-LIMIT"><span class="nav-number">3.9.</span> <span class="nav-text">ZOO_INIT_LIMIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-SYNC-LIMIT"><span class="nav-number">3.10.</span> <span class="nav-text">ZOO_SYNC_LIMIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-MAX-CLIENT-CNXNS"><span class="nav-number">3.11.</span> <span class="nav-text">ZOO_MAX_CLIENT_CNXNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-STANDALONE-ENABLED"><span class="nav-number">3.12.</span> <span class="nav-text">ZOO_STANDALONE_ENABLED</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-ADMINSERVER-ENABLED"><span class="nav-number">3.13.</span> <span class="nav-text">ZOO_ADMINSERVER_ENABLED</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-AUTOPURGE-PURGEINTERVAL"><span class="nav-number">3.14.</span> <span class="nav-text">ZOO_AUTOPURGE_PURGEINTERVAL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-AUTOPURGE-SNAPRETAINCOUNT"><span class="nav-number">3.15.</span> <span class="nav-text">ZOO_AUTOPURGE_SNAPRETAINCOUNT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-4LW-COMMANDS-WHITELIST"><span class="nav-number">3.16.</span> <span class="nav-text">ZOO_4LW_COMMANDS_WHITELIST</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Advanced-configuration"><span class="nav-number">4.</span> <span class="nav-text">Advanced configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-CFG-EXTRA"><span class="nav-number">4.1.</span> <span class="nav-text">ZOO_CFG_EXTRA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JVMFLAGS"><span class="nav-number">4.2.</span> <span class="nav-text">JVMFLAGS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replicated-mode"><span class="nav-number">5.</span> <span class="nav-text">Replicated mode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-MY-ID"><span class="nav-number">5.1.</span> <span class="nav-text">ZOO_MY_ID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-SERVERS"><span class="nav-number">5.2.</span> <span class="nav-text">ZOO_SERVERS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Where-to-store-data"><span class="nav-number">6.</span> <span class="nav-text">Where to store data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-configure-logging"><span class="nav-number">7.</span> <span class="nav-text">How to configure logging</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
+      src="/images/next/avatar.gif">
+  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
+  <div class="site-description" itemprop="description">Monochrome</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
     </header>
 
     
-  <div class="back-to-top">
+  <div class="back-to-top" role="button">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
 
-          <div class="content">
-            
+    <div class="main-inner post posts-expand">
 
-  <div class="posts-expand">
-      
+
+  
+
+
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2020/07/12/ZooKeeper%E6%9E%81%E7%AE%80%E5%85%A5%E9%97%A8%E5%8F%8A%E9%83%A8%E7%BD%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/uploads/avatar.gif">
+      <meta itemprop="image" content="/images/next/avatar.gif">
       <meta itemprop="name" content="朝阳暮逝忆">
       <meta itemprop="description" content="Monochrome">
     </span>
@@ -228,49 +283,51 @@
           ZooKeeper极简入门及部署
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-07-12 22:55:11" itemprop="dateCreated datePublished" datetime="2020-07-12T22:55:11+08:00">2020-07-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-15 11:07:13" itemprop="dateModified" datetime="2020-10-15T11:07:13+08:00">2020-10-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">Zookeeper</span>
-                  </a>
-                </span>
-            </span>
+      <time title="创建时间：2020-07-12 22:55:11" itemprop="dateCreated datePublished" datetime="2020-07-12T22:55:11+08:00">2020-07-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-10-15 11:07:13" itemprop="dateModified" datetime="2020-10-15T11:07:13+08:00">2020-10-15</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Zookeeper/" itemprop="url" rel="index"><span itemprop="name">Zookeeper</span></a>
+        </span>
+    </span>
 
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
-            </span>
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
 
         </div>
       </header>
@@ -279,21 +336,19 @@
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
         <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Apache ZooKeeper是Apache软件基金会的一个软件项目，它为大型分布式计算提供开源的分布式配置服务、同步服务和命名注册。ZooKeeper曾经是Hadoop的一个子项目，但现在是一个独立的顶级项目。</p>
 <p>ZooKeeper的架构通过冗余服务实现高可用性。因此，如果第一次无应答，客户端就可以询问另一台ZooKeeper主机。ZooKeeper节点将它们的数据存储于一个分层的命名空间，非常类似于一个文件系统或一个前缀树结构。客户端可以在节点读写，从而以这种方式拥有一个共享的配置服务。更新是全序的。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="本地部署"><a href="#本地部署" class="headerlink" title="本地部署"></a>本地部署</h2><h3 id="单机部署"><a href="#单机部署" class="headerlink" title="单机部署"></a>单机部署</h3><ul>
 <li>操作系统: Mac OS 10.15(其他系统一样)</li>
 <li>JDK: 11</li>
 </ul>
-<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>打开 <a href="https://archive.apache.org/dist/zookeeper/" target="_blank" rel="noopener">Zookeeper 下载页面</a>，选择想要安装的版本。我选择的是 <a href="https://archive.apache.org/dist/zookeeper/stable/" target="_blank" rel="noopener">stable</a> 稳定版本，版本是3.5.8，选择编译好的包，<a href="https://archive.apache.org/dist/zookeeper/stable/apache-zookeeper-3.5.8-bin.tar.gz" target="_blank" rel="noopener">apache-zookeeper-3.5.8-bin.tar.gz</a>。</p>
+<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>打开 <a target="_blank" rel="noopener" href="https://archive.apache.org/dist/zookeeper/">Zookeeper 下载页面</a>，选择想要安装的版本。我选择的是 <a target="_blank" rel="noopener" href="https://archive.apache.org/dist/zookeeper/stable/">stable</a> 稳定版本，版本是3.5.8，选择编译好的包，<a target="_blank" rel="noopener" href="https://archive.apache.org/dist/zookeeper/stable/apache-zookeeper-3.5.8-bin.tar.gz">apache-zookeeper-3.5.8-bin.tar.gz</a>。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 下载</span></span><br><span class="line">wget https://archive.apache.org/dist/zookeeper/stable/apache-zookeeper-3.5.8-bin.tar.gz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 解压</span></span><br><span class="line">tar -zxvf apache-zookeeper-3.5.8-bin.tar.gz</span><br><span class="line">cd apache-zookeeper-3.5.8-bin</span><br></pre></td></tr></table></figure>
 
 <h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>Zookeeper 提供了 <code>conf/zoo_sample.cfg</code> 模版配置文件，作为示例。这里，我们复制一下，复制出一个 <code>conf/zoo.cfg</code>(默认读取的配置文件)，然后在上面进行修改，修改后配置如下：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The number of milliseconds of each tick</span></span><br><span class="line"><span class="comment"># Client-Server 通信心跳时间</span></span><br><span class="line"><span class="comment"># Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个 tickTime 时间就会发送一个心跳。tickTime 以毫秒为单位。</span></span><br><span class="line"><span class="attr">tickTime</span>=<span class="string">2000</span></span><br><span class="line"><span class="comment"># The number of ticks that the initial</span></span><br><span class="line"><span class="comment"># synchronization phase can take</span></span><br><span class="line"><span class="comment"># Leader-Follower 初始通信时限</span></span><br><span class="line"><span class="comment"># 集群中的 follower 服务器(F)与 leader 服务器(L)之间初始连接时能容忍的最多心跳数（tickTime 的数量）。</span></span><br><span class="line"><span class="attr">initLimit</span>=<span class="string">10</span></span><br><span class="line"><span class="comment"># The number of ticks that can pass between</span></span><br><span class="line"><span class="comment"># sending a request and getting an acknowledgement</span></span><br><span class="line"><span class="comment"># Leader-Follower 同步通信时限</span></span><br><span class="line"><span class="comment"># 集群中的 follower 服务器与 leader 服务器之间请求和应答之间能容忍的最多心跳数（tickTime的数量）。</span></span><br><span class="line"><span class="attr">syncLimit</span>=<span class="string">5</span></span><br><span class="line"><span class="comment"># the directory where the snapshot is stored.</span></span><br><span class="line"><span class="comment"># do not use /tmp for storage, /tmp here is just</span></span><br><span class="line"><span class="comment"># example sakes.</span></span><br><span class="line"><span class="comment"># 数据文件目录</span></span><br><span class="line"><span class="comment"># Zookeeper 保存数据的目录，默认情况下，Zookeeper 将写数据的日志文件也保存在这个目录里。</span></span><br><span class="line"><span class="attr">dataDir</span>=<span class="string">/Users/monochrome/app/Zookeeper/apache-zookeeper-3.5.8-bin/data</span></span><br><span class="line"><span class="comment"># the port at which the clients will connect</span></span><br><span class="line"><span class="comment"># 客户端连接端口</span></span><br><span class="line"><span class="comment"># 客户端连接 Zookeeper 服务器的端口，Zookeeper 会监听这个端口，接受客户端的访问请求。</span></span><br><span class="line"><span class="attr">clientPort</span>=<span class="string">2181</span></span><br><span class="line"><span class="comment"># the maximum number of client connections.</span></span><br><span class="line"><span class="comment"># increase this if you need to handle more clients</span></span><br><span class="line"><span class="comment">#maxClientCnxns=60</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Be sure to read the maintenance section of the</span></span><br><span class="line"><span class="comment"># administrator guide before turning on autopurge.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The number of snapshots to retain in dataDir</span></span><br><span class="line"><span class="comment">#autopurge.snapRetainCount=3</span></span><br><span class="line"><span class="comment"># Purge task interval in hours</span></span><br><span class="line"><span class="comment"># Set to "0" to disable auto purge feature</span></span><br><span class="line"><span class="comment">#autopurge.purgeInterval=1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The number of milliseconds of each tick</span></span><br><span class="line"><span class="comment"># Client-Server 通信心跳时间</span></span><br><span class="line"><span class="comment"># Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个 tickTime 时间就会发送一个心跳。tickTime 以毫秒为单位。</span></span><br><span class="line"><span class="attr">tickTime</span>=<span class="string">2000</span></span><br><span class="line"><span class="comment"># The number of ticks that the initial</span></span><br><span class="line"><span class="comment"># synchronization phase can take</span></span><br><span class="line"><span class="comment"># Leader-Follower 初始通信时限</span></span><br><span class="line"><span class="comment"># 集群中的 follower 服务器(F)与 leader 服务器(L)之间初始连接时能容忍的最多心跳数（tickTime 的数量）。</span></span><br><span class="line"><span class="attr">initLimit</span>=<span class="string">10</span></span><br><span class="line"><span class="comment"># The number of ticks that can pass between</span></span><br><span class="line"><span class="comment"># sending a request and getting an acknowledgement</span></span><br><span class="line"><span class="comment"># Leader-Follower 同步通信时限</span></span><br><span class="line"><span class="comment"># 集群中的 follower 服务器与 leader 服务器之间请求和应答之间能容忍的最多心跳数（tickTime的数量）。</span></span><br><span class="line"><span class="attr">syncLimit</span>=<span class="string">5</span></span><br><span class="line"><span class="comment"># the directory where the snapshot is stored.</span></span><br><span class="line"><span class="comment"># do not use /tmp for storage, /tmp here is just</span></span><br><span class="line"><span class="comment"># example sakes.</span></span><br><span class="line"><span class="comment"># 数据文件目录</span></span><br><span class="line"><span class="comment"># Zookeeper 保存数据的目录，默认情况下，Zookeeper 将写数据的日志文件也保存在这个目录里。</span></span><br><span class="line"><span class="attr">dataDir</span>=<span class="string">/Users/monochrome/app/Zookeeper/apache-zookeeper-3.5.8-bin/data</span></span><br><span class="line"><span class="comment"># the port at which the clients will connect</span></span><br><span class="line"><span class="comment"># 客户端连接端口</span></span><br><span class="line"><span class="comment"># 客户端连接 Zookeeper 服务器的端口，Zookeeper 会监听这个端口，接受客户端的访问请求。</span></span><br><span class="line"><span class="attr">clientPort</span>=<span class="string">2181</span></span><br><span class="line"><span class="comment"># the maximum number of client connections.</span></span><br><span class="line"><span class="comment"># increase this if you need to handle more clients</span></span><br><span class="line"><span class="comment">#maxClientCnxns=60</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Be sure to read the maintenance section of the</span></span><br><span class="line"><span class="comment"># administrator guide before turning on autopurge.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The number of snapshots to retain in dataDir</span></span><br><span class="line"><span class="comment">#autopurge.snapRetainCount=3</span></span><br><span class="line"><span class="comment"># Purge task interval in hours</span></span><br><span class="line"><span class="comment"># Set to &quot;0&quot; to disable auto purge feature</span></span><br><span class="line"><span class="comment">#autopurge.purgeInterval=1</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="运行Zookeeper-Server"><a href="#运行Zookeeper-Server" class="headerlink" title="运行Zookeeper Server"></a>运行Zookeeper Server</h4><p>执行 <code>bin/zkServer.sh start</code> 命令，启动 Zookeeper Server 服务。此时，控制台会输出如下日志，表示启动成功。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bin/zkServer.sh start</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认情况下，Zookeeper 开启 JMX</span></span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用 conf/zoo.cfg 配置文件</span></span><br><span class="line">Using config: /Users/monochrome/app/Zookeeper/apache-zookeeper-3.5.8-bin/bin/../conf/zoo.cfg</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动 Zookeeper Server 成功（实际不一定成功）</span></span><br><span class="line">Starting zookeeper ... STARTED</span><br></pre></td></tr></table></figure>
@@ -317,15 +372,15 @@
 
 <h3 id="Connect-to-Zookeeper-from-the-Zookeeper-command-line-client"><a href="#Connect-to-Zookeeper-from-the-Zookeeper-command-line-client" class="headerlink" title="Connect to Zookeeper from the Zookeeper command line client"></a>Connect to Zookeeper from the Zookeeper command line client</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it --rm --link some-zookeeper:zookeeper zookeeper zkCli.sh -server zookeeper</span><br></pre></td></tr></table></figure>
 
-<h3 id="…-via-docker-stack-deploy-or-docker-compose"><a href="#…-via-docker-stack-deploy-or-docker-compose" class="headerlink" title="… via docker stack deploy or docker-compose"></a>… via <a href="https://docs.docker.com/engine/reference/commandline/stack_deploy/" target="_blank" rel="noopener"><code>docker stack deploy</code></a> or <a href="https://github.com/docker/compose" target="_blank" rel="noopener"><code>docker-compose</code></a></h3><p>Example <code>stack.yml</code> for <code>zookeeper</code>:</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3.1'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">zoo1:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">zoo1</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">2181</span><span class="string">:2181</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">ZOO_SERVERS:</span> <span class="string">server.1=0.0.0.0:2888:3888;2181</span> <span class="string">server.2=zoo2:2888:3888;2181</span> <span class="string">server.3=zoo3:2888:3888;2181</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">zoo2:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">zoo2</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">2182</span><span class="string">:2181</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">2</span></span><br><span class="line">      <span class="attr">ZOO_SERVERS:</span> <span class="string">server.1=zoo1:2888:3888;2181</span> <span class="string">server.2=0.0.0.0:2888:3888;2181</span> <span class="string">server.3=zoo3:2888:3888;2181</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">zoo3:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">zoo3</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">2183</span><span class="string">:2181</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">3</span></span><br><span class="line">      <span class="attr">ZOO_SERVERS:</span> <span class="string">server.1=zoo1:2888:3888;2181</span> <span class="string">server.2=zoo2:2888:3888;2181</span> <span class="string">server.3=0.0.0.0:2888:3888;2181</span></span><br></pre></td></tr></table></figure>
+<h3 id="…-via-docker-stack-deploy-or-docker-compose"><a href="#…-via-docker-stack-deploy-or-docker-compose" class="headerlink" title="… via docker stack deploy or docker-compose"></a>… via <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/stack_deploy/"><code>docker stack deploy</code></a> or <a target="_blank" rel="noopener" href="https://github.com/docker/compose"><code>docker-compose</code></a></h3><p>Example <code>stack.yml</code> for <code>zookeeper</code>:</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">zoo1:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">zoo1</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">2181</span><span class="string">:2181</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">ZOO_SERVERS:</span> <span class="string">server.1=0.0.0.0:2888:3888;2181</span> <span class="string">server.2=zoo2:2888:3888;2181</span> <span class="string">server.3=zoo3:2888:3888;2181</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">zoo2:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">zoo2</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">2182</span><span class="string">:2181</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">2</span></span><br><span class="line">      <span class="attr">ZOO_SERVERS:</span> <span class="string">server.1=zoo1:2888:3888;2181</span> <span class="string">server.2=0.0.0.0:2888:3888;2181</span> <span class="string">server.3=zoo3:2888:3888;2181</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">zoo3:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">zoo3</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">2183</span><span class="string">:2181</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">3</span></span><br><span class="line">      <span class="attr">ZOO_SERVERS:</span> <span class="string">server.1=zoo1:2888:3888;2181</span> <span class="string">server.2=zoo2:2888:3888;2181</span> <span class="string">server.3=0.0.0.0:2888:3888;2181</span></span><br></pre></td></tr></table></figure>
 
-<p><a href="http://play-with-docker.com/?stack=https://raw.githubusercontent.com/docker-library/docs/ef162dce5998011e1753c3337dcbe61200c522d2/zookeeper/stack.yml" target="_blank" rel="noopener"><img src="https://github.com/play-with-docker/stacks/raw/cff22438cb4195ace27f9b15784bbb497047afa7/assets/images/button.png" alt="Try in PWD"></a></p>
-<p>This will start Zookeeper 3.5 in <a href="https://zookeeper.apache.org/doc/current/zookeeperStarted.html#sc_RunningReplicatedZooKeeper" target="_blank" rel="noopener">replicated mode</a>. Please note, that Zookeeper 3.4 has slightly different <code>ZOO_SERVERS</code> format. Run <code>docker stack deploy -c stack.yml zookeeper</code> (or <code>docker-compose -f stack.yml up</code>) and wait for it to initialize completely. Ports <code>2181-2183</code> will be exposed.</p>
+<p><a target="_blank" rel="noopener" href="http://play-with-docker.com/?stack=https://raw.githubusercontent.com/docker-library/docs/ef162dce5998011e1753c3337dcbe61200c522d2/zookeeper/stack.yml"><img src="https://github.com/play-with-docker/stacks/raw/cff22438cb4195ace27f9b15784bbb497047afa7/assets/images/button.png" alt="Try in PWD"></a></p>
+<p>This will start Zookeeper 3.5 in <a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/current/zookeeperStarted.html#sc_RunningReplicatedZooKeeper">replicated mode</a>. Please note, that Zookeeper 3.4 has slightly different <code>ZOO_SERVERS</code> format. Run <code>docker stack deploy -c stack.yml zookeeper</code> (or <code>docker-compose -f stack.yml up</code>) and wait for it to initialize completely. Ports <code>2181-2183</code> will be exposed.</p>
 <blockquote>
 <p>Please be aware that setting up multiple servers on a single machine will not create any redundancy. If something were to happen which caused the machine to die, all of the zookeeper servers would be offline. Full redundancy requires that each server have its own machine. It must be a completely separate physical server. Multiple virtual machines on the same physical host are still vulnerable to the complete failure of that host.</p>
 </blockquote>
-<p>Consider using <a href="https://www.docker.com/products/docker-swarm" target="_blank" rel="noopener">Docker Swarm</a> when running Zookeeper in replicated mode.</p>
+<p>Consider using <a target="_blank" rel="noopener" href="https://www.docker.com/products/docker-swarm">Docker Swarm</a> when running Zookeeper in replicated mode.</p>
 <h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><p>Zookeeper configuration is located in <code>/conf</code>. One way to change it is mounting your config file as a volume:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name some-zookeeper --restart always -d -v $(pwd)/zoo.cfg:/conf/zoo.cfg zookeeper</span><br></pre></td></tr></table></figure>
 
@@ -348,48 +403,48 @@
 <blockquote>
 <p>Limits the number of concurrent connections (at the socket level) that a single client, identified by IP address, may make to a single member of the ZooKeeper ensemble.</p>
 </blockquote>
-<h3 id="ZOO-STANDALONE-ENABLED"><a href="#ZOO-STANDALONE-ENABLED" class="headerlink" title="ZOO_STANDALONE_ENABLED"></a><code>ZOO_STANDALONE_ENABLED</code></h3><p>Defaults to <code>true</code>. Zookeeper’s <a href="https://zookeeper.apache.org/doc/r3.5.7/zookeeperReconfig.html#sc_reconfig_standaloneEnabled" target="_blank" rel="noopener"><code>standaloneEnabled</code></a></p>
+<h3 id="ZOO-STANDALONE-ENABLED"><a href="#ZOO-STANDALONE-ENABLED" class="headerlink" title="ZOO_STANDALONE_ENABLED"></a><code>ZOO_STANDALONE_ENABLED</code></h3><p>Defaults to <code>true</code>. Zookeeper’s <a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/r3.5.7/zookeeperReconfig.html#sc_reconfig_standaloneEnabled"><code>standaloneEnabled</code></a></p>
 <blockquote>
 <p>Prior to 3.5.0, one could run ZooKeeper in Standalone mode or in a Distributed mode. These are separate implementation stacks, and switching between them during run time is not possible. By default (for backward compatibility) standaloneEnabled is set to true. The consequence of using this default is that if started with a single server the ensemble will not be allowed to grow, and if started with more than one server it will not be allowed to shrink to contain fewer than two participants.</p>
 </blockquote>
-<h3 id="ZOO-ADMINSERVER-ENABLED"><a href="#ZOO-ADMINSERVER-ENABLED" class="headerlink" title="ZOO_ADMINSERVER_ENABLED"></a><code>ZOO_ADMINSERVER_ENABLED</code></h3><p>Defaults to <code>true</code>. Zookeeper’s <a href="http://zookeeper.apache.org/doc/r3.5.7/zookeeperAdmin.html#sc_adminserver_config" target="_blank" rel="noopener"><code>admin.enableServer</code></a></p>
+<h3 id="ZOO-ADMINSERVER-ENABLED"><a href="#ZOO-ADMINSERVER-ENABLED" class="headerlink" title="ZOO_ADMINSERVER_ENABLED"></a><code>ZOO_ADMINSERVER_ENABLED</code></h3><p>Defaults to <code>true</code>. Zookeeper’s <a target="_blank" rel="noopener" href="http://zookeeper.apache.org/doc/r3.5.7/zookeeperAdmin.html#sc_adminserver_config"><code>admin.enableServer</code></a></p>
 <blockquote>
-<p>New in 3.5.0: The AdminServer is an embedded Jetty server that provides an HTTP interface to the four letter word commands. By default, the server is started on port 8080, and commands are issued by going to the URL “/commands/[command name]”, e.g., <a href="http://localhost:8080/commands/stat" target="_blank" rel="noopener">http://localhost:8080/commands/stat</a>.</p>
+<p>New in 3.5.0: The AdminServer is an embedded Jetty server that provides an HTTP interface to the four letter word commands. By default, the server is started on port 8080, and commands are issued by going to the URL “/commands/[command name]”, e.g., <a target="_blank" rel="noopener" href="http://localhost:8080/commands/stat">http://localhost:8080/commands/stat</a>.</p>
 </blockquote>
-<h3 id="ZOO-AUTOPURGE-PURGEINTERVAL"><a href="#ZOO-AUTOPURGE-PURGEINTERVAL" class="headerlink" title="ZOO_AUTOPURGE_PURGEINTERVAL"></a><code>ZOO_AUTOPURGE_PURGEINTERVAL</code></h3><p>Defaults to <code>0</code>. Zookeeper’s <a href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_advancedConfiguration" target="_blank" rel="noopener"><code>autoPurge.purgeInterval</code></a></p>
+<h3 id="ZOO-AUTOPURGE-PURGEINTERVAL"><a href="#ZOO-AUTOPURGE-PURGEINTERVAL" class="headerlink" title="ZOO_AUTOPURGE_PURGEINTERVAL"></a><code>ZOO_AUTOPURGE_PURGEINTERVAL</code></h3><p>Defaults to <code>0</code>. Zookeeper’s <a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_advancedConfiguration"><code>autoPurge.purgeInterval</code></a></p>
 <blockquote>
 <p>The time interval in hours for which the purge task has to be triggered. Set to a positive integer (1 and above) to enable the auto purging. Defaults to 0.</p>
 </blockquote>
-<h3 id="ZOO-AUTOPURGE-SNAPRETAINCOUNT"><a href="#ZOO-AUTOPURGE-SNAPRETAINCOUNT" class="headerlink" title="ZOO_AUTOPURGE_SNAPRETAINCOUNT"></a><code>ZOO_AUTOPURGE_SNAPRETAINCOUNT</code></h3><p>Defaults to <code>3</code>. Zookeeper’s <a href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_advancedConfiguration" target="_blank" rel="noopener"><code>autoPurge.snapRetainCount</code></a></p>
+<h3 id="ZOO-AUTOPURGE-SNAPRETAINCOUNT"><a href="#ZOO-AUTOPURGE-SNAPRETAINCOUNT" class="headerlink" title="ZOO_AUTOPURGE_SNAPRETAINCOUNT"></a><code>ZOO_AUTOPURGE_SNAPRETAINCOUNT</code></h3><p>Defaults to <code>3</code>. Zookeeper’s <a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_advancedConfiguration"><code>autoPurge.snapRetainCount</code></a></p>
 <blockquote>
 <p>When enabled, ZooKeeper auto purge feature retains the autopurge.snapRetainCount most recent snapshots and the corresponding transaction logs in the dataDir and dataLogDir respectively and deletes the rest. Defaults to 3. Minimum value is 3.</p>
 </blockquote>
-<h3 id="ZOO-4LW-COMMANDS-WHITELIST"><a href="#ZOO-4LW-COMMANDS-WHITELIST" class="headerlink" title="ZOO_4LW_COMMANDS_WHITELIST"></a><code>ZOO_4LW_COMMANDS_WHITELIST</code></h3><p>Defaults to <code>srvr</code>. Zookeeper’s <a href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_clusterOptions" target="_blank" rel="noopener"><code>4lw.commands.whitelist</code></a></p>
+<h3 id="ZOO-4LW-COMMANDS-WHITELIST"><a href="#ZOO-4LW-COMMANDS-WHITELIST" class="headerlink" title="ZOO_4LW_COMMANDS_WHITELIST"></a><code>ZOO_4LW_COMMANDS_WHITELIST</code></h3><p>Defaults to <code>srvr</code>. Zookeeper’s <a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_clusterOptions"><code>4lw.commands.whitelist</code></a></p>
 <blockquote>
 <p>A list of comma separated Four Letter Words commands that user wants to use. A valid Four Letter Words command must be put in this list else ZooKeeper server will not enable the command. By default the whitelist only contains “srvr” command which zkServer.sh uses. The rest of four letter word commands are disabled by default.</p>
 </blockquote>
-<h2 id="Advanced-configuration"><a href="#Advanced-configuration" class="headerlink" title="Advanced configuration"></a>Advanced configuration</h2><h3 id="ZOO-CFG-EXTRA"><a href="#ZOO-CFG-EXTRA" class="headerlink" title="ZOO_CFG_EXTRA"></a><code>ZOO_CFG_EXTRA</code></h3><p>Not every Zookeeper configuration setting is exposed via the environment variables listed above. These variables are only meant to cover minimum configuration keywords and some often changing options. If <a href="https://hub.docker.com/_/zookeeper#configuration" target="_blank" rel="noopener">mounting your custom config file</a> as a volume doesn’t work for you, consider using <code>ZOO_CFG_EXTRA</code> environment variable. You can add arbitrary configuration parameters to Zookeeper configuration file using this variable. The following example shows how to enable Prometheus metrics exporter on port <code>7070</code>:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name some-zookeeper --restart always -e ZOO_CFG_EXTRA="metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7070" zookeeper</span><br></pre></td></tr></table></figure>
+<h2 id="Advanced-configuration"><a href="#Advanced-configuration" class="headerlink" title="Advanced configuration"></a>Advanced configuration</h2><h3 id="ZOO-CFG-EXTRA"><a href="#ZOO-CFG-EXTRA" class="headerlink" title="ZOO_CFG_EXTRA"></a><code>ZOO_CFG_EXTRA</code></h3><p>Not every Zookeeper configuration setting is exposed via the environment variables listed above. These variables are only meant to cover minimum configuration keywords and some often changing options. If <a target="_blank" rel="noopener" href="https://hub.docker.com/_/zookeeper#configuration">mounting your custom config file</a> as a volume doesn’t work for you, consider using <code>ZOO_CFG_EXTRA</code> environment variable. You can add arbitrary configuration parameters to Zookeeper configuration file using this variable. The following example shows how to enable Prometheus metrics exporter on port <code>7070</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name some-zookeeper --restart always -e ZOO_CFG_EXTRA=&quot;metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7070&quot; zookeeper</span><br></pre></td></tr></table></figure>
 
 <h3 id="JVMFLAGS"><a href="#JVMFLAGS" class="headerlink" title="JVMFLAGS"></a><code>JVMFLAGS</code></h3><p>Many of the Zookeeper advanced configuration options can be set there using Java system properties in the form of <code>-Dproperty=value</code>. For example, you can use Netty instead of NIO (default option) as a server communication framework:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name some-zookeeper --restart always -e JVMFLAGS="-Dzookeeper.serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory" zookeeper</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name some-zookeeper --restart always -e JVMFLAGS=&quot;-Dzookeeper.serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory&quot; zookeeper</span><br></pre></td></tr></table></figure>
 
-<p>See <a href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_advancedConfiguration" target="_blank" rel="noopener">Advanced Configuration</a> for the full list of supported Java system properties.</p>
+<p>See <a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_advancedConfiguration">Advanced Configuration</a> for the full list of supported Java system properties.</p>
 <p>Another example use case for the <code>JVMFLAGS</code> is setting a maximum JWM heap size of 1 GB:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name some-zookeeper --restart always -e JVMFLAGS&#x3D;&quot;-Xmx1024m&quot; zookeeper</span><br></pre></td></tr></table></figure>
 
 <h2 id="Replicated-mode"><a href="#Replicated-mode" class="headerlink" title="Replicated mode"></a>Replicated mode</h2><p>Environment variables below are mandatory if you want to run Zookeeper in replicated mode.</p>
 <h3 id="ZOO-MY-ID"><a href="#ZOO-MY-ID" class="headerlink" title="ZOO_MY_ID"></a><code>ZOO_MY_ID</code></h3><p>The id must be unique within the ensemble and should have a value between 1 and 255. Do note that this variable will not have any effect if you start the container with a <code>/data</code> directory that already contains the <code>myid</code> file.</p>
 <h3 id="ZOO-SERVERS"><a href="#ZOO-SERVERS" class="headerlink" title="ZOO_SERVERS"></a><code>ZOO_SERVERS</code></h3><p>This variable allows you to specify a list of machines of the Zookeeper ensemble. Each entry has the form of <code>server.id=host:port:port</code>. Entries are separated with space. Do note that this variable will not have any effect if you start the container with a <code>/conf</code> directory that already contains the <code>zoo.cfg</code> file.</p>
-<p>In 3.5, the syntax of this has changed. Servers should be specified as such: <code>server.id=&lt;address1&gt;:&lt;port1&gt;:&lt;port2&gt;[:role];[&lt;client port address&gt;:]&lt;client port&gt;</code> <a href="https://zookeeper.apache.org/doc/r3.5.7/zookeeperReconfig.html" target="_blank" rel="noopener">Zookeeper Dynamic Reconfiguration</a></p>
+<p>In 3.5, the syntax of this has changed. Servers should be specified as such: <code>server.id=&lt;address1&gt;:&lt;port1&gt;:&lt;port2&gt;[:role];[&lt;client port address&gt;:]&lt;client port&gt;</code> <a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/r3.5.7/zookeeperReconfig.html">Zookeeper Dynamic Reconfiguration</a></p>
 <h2 id="Where-to-store-data"><a href="#Where-to-store-data" class="headerlink" title="Where to store data"></a>Where to store data</h2><p>This image is configured with volumes at <code>/data</code> and <code>/datalog</code> to hold the Zookeeper in-memory database snapshots and the transaction log of updates to the database, respectively.</p>
 <blockquote>
 <p>Be careful where you put the transaction log. A dedicated transaction log device is key to consistent good performance. Putting the log on a busy device will adversely affect performance.</p>
 </blockquote>
 <h2 id="How-to-configure-logging"><a href="#How-to-configure-logging" class="headerlink" title="How to configure logging"></a>How to configure logging</h2><p>By default, ZooKeeper redirects stdout/stderr outputs to the console. You can redirect to a file located in <code>/logs</code> by passing environment variable <code>ZOO_LOG4J_PROP</code> as follows:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name some-zookeeper --restart always -e ZOO_LOG4J_PROP="INFO,ROLLINGFILE" zookeeper</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name some-zookeeper --restart always -e ZOO_LOG4J_PROP=&quot;INFO,ROLLINGFILE&quot; zookeeper</span><br></pre></td></tr></table></figure>
 
-<p>This will write logs to <code>/logs/zookeeper.log</code>. Check <a href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_logging" target="_blank" rel="noopener">ZooKeeper Logging</a> for more details.</p>
+<p>This will write logs to <code>/logs/zookeeper.log</code>. Check <a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_logging">ZooKeeper Logging</a> for more details.</p>
 <p>This image is configured with a volume at <code>/logs</code> for your convenience.</p>
 
     </div>
@@ -398,43 +453,40 @@
     
     
 
-      <footer class="post-footer">
+    <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Zookeeper/" rel="tag"># Zookeeper</a>
           </div>
 
         
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/07/03/MacOS%E5%BC%80%E5%90%AF%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" rel="prev" title="MacOS开启端口转发">
-      <i class="fa fa-chevron-left"></i> MacOS开启端口转发
-    </a></div>
-      <div class="post-nav-item"></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-  </div>
-
-
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/03/MacOS%E5%BC%80%E5%90%AF%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" rel="prev" title="MacOS开启端口转发">
+                  <i class="fa fa-chevron-left"></i> MacOS开启端口转发
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
           </div>
-          
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
+    let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -443,160 +495,52 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
+      const commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地部署"><span class="nav-number">2.</span> <span class="nav-text">本地部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单机部署"><span class="nav-number">2.1.</span> <span class="nav-text">单机部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载"><span class="nav-number">2.1.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件"><span class="nav-number">2.1.2.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行Zookeeper-Server"><span class="nav-number">2.1.3.</span> <span class="nav-text">运行Zookeeper Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试连接"><span class="nav-number">2.1.4.</span> <span class="nav-text">测试连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集群部署"><span class="nav-number">2.2.</span> <span class="nav-text">集群部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker部署"><span class="nav-number">3.</span> <span class="nav-text">Docker部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pull-image"><span class="nav-number">3.1.</span> <span class="nav-text">pull image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Start-a-Zookeeper-server-instance"><span class="nav-number">3.2.</span> <span class="nav-text">Start a Zookeeper server instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connect-to-Zookeeper-from-an-application-in-another-Docker-container"><span class="nav-number">3.3.</span> <span class="nav-text">Connect to Zookeeper from an application in another Docker container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connect-to-Zookeeper-from-the-Zookeeper-command-line-client"><span class="nav-number">3.4.</span> <span class="nav-text">Connect to Zookeeper from the Zookeeper command line client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#…-via-docker-stack-deploy-or-docker-compose"><span class="nav-number">3.5.</span> <span class="nav-text">… via docker stack deploy or docker-compose</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">3.6.</span> <span class="nav-text">Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Environment-variables"><span class="nav-number">3.7.</span> <span class="nav-text">Environment variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-TICK-TIME"><span class="nav-number">3.8.</span> <span class="nav-text">ZOO_TICK_TIME</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-INIT-LIMIT"><span class="nav-number">3.9.</span> <span class="nav-text">ZOO_INIT_LIMIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-SYNC-LIMIT"><span class="nav-number">3.10.</span> <span class="nav-text">ZOO_SYNC_LIMIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-MAX-CLIENT-CNXNS"><span class="nav-number">3.11.</span> <span class="nav-text">ZOO_MAX_CLIENT_CNXNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-STANDALONE-ENABLED"><span class="nav-number">3.12.</span> <span class="nav-text">ZOO_STANDALONE_ENABLED</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-ADMINSERVER-ENABLED"><span class="nav-number">3.13.</span> <span class="nav-text">ZOO_ADMINSERVER_ENABLED</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-AUTOPURGE-PURGEINTERVAL"><span class="nav-number">3.14.</span> <span class="nav-text">ZOO_AUTOPURGE_PURGEINTERVAL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-AUTOPURGE-SNAPRETAINCOUNT"><span class="nav-number">3.15.</span> <span class="nav-text">ZOO_AUTOPURGE_SNAPRETAINCOUNT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-4LW-COMMANDS-WHITELIST"><span class="nav-number">3.16.</span> <span class="nav-text">ZOO_4LW_COMMANDS_WHITELIST</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Advanced-configuration"><span class="nav-number">4.</span> <span class="nav-text">Advanced configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-CFG-EXTRA"><span class="nav-number">4.1.</span> <span class="nav-text">ZOO_CFG_EXTRA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JVMFLAGS"><span class="nav-number">4.2.</span> <span class="nav-text">JVMFLAGS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replicated-mode"><span class="nav-number">5.</span> <span class="nav-text">Replicated mode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-MY-ID"><span class="nav-number">5.1.</span> <span class="nav-text">ZOO_MY_ID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZOO-SERVERS"><span class="nav-number">5.2.</span> <span class="nav-text">ZOO_SERVERS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Where-to-store-data"><span class="nav-number">6.</span> <span class="nav-text">Where to store data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-configure-logging"><span class="nav-number">7.</span> <span class="nav-text">How to configure logging</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
-      src="/images/uploads/avatar.gif">
-  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
-  <div class="site-description" itemprop="description">Monochrome</div>
 </div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">26</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">21</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">18</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-      </span>
-  </div>
+  </main>
 
+  <footer class="footer">
+    <div class="footer-inner">
 
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
 
 <div class="copyright">
-  
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">朝阳暮逝忆</span>
-    <span class="post-meta-divider">|</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-chart-line"></i>
     </span>
-      <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">109k</span>
-    <span class="post-meta-divider">|</span>
+    <span title="站点总字数">112k</span>
+  </span>
+  <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:39</span>
+    <span title="站点阅读时长">1:41</span>
+  </span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
-  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<script type="text/javascript">
+!function(e,t,a){function n(){c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),o(),r()}function r(){for(var e=0;e<d.length;e++)d[e].alpha<=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText="left:"+d[e].x+"px;top:"+d[e].y+"px;opacity:"+d[e].alpha+";transform:scale("+d[e].scale+","+d[e].scale+") rotate(45deg);background:"+d[e].color+";z-index:99999");requestAnimationFrame(r)}function o(){var t="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){t&&t(),i(e)}}function i(e){var a=t.createElement("div");a.className="heart",d.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()}),t.body.appendChild(a)}function c(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}function s(){return"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}var d=[];e.requestAnimationFrame=function(){return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)}}(),n()}(window,document);
+</script>
 
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   
-  
-  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-<script src="/js/love.js"></script>
-
-
-  
-
-
-
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
 <script src="/js/local-search.js"></script>
@@ -605,17 +549,32 @@
 
 
 
-
-
-
-
-
-
-
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
 
   
 
-  
+
+
+
 
 </body>
 </html>
