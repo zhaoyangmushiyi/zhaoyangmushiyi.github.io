@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="Java8  JVM内存结构基本结构与之前类似，只是Java8取消了之前的“永久代”，取而代之的是“元空间”——Metaspace，两者本质是一样的。“永久代”使用的是JVM的堆内存，而“元空间”是直接使用的本机物理内存。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM核心知识点">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2021/06/01/JVM%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="朝阳暮逝忆">
+<meta property="og:description" content="Java8  JVM内存结构基本结构与之前类似，只是Java8取消了之前的“永久代”，取而代之的是“元空间”——Metaspace，两者本质是一样的。“永久代”使用的是JVM的堆内存，而“元空间”是直接使用的本机物理内存。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/2021/06/01/JVM%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/images/JVM//JVMMem.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/2021/06/01/JVM%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/images/JVM//InkedJVMXParam_LI.jpg">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/2021/06/01/JVM%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/images/JVM//GCbq.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//GCbz.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//GCbq.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//GCbq2.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//GCfz.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//GCfz2.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//GCqi.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//GCqi2.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//serial.jpeg">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//parnew.jpeg">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JVM//cms.jpeg">
+<meta property="article:published_time" content="2021-06-01T08:26:05.000Z">
+<meta property="article:modified_time" content="2021-06-24T13:31:40.973Z">
+<meta property="article:author" content="朝阳暮逝忆">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zhaoyangmushiyi.github.io/2021/06/01/JVM%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/images/JVM//JVMMem.png">
+
+
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2021/06/01/JVM%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>JVM核心知识点 | 朝阳暮逝忆</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">朝阳暮逝忆</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java8-JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">Java8  JVM内存结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GC-Roots"><span class="nav-number">2.</span> <span class="nav-text">GC Roots</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%8F%AF%E4%BB%A5%E8%A2%AB%E5%9B%9E%E6%94%B6%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">如果判断一个对象可以被回收？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.1.</span> <span class="nav-text">引用计数算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.2.</span> <span class="nav-text">可达性分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%AF%B9%E8%B1%A1%E5%8F%AF%E4%BB%A5%E4%BD%9C%E4%B8%BAGC-Roots%EF%BC%9F"><span class="nav-number">2.2.</span> <span class="nav-text">哪些对象可以作为GC Roots？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%8F%82%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">JVM参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E4%B8%89%E7%A7%8D%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.</span> <span class="nav-text">JVM 三种类型参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E9%85%8D%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.1.</span> <span class="nav-text">标配参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#X%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.2.</span> <span class="nav-text">X参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.3.</span> <span class="nav-text">XX参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-XX%E5%8F%82%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">JVM XX参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.1.</span> <span class="nav-text">布尔类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KV%E9%94%AE%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.2.</span> <span class="nav-text">KV键值类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-Xms-Xmx%E5%8F%82%E6%95%B0"><span class="nav-number">3.3.</span> <span class="nav-text">JVM Xms&#x2F;Xmx参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E6%9F%A5%E7%9C%8B%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.</span> <span class="nav-text">JVM 查看参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9F%90%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.1.</span> <span class="nav-text">查看某个参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.2.</span> <span class="nav-text">查看所有参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E4%BF%AE%E6%94%B9%E5%90%8E%E7%9A%84%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.3.</span> <span class="nav-text">查看修改后的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%B8%B8%E8%A7%81%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.4.</span> <span class="nav-text">查看常见参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="nav-number">3.5.</span> <span class="nav-text">JVM 常用参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Xmx-Xms"><span class="nav-number">3.5.1.</span> <span class="nav-text">-Xmx&#x2F;-Xms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xss"><span class="nav-number">3.5.2.</span> <span class="nav-text">-Xss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xmn"><span class="nav-number">3.5.3.</span> <span class="nav-text">-Xmn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-MetaspaceSize"><span class="nav-number">3.5.4.</span> <span class="nav-text">-XX:MetaspaceSize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-PrintGCDetails"><span class="nav-number">3.5.5.</span> <span class="nav-text">-XX:+PrintGCDetails</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-SurvivorRatio"><span class="nav-number">3.5.6.</span> <span class="nav-text">-XX:SurvivorRatio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-NewRatio"><span class="nav-number">3.5.7.</span> <span class="nav-text">-XX:NewRatio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-MaxTenuringThreshold"><span class="nav-number">3.5.8.</span> <span class="nav-text">-XX:MaxTenuringThreshold</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E5%A4%A7%E5%BC%95%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">四大引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">4.1.</span> <span class="nav-text">强引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E5%BC%95%E7%94%A8"><span class="nav-number">4.2.</span> <span class="nav-text">软引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-number">4.3.</span> <span class="nav-text">弱引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakHashMap"><span class="nav-number">4.3.1.</span> <span class="nav-text">WeakHashMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%BC%95%E7%94%A8"><span class="nav-number">4.4.</span> <span class="nav-text">虚引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E9%98%9F%E5%88%97"><span class="nav-number">4.5.</span> <span class="nav-text">引用队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OutOfMemoryError"><span class="nav-number">5.</span> <span class="nav-text">OutOfMemoryError</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#StackOverflowError"><span class="nav-number">5.1.</span> <span class="nav-text">StackOverflowError</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94Java-head-space"><span class="nav-number">5.2.</span> <span class="nav-text">OOM—Java head space</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94GC-overhead-limit-exceeded"><span class="nav-number">5.3.</span> <span class="nav-text">OOM—GC overhead limit exceeded</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94GC-Direct-buffer-memory"><span class="nav-number">5.4.</span> <span class="nav-text">OOM—GC Direct buffer memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94unable-to-create-new-native-thread"><span class="nav-number">5.5.</span> <span class="nav-text">OOM—unable to create new native thread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94Metaspace"><span class="nav-number">5.6.</span> <span class="nav-text">OOM—Metaspace</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.</span> <span class="nav-text">JVM垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E5%A4%A7%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.</span> <span class="nav-text">四大垃圾收集算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86"><span class="nav-number">6.1.1.</span> <span class="nav-text">标记整理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4"><span class="nav-number">6.1.2.</span> <span class="nav-text">标记清除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.3.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.4.</span> <span class="nav-text">分代收集算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E7%A7%8D%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.2.</span> <span class="nav-text">四种垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%B2%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8Serial"><span class="nav-number">6.2.1.</span> <span class="nav-text">串行收集器Serial</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8Parrallel"><span class="nav-number">6.2.2.</span> <span class="nav-text">并行收集器Parrallel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%94%B6%E9%9B%86%E5%99%A8CMS"><span class="nav-number">6.2.3.</span> <span class="nav-text">并发收集器CMS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#G1%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.2.4.</span> <span class="nav-text">G1收集器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.3.</span> <span class="nav-text">默认垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E6%94%B6%E9%9B%86%E5%99%A8%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">6.3.1.</span> <span class="nav-text">默认收集器有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E9%BB%98%E8%AE%A4%E5%9E%83%E5%9C%BE%E4%BF%AE%E6%94%B9%E5%99%A8"><span class="nav-number">6.3.2.</span> <span class="nav-text">查看默认垃圾修改器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E5%A4%A7%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.</span> <span class="nav-text">七大垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">6.4.1.</span> <span class="nav-text">体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serial%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.2.</span> <span class="nav-text">Serial收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ParNew%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.3.</span> <span class="nav-text">ParNew收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parallel-Scavenge%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.4.</span> <span class="nav-text">Parallel Scavenge收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SerialOld%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.5.</span> <span class="nav-text">SerialOld收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ParallelOld%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.6.</span> <span class="nav-text">ParallelOld收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMS%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.7.</span> <span class="nav-text">CMS收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B"><span class="nav-number">6.4.7.1.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">6.4.7.2.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#G1%E6%94%B6%E9%9B%86%E5%99%A8-1"><span class="nav-number">6.4.8.</span> <span class="nav-text">G1收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">6.4.8.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B-1"><span class="nav-number">6.4.8.2.</span> <span class="nav-text">过程</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E2%80%94Linux%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="nav-number">7.</span> <span class="nav-text">附—Linux相关指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#top"><span class="nav-number">7.1.</span> <span class="nav-text">top</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vmstat"><span class="nav-number">7.2.</span> <span class="nav-text">vmstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pidstat"><span class="nav-number">7.3.</span> <span class="nav-text">pidstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#free"><span class="nav-number">7.4.</span> <span class="nav-text">free</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#df"><span class="nav-number">7.5.</span> <span class="nav-text">df</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iostat"><span class="nav-number">7.6.</span> <span class="nav-text">iostat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ifstat"><span class="nav-number">7.7.</span> <span class="nav-text">ifstat</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CPU%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E5%8E%9F%E5%9B%A0%E5%AE%9A%E4%BD%8D"><span class="nav-number">8.</span> <span class="nav-text">CPU占用过高原因定位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7"><span class="nav-number">9.</span> <span class="nav-text">JVM性能调优和监控工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jps"><span class="nav-number">9.1.</span> <span class="nav-text">jps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jstack"><span class="nav-number">9.2.</span> <span class="nav-text">jstack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jinfo-jstat"><span class="nav-number">9.3.</span> <span class="nav-text">jinfo&#x2F;jstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jmap"><span class="nav-number">9.4.</span> <span class="nav-text">jmap</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
+      src="/images/next/avatar.gif">
+  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
+  <div class="site-description" itemprop="description">Monochrome</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2021/06/01/JVM%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/next/avatar.gif">
+      <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="description" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝阳暮逝忆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JVM核心知识点
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-01 16:26:05" itemprop="dateCreated datePublished" datetime="2021-06-01T16:26:05+08:00">2021-06-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-06-24 21:31:40" itemprop="dateModified" datetime="2021-06-24T21:31:40+08:00">2021-06-24</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Java8-JVM内存结构"><a href="#Java8-JVM内存结构" class="headerlink" title="Java8  JVM内存结构"></a>Java8  JVM内存结构</h1><p>基本结构与之前类似，只是Java8取消了之前的“永久代”，取而代之的是“元空间”——<strong>Metaspace</strong>，两者本质是一样的。“永久代”使用的是JVM的堆内存，而“元空间”是直接使用的本机物理内存。</p>
+<p><img src="./images/JVM//JVMMem.png" alt=""></p>
+<span id="more"></span>
+
+<h1 id="GC-Roots"><a href="#GC-Roots" class="headerlink" title="GC Roots"></a>GC Roots</h1><h2 id="如果判断一个对象可以被回收？"><a href="#如果判断一个对象可以被回收？" class="headerlink" title="如果判断一个对象可以被回收？"></a>如果判断一个对象可以被回收？</h2><h3 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h3><p>维护一个计数器，如果有对该对象的引用，计数器+1，反之-1。无法解决循环引用的问题。</p>
+<h3 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p>从一组名为“GC Roots”的根节点对象出发，向下遍历。那些没有被遍历到、与GC Roots形成通路的对象，会被标记为“回收”。</p>
+<h2 id="哪些对象可以作为GC-Roots？"><a href="#哪些对象可以作为GC-Roots？" class="headerlink" title="哪些对象可以作为GC Roots？"></a>哪些对象可以作为GC Roots？</h2><ol>
+<li>虚拟机栈（栈帧中的局部变量）中引用的对象。</li>
+<li>本地方法栈（native）中引用的对象。</li>
+<li>方法区中常量引用的对象。</li>
+<li>方法区中类静态属性引用的对象。</li>
+</ol>
+<h1 id="JVM参数"><a href="#JVM参数" class="headerlink" title="JVM参数"></a>JVM参数</h1><h2 id="JVM-三种类型参数"><a href="#JVM-三种类型参数" class="headerlink" title="JVM 三种类型参数"></a>JVM 三种类型参数</h2><h3 id="标配参数"><a href="#标配参数" class="headerlink" title="标配参数"></a>标配参数</h3><p>比如<code>-version</code>、<code>-help</code>、<code>-showversion</code>等，几乎不会改变。</p>
+<h3 id="X参数"><a href="#X参数" class="headerlink" title="X参数"></a>X参数</h3><p>用得不多，比如<code>-Xint</code>，解释执行模式；<code>-Xcomp</code>，编译模式；<code>-Xmixed</code>，开启混合模式（默认）。</p>
+<p><img src="./images/JVM//InkedJVMXParam_LI.jpg" alt=""></p>
+<h3 id="XX参数"><a href="#XX参数" class="headerlink" title="XX参数"></a>XX参数</h3><p>重要，用于JVM调优。</p>
+<h2 id="JVM-XX参数"><a href="#JVM-XX参数" class="headerlink" title="JVM XX参数"></a>JVM XX参数</h2><h3 id="布尔类型"><a href="#布尔类型" class="headerlink" title="布尔类型"></a>布尔类型</h3><p><strong>公式</strong>：<code>-XX:+某个属性</code>、<code>-XX:-某个属性</code>，开启或关闭某个功能。比如<code>-XX:+PrintGCDetails</code>，开启GC详细信息。</p>
+<h3 id="KV键值类型"><a href="#KV键值类型" class="headerlink" title="KV键值类型"></a>KV键值类型</h3><p><strong>公式</strong>：<code>-XX:属性key=值value</code>。比如<code>-XX:Metaspace=128m</code>、<code>-XX:MaxTenuringThreshold=15</code>。</p>
+<h2 id="JVM-Xms-Xmx参数"><a href="#JVM-Xms-Xmx参数" class="headerlink" title="JVM Xms/Xmx参数"></a>JVM Xms/Xmx参数</h2><p><code>-Xms</code>和<code>-Xmx</code>十分常见，用于设置<strong>初始堆大小</strong>和<strong>最大堆大小</strong>。第一眼看上去，既不像X参数，也不像XX参数。实际上<code>-Xms</code>等价于<code>-XX:InitialHeapSize</code>，<code>-Xmx</code>等价于<code>-XX:MaxHeapSize</code>。所以<code>-Xms</code>和<code>-Xmx</code>属于XX参数。</p>
+<h2 id="JVM-查看参数"><a href="#JVM-查看参数" class="headerlink" title="JVM 查看参数"></a>JVM 查看参数</h2><h3 id="查看某个参数"><a href="#查看某个参数" class="headerlink" title="查看某个参数"></a>查看某个参数</h3><p>使用<code>jps -l</code>配合<code>jinfo -flag JVM参数 pid</code> 。先用<code>jsp -l</code>查看java进程，选择某个进程号。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">17888</span> org.jetbrains.jps.cmdline.Launcher</span><br><span class="line"><span class="number">5360</span> org.jetbrains.idea.maven.server.RemoteMavenServer</span><br><span class="line"><span class="number">18052</span> demo3.demo3</span><br></pre></td></tr></table></figure>
+
+<p><code>jinfo -flag PrintGCDetails 18052</code>可以查看18052 Java进程的<code>PrintGCDetails</code>参数信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:-PrintGCDetails</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看所有参数"><a href="#查看所有参数" class="headerlink" title="查看所有参数"></a>查看<strong>所有</strong>参数</h3><p>使用<code>jps -l</code>配合<code>jinfo -flags pid</code>可以查看所有参数。</p>
+<p>也可以使用<code>java -XX:+PrintFlagsInitial</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[Global flags]</span><br><span class="line">     intx ActiveProcessorCount                      = -<span class="number">1</span>            &#123;product&#125;</span><br><span class="line">    uintx AdaptiveSizeDecrementScaleFactor          = <span class="number">4</span>             &#123;product&#125;</span><br><span class="line">    uintx AdaptiveSizeMajorGCDecayTimeScale         = <span class="number">10</span>            &#123;product&#125;</span><br><span class="line">    uintx AdaptiveSizePausePolicy                   = <span class="number">0</span>             &#123;product&#125;</span><br><span class="line">······</span><br><span class="line">    uintx YoungPLABSize                             = <span class="number">4096</span>          &#123;product&#125;</span><br><span class="line">     bool ZeroTLAB                                  = <span class="keyword">false</span>         &#123;product&#125;</span><br><span class="line">     intx hashCode                                  = <span class="number">5</span>             &#123;product&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看修改后的参数"><a href="#查看修改后的参数" class="headerlink" title="查看修改后的参数"></a>查看<strong>修改</strong>后的参数</h3><p>使用<code>java -XX:PrintFlagsFinal</code>可以查看修改后的参数，与上面类似。只是修改过后是<code>:=</code>而不是<code>=</code>。</p>
+<h3 id="查看常见参数"><a href="#查看常见参数" class="headerlink" title="查看常见参数"></a>查看<strong>常见</strong>参数</h3><p>如果不想查看所有参数，可以用<code>-XX:+PrintCommandLineFlags</code>查看常用参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:InitialHeapSize=<span class="number">132375936</span> -XX:MaxHeapSize=<span class="number">2118014976</span> -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC</span><br></pre></td></tr></table></figure>
+
+<h2 id="JVM-常用参数"><a href="#JVM-常用参数" class="headerlink" title="JVM 常用参数"></a>JVM 常用参数</h2><h3 id="Xmx-Xms"><a href="#Xmx-Xms" class="headerlink" title="-Xmx/-Xms"></a>-Xmx/-Xms</h3><p>最大和初始堆大小。最大默认为物理内存的1/4，初始默认为物理内存的1/64。</p>
+<h3 id="Xss"><a href="#Xss" class="headerlink" title="-Xss"></a>-Xss</h3><p>等价于<code>-XX:ThresholdStackSize</code>。用于设置单个栈的大小，系统默认值是0，<strong>不代表栈大小为0</strong>。而是根据操作系统的不同，有不同的值。比如64位的Linux系统是1024K，而Windows系统依赖于虚拟内存。</p>
+<h3 id="Xmn"><a href="#Xmn" class="headerlink" title="-Xmn"></a>-Xmn</h3><p>新生代大小，一般不调。</p>
+<h3 id="XX-MetaspaceSize"><a href="#XX-MetaspaceSize" class="headerlink" title="-XX:MetaspaceSize"></a>-XX:MetaspaceSize</h3><p>设置元空间大小。</p>
+<h3 id="XX-PrintGCDetails"><a href="#XX-PrintGCDetails" class="headerlink" title="-XX:+PrintGCDetails"></a>-XX:+PrintGCDetails</h3><p>输出GC收集信息，包含<code>GC</code>和<code>Full GC</code>信息。</p>
+<h3 id="XX-SurvivorRatio"><a href="#XX-SurvivorRatio" class="headerlink" title="-XX:SurvivorRatio"></a>-XX:SurvivorRatio</h3><p>新生代中，<code>Eden</code>区和两个<code>Survivor</code>区的比例，默认是<code>8:1:1</code>。通过<code>-XX:SurvivorRatio=4</code>改成<code>4:1:1</code></p>
+<h3 id="XX-NewRatio"><a href="#XX-NewRatio" class="headerlink" title="-XX:NewRatio"></a>-XX:NewRatio</h3><p>老生代和新年代的比列，默认是2，即老年代占2，新生代占1。如果改成<code>-XX:NewRatio=4</code>，则老年代占4，新生代占1。</p>
+<h3 id="XX-MaxTenuringThreshold"><a href="#XX-MaxTenuringThreshold" class="headerlink" title="-XX:MaxTenuringThreshold"></a>-XX:MaxTenuringThreshold</h3><p>新生代设置进入老年代的时间，默认是新生代逃过15次GC后，进入老年代。如果改成0，那么对象不会在新生代分配，直接进入老年代。</p>
+<h1 id="四大引用"><a href="#四大引用" class="headerlink" title="四大引用"></a>四大引用</h1><p>以下Demo都需要设置<code>-Xmx</code>和<code>-Xms</code>，不然系统默认很大，很难演示。</p>
+<h2 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h2><p>使用<code>new</code>方法创造出来的对象，默认都是强引用。GC的时候，就算<strong>内存不够</strong>，抛出<code>OutOfMemoryError</code>也不会回收对象，<strong>死了也不回收</strong>。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/StrongReferenceDemo.java">StrongReferenceDemo</a>。</p>
+<h2 id="软引用"><a href="#软引用" class="headerlink" title="软引用"></a>软引用</h2><p>需要用<code>Object.Reference.SoftReference</code>来显示创建。<strong>如果内存够</strong>，GC的时候<strong>不回收</strong>。<strong>内存不够</strong>，<strong>则回收</strong>。常用于内存敏感的应用，比如高速缓存。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/SoftReferenceDemo.java">SoftReferenceDemo</a>。</p>
+<h2 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h2><p>需要用<code>Object.Reference.WeakReference</code>来显示创建。<strong>无论内存够不够，GC的时候都回收</strong>，也可以用在高速缓存上。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/WeakReferenceDemo.java">WeakReferenceDemo</a></p>
+<h3 id="WeakHashMap"><a href="#WeakHashMap" class="headerlink" title="WeakHashMap"></a>WeakHashMap</h3><p>传统的<code>HashMap</code>就算<code>key==null</code>了，也不会回收键值对。但是如果是<code>WeakHashMap</code>，一旦内存不够用时，且<code>key==null</code>时，会回收这个键值对。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/WeakHashMapDemo.java">WeakHashMapDemo</a>。</p>
+<h2 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h2><p>软应用和弱引用可以通过<code>get()</code>方法获得对象，但是虚引用不行。虚引形同虚设，在任何时候都可能被GC，不能单独使用，必须配合<strong>引用队列（ReferenceQueue）</strong>来使用。设置虚引用的<strong>唯一目的</strong>，就是在这个对象被回收时，收到一个<strong>通知</strong>以便进行后续操作，有点像<code>Spring</code>的后置通知。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/PhantomReferenceDemo.java">PhantomReferenceDemo</a>。</p>
+<h2 id="引用队列"><a href="#引用队列" class="headerlink" title="引用队列"></a>引用队列</h2><p>弱引用、虚引用被回收后，会被放到引用队列里面，通过<code>poll</code>方法可以得到。关于引用队列和弱、虚引用的配合使用，见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/ReferenceQueueDemo.java">ReferenceQueueDemo</a>。</p>
+<h1 id="OutOfMemoryError"><a href="#OutOfMemoryError" class="headerlink" title="OutOfMemoryError"></a>OutOfMemoryError</h1><h2 id="StackOverflowError"><a href="#StackOverflowError" class="headerlink" title="StackOverflowError"></a>StackOverflowError</h2><p>栈满会抛出该错误。无限递归就会导致StackOverflowError，是<code>java.lang.Throwable</code>→<code>java.lang.Error</code>→<code>java.lang.VirtualMachineError</code>下的错误。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/StackOverflowErrorDemo.java">StackOverflowErrorDemo</a>。</p>
+<h2 id="OOM—Java-head-space"><a href="#OOM—Java-head-space" class="headerlink" title="OOM—Java head space"></a>OOM—Java head space</h2><p>栈满会抛出该错误。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/JavaHeapSpaceDemo.java">JavaHeapSpaceDemo</a>。</p>
+<h2 id="OOM—GC-overhead-limit-exceeded"><a href="#OOM—GC-overhead-limit-exceeded" class="headerlink" title="OOM—GC overhead limit exceeded"></a>OOM—GC overhead limit exceeded</h2><p>这个错误是指：GC的时候会有“Stop the World”，STW越小越好，正常情况是GC只会占到很少一部分时间。但是如果用超过98%的时间来做GC，而且收效甚微，就会被JVM叫停。下例中，执行了多次<code>Full GC</code>，但是内存回收很少，最后抛出了<code>OOM:GC overhead limit exceeded</code>错误。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/GCOverheadDemo.java">GCOverheadDemo</a>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[GC (Allocation Failure) [PSYoungGen: 2048K-&gt;496K(2560K)] 2048K-&gt;960K(9728K), <span class="number">0.0036555</span> secs] [Times: user=<span class="number">0.00</span> sys=<span class="number">0.00</span>, real=<span class="number">0.00</span> secs] </span><br><span class="line">[GC (Allocation Failure) [PSYoungGen: 2544K-&gt;489K(2560K)] 3008K-&gt;2689K(9728K), <span class="number">0.0060306</span> secs] [Times: user=<span class="number">0.08</span> sys=<span class="number">0.00</span>, real=<span class="number">0.01</span> secs] </span><br><span class="line">[GC (Allocation Failure) [PSYoungGen: 2537K-&gt;512K(2560K)] 4737K-&gt;4565K(9728K), <span class="number">0.0050620</span> secs] [Times: user=<span class="number">0.00</span> sys=<span class="number">0.00</span>, real=<span class="number">0.00</span> secs] </span><br><span class="line">[GC (Allocation Failure) [PSYoungGen: 2560K-&gt;496K(2560K)] 6613K-&gt;6638K(9728K), <span class="number">0.0064025</span> secs] [Times: user=<span class="number">0.00</span> sys=<span class="number">0.00</span>, real=<span class="number">0.01</span> secs] </span><br><span class="line"></span><br><span class="line">[<span class="function">Full <span class="title">GC</span> <span class="params">(Ergonomics)</span> [PSYoungGen: 2048K-&gt;860<span class="title">K</span><span class="params">(2560K)</span>] [ParOldGen: 6264K-&gt;7008<span class="title">K</span><span class="params">(7168K)</span>] 8312K-&gt;7869<span class="title">K</span><span class="params">(9728K)</span>, [Metaspace: 3223K-&gt;3223<span class="title">K</span><span class="params">(1056768K)</span>], 0.1674947 secs] [Times: user</span>=<span class="number">0.63</span> sys=<span class="number">0.00</span>, real=<span class="number">0.17</span> secs] </span><br><span class="line">[<span class="function">Full <span class="title">GC</span> <span class="params">(Ergonomics)</span> [PSYoungGen: 2048K-&gt;2006<span class="title">K</span><span class="params">(2560K)</span>] [ParOldGen: 7008K-&gt;7008<span class="title">K</span><span class="params">(7168K)</span>] 9056K-&gt;9015<span class="title">K</span><span class="params">(9728K)</span>, [Metaspace: 3224K-&gt;3224<span class="title">K</span><span class="params">(1056768K)</span>], 0.1048666 secs] [Times: user</span>=<span class="number">0.45</span> sys=<span class="number">0.00</span>, real=<span class="number">0.10</span> secs] </span><br><span class="line">[<span class="function">Full <span class="title">GC</span> <span class="params">(Ergonomics)</span> [PSYoungGen: 2047K-&gt;2047<span class="title">K</span><span class="params">(2560K)</span>] [ParOldGen: 7082K-&gt;7082<span class="title">K</span><span class="params">(7168K)</span>] 9130K-&gt;9130<span class="title">K</span><span class="params">(9728K)</span>, [Metaspace: 3313K-&gt;3313<span class="title">K</span><span class="params">(1056768K)</span>], 0.0742516 secs] [Times: user</span>=<span class="number">0.28</span> sys=<span class="number">0.00</span>, real=<span class="number">0.07</span> secs] </span><br><span class="line"></span><br><span class="line">·······</span><br><span class="line"></span><br><span class="line">[<span class="function">Full <span class="title">GC</span> <span class="params">(Ergonomics)</span> [PSYoungGen: 2047K-&gt;2047<span class="title">K</span><span class="params">(2560K)</span>] [ParOldGen: 7084K-&gt;7084<span class="title">K</span><span class="params">(7168K)</span>] 9132K-&gt;9132<span class="title">K</span><span class="params">(9728K)</span>, [Metaspace: 3313K-&gt;3313<span class="title">K</span><span class="params">(1056768K)</span>], 0.0738461 secs] [Times: user</span>=<span class="number">0.36</span> sys=<span class="number">0.02</span>, real=<span class="number">0.07</span> secs] </span><br><span class="line"></span><br><span class="line">Exception in thread <span class="string">&quot;main&quot;</span> [<span class="function">Full <span class="title">GC</span> <span class="params">(Ergonomics)</span> [PSYoungGen: 2047K-&gt;0<span class="title">K</span><span class="params">(2560K)</span>] [ParOldGen: 7119K-&gt;647<span class="title">K</span><span class="params">(7168K)</span>] 9167K-&gt;647<span class="title">K</span><span class="params">(9728K)</span>, [Metaspace: 3360K-&gt;3360<span class="title">K</span><span class="params">(1056768K)</span>], 0.0129597 secs] [Times: user</span>=<span class="number">0.11</span> sys=<span class="number">0.00</span>, real=<span class="number">0.01</span> secs] </span><br><span class="line">java.lang.OutOfMemoryError: GC overhead limit exceeded</span><br><span class="line">	at java.lang.Integer.toString(Integer.java:<span class="number">401</span>)</span><br><span class="line">	at java.lang.String.valueOf(String.java:<span class="number">3099</span>)</span><br><span class="line">	at jvm.GCOverheadDemo.main(GCOverheadDemo.java:<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="OOM—GC-Direct-buffer-memory"><a href="#OOM—GC-Direct-buffer-memory" class="headerlink" title="OOM—GC Direct buffer memory"></a>OOM—GC Direct buffer memory</h2><p>在写<code>NIO</code>程序的时候，会用到<code>ByteBuffer</code>来读取和存入数据。与Java堆的数据不一样，<code>ByteBuffer</code>使用<code>native</code>方法，直接在<strong>堆外分配内存</strong>。当堆外内存（也即本地物理内存）不够时，就会抛出这个异常。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/DirectBufferMemoryDemo.java">DirectBufferMemoryDemo</a>。</p>
+<h2 id="OOM—unable-to-create-new-native-thread"><a href="#OOM—unable-to-create-new-native-thread" class="headerlink" title="OOM—unable to create new native thread"></a>OOM—unable to create new native thread</h2><p>在高并发应用场景时，如果创建超过了系统默认的最大线程数，就会抛出该异常。Linux单个进程默认不能超过1024个线程。<strong>解决方法</strong>要么降低程序线程数，要么修改系统最大线程数<code>vim /etc/security/limits.d/90-nproc.conf</code>。详见<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/jvm/UnableCreateNewThreadDemo.java">UnableCreateNewThreadDemo</a></p>
+<h2 id="OOM—Metaspace"><a href="#OOM—Metaspace" class="headerlink" title="OOM—Metaspace"></a>OOM—Metaspace</h2><p>元空间满了就会抛出这个异常。</p>
+<h1 id="JVM垃圾收集器"><a href="#JVM垃圾收集器" class="headerlink" title="JVM垃圾收集器"></a>JVM垃圾收集器</h1><h2 id="四大垃圾收集算法"><a href="#四大垃圾收集算法" class="headerlink" title="四大垃圾收集算法"></a>四大垃圾收集算法</h2><h3 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h3><p><img src="./images/JVM//GCbq.png" alt=""></p>
+<p><img src="/images/JVM//GCbz.png" alt=""></p>
+<h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><p><img src="/images/JVM//GCbq.png" alt=""></p>
+<p><img src="/images/JVM//GCbq2.png" alt=""></p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p><img src="/images/JVM//GCfz.png" alt=""></p>
+<p><img src="/images/JVM//GCfz2.png" alt=""></p>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>准确来讲，跟前面三种算法有所区别。分代收集算法就是根据对象的年代，采用上述三种算法来收集。</p>
+<ol>
+<li>对于新生代：每次GC都有大量对象死去，存活的很少，常采用复制算法，只需要拷贝很少的对象。</li>
+<li>对于老年代：常采用标整或者标清算法。</li>
+</ol>
+<h2 id="四种垃圾收集器"><a href="#四种垃圾收集器" class="headerlink" title="四种垃圾收集器"></a>四种垃圾收集器</h2><p>Java 8可以将垃圾收集器分为四类。</p>
+<h3 id="串行收集器Serial"><a href="#串行收集器Serial" class="headerlink" title="串行收集器Serial"></a>串行收集器Serial</h3><p>为单线程环境设计且<strong>只使用一个线程</strong>进行GC，会暂停所有用户线程，不适用于服务器。就像去餐厅吃饭，只有一个清洁工在打扫。</p>
+<h3 id="并行收集器Parrallel"><a href="#并行收集器Parrallel" class="headerlink" title="并行收集器Parrallel"></a>并行收集器Parrallel</h3><p>使用<strong>多个线程</strong>并行地进行GC，会暂停所有用户线程，适用于科学计算、大数据后台，交互性不敏感的场合。多个清洁工同时在打扫。</p>
+<h3 id="并发收集器CMS"><a href="#并发收集器CMS" class="headerlink" title="并发收集器CMS"></a>并发收集器CMS</h3><p>用户线程和GC线程同时执行（不一定是并行，交替执行），GC时不需要停顿用户线程，互联网公司多用，适用对响应时间有要求的场合。清洁工打扫的时候，也可以就餐。</p>
+<h3 id="G1收集器"><a href="#G1收集器" class="headerlink" title="G1收集器"></a>G1收集器</h3><p>对内存的划分与前面3种很大不同，将堆内存分割成不同的区域，然后并发地进行垃圾回收。</p>
+<h2 id="默认垃圾收集器"><a href="#默认垃圾收集器" class="headerlink" title="默认垃圾收集器"></a>默认垃圾收集器</h2><h3 id="默认收集器有哪些？"><a href="#默认收集器有哪些？" class="headerlink" title="默认收集器有哪些？"></a>默认收集器有哪些？</h3><p>有<code>Serial</code>、<code>Parallel</code>、<code>ConcMarkSweep</code>（CMS）、<code>ParNew</code>、<code>ParallelOld</code>、<code>G1</code>。还有一个<code>SerialOld</code>，快被淘汰了。</p>
+<h3 id="查看默认垃圾修改器"><a href="#查看默认垃圾修改器" class="headerlink" title="查看默认垃圾修改器"></a>查看默认垃圾修改器</h3><p>使用<code>java -XX:+PrintCommandLineFlags</code>即可看到，Java 8默认使用<code>-XX:+UseParallelGC</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:InitialHeapSize=<span class="number">132375936</span> -XX:MaxHeapSize=<span class="number">2118014976</span> -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC</span><br></pre></td></tr></table></figure>
+
+<h2 id="七大垃圾收集器"><a href="#七大垃圾收集器" class="headerlink" title="七大垃圾收集器"></a>七大垃圾收集器</h2><h3 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h3><p><code>Serial</code>、<code>Parallel Scavenge</code>、<code>ParNew</code>用户回收新生代；<code>SerialOld</code>、<code>ParallelOld</code>、<code>CMS</code>用于回收老年代。而<code>G1</code>收集器，既可以回收新生代，也可以回收老年代。</p>
+<p><img src="/images/JVM//GCqi.png" alt=""></p>
+<p>连线表示可以搭配使用，红叉表示不推荐一同使用，比如新生代用<code>Serial</code>，老年代用<code>CMS</code>。</p>
+<p><img src="/images/JVM//GCqi2.png" alt=""></p>
+<h3 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h3><p>年代最久远，是<code>Client VM</code>模式下的默认新生代收集器，使用<strong>复制算法</strong>。<strong>优点</strong>：单个线程收集，没有线程切换开销，拥有最高的单线程GC效率。<strong>缺点</strong>：收集的时候会暂停用户线程。</p>
+<p>使用<code>-XX:+UseSerialGC</code>可以显式开启，开启后默认使用<code>Serial</code>+<code>SerialOld</code>的组合。</p>
+<p><img src="/images/JVM//serial.jpeg" alt=""></p>
+<h3 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h3><p>也就是<code>Serial</code>的多线程版本，GC的时候不再是一个线程，而是多个，是<code>Server VM</code>模式下的默认新生代收集器，采用<strong>复制算法</strong>。</p>
+<p>使用<code>-XX:+UseParNewGC</code>可以显式开启，开启后默认使用<code>ParNew</code>+<code>SerialOld</code>的组合。但是由于<code>SerialOld</code>已经过时，所以建议配合<code>CMS</code>使用。</p>
+<p><img src="/images/JVM//parnew.jpeg" alt=""></p>
+<h3 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h3><p><code>ParNew</code>收集器仅在新生代使用多线程收集，老年代默认是<code>SerialOld</code>，所以是单线程收集。而<code>Parallel Scavenge</code>在新、老两代都采用多线程收集。<code>Parallel Scavenge</code>还有一个特点就是<strong>吞吐量优先收集器</strong>，可以通过自适应调节，保证最大吞吐量。采用<strong>复制算法</strong>。</p>
+<p>使用<code>-XX:+UseParallelGC</code>可以开启， 同时也会使用<code>ParallelOld</code>收集老年代。其它参数，比如<code>-XX:ParallelGCThreads=N</code>可以选择N个线程进行GC，<code>-XX:+UseAdaptiveSizePolicy</code>使用自适应调节策略。</p>
+<h3 id="SerialOld收集器"><a href="#SerialOld收集器" class="headerlink" title="SerialOld收集器"></a>SerialOld收集器</h3><p><code>Serial</code>的老年代版本，采用<strong>标整算法</strong>。JDK1.5之前跟<code>Parallel Scavenge</code>配合使用，现在已经不了，作为<code>CMS</code>的后备收集器。</p>
+<h3 id="ParallelOld收集器"><a href="#ParallelOld收集器" class="headerlink" title="ParallelOld收集器"></a>ParallelOld收集器</h3><p><code>Parallel</code>的老年代版本，JDK1.6之前，新生代用<code>Parallel</code>而老年代用<code>SerialOld</code>，只能保证新生代的吞吐量。JDK1.8后，老年代改用<code>ParallelOld</code>。</p>
+<p>使用<code>-XX:+UseParallelOldGC</code>可以开启， 同时也会使用<code>Parallel</code>收集新生代。</p>
+<h3 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h3><p>并发标记清除收集器，是一种以获得<strong>最短GC停顿为</strong>目标的收集器。适用在互联网或者B/S系统的服务器上，这类应用尤其重视服务器的<strong>响应速度</strong>，希望停顿时间最短。是<code>G1</code>收集器出来之前的首选收集器。使用<strong>标清算法</strong>。在GC的时候，会与用户线程并发执行，不会停顿用户线程。但是在<strong>标记</strong>的时候，仍然会<strong>STW</strong>。</p>
+<p>使用<code>-XX:+UseConcMarkSweepGC</code>开启。开启过后，新生代默认使用<code>ParNew</code>，同时老年代使用<code>SerialOld</code>作为备用。</p>
+<p><img src="/images/JVM//cms.jpeg" alt=""></p>
+<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><ol>
+<li><strong>初始标记</strong>：只是标记一下GC Roots能直接关联的对象，速度很快，需要<strong>STW</strong>。</li>
+<li><strong>并发标记</strong>：主要标记过程，标记全部对象，和用户线程一起工作，不需要STW。</li>
+<li><strong>重新标记</strong>：修正在并发标记阶段出现的变动，需要<strong>STW</strong>。</li>
+<li><strong>并发清除</strong>：和用户线程一起，清除垃圾，不需要STW。</li>
+</ol>
+<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p><strong>优点</strong>：停顿时间少，响应速度快，用户体验好。</p>
+<p><strong>缺点</strong>：</p>
+<ol>
+<li>对CPU资源非常敏感：由于需要并发工作，多少会占用系统线程资源。</li>
+<li>无法处理浮动垃圾：由于标记垃圾的时候，用户进程仍然在运行，无法有效处理新产生的垃圾。</li>
+<li>产生内存碎片：由于使用<strong>标清算法</strong>，会产生内存碎片。</li>
+</ol>
+<h3 id="G1收集器-1"><a href="#G1收集器-1" class="headerlink" title="G1收集器"></a>G1收集器</h3><p><code>G1</code>收集器与之前垃圾收集器的一个显著区别就是——之前收集器都有三个区域，新、老两代和元空间。而G1收集器只有G1区和元空间。而G1区，不像之前的收集器，分为新、老两代，而是一个一个Region，每个Region既可能包含新生代，也可能包含老年代。</p>
+<p><code>G1</code>收集器既可以提高吞吐量，又可以减少GC时间。最重要的是<strong>STW可控</strong>，增加了预测机制，让用户指定停顿时间。</p>
+<p>使用<code>-XX:+UseG1GC</code>开启，还有<code>-XX:G1HeapRegionSize=n</code>、<code>-XX:MaxGCPauseMillis=n</code>等参数可调。</p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ol>
+<li><strong>并行和并发</strong>：充分利用多核、多线程CPU，尽量缩短STW。</li>
+<li><strong>分代收集</strong>：虽然还保留着新、老两代的概念，但物理上不再隔离，而是融合在Region中。</li>
+<li><strong>空间整合</strong>：<code>G1</code>整体上看是<strong>标整</strong>算法，在局部看又是<strong>复制算法</strong>，不会产生内存碎片。</li>
+<li><strong>可预测停顿</strong>：用户可以指定一个GC停顿时间，<code>G1</code>收集器会尽量满足。</li>
+</ol>
+<h4 id="过程-1"><a href="#过程-1" class="headerlink" title="过程"></a>过程</h4><p>与<code>CMS</code>类似。</p>
+<ol>
+<li>初始标记。</li>
+<li>并发标记。</li>
+<li>最终标记。</li>
+<li>筛选回收。</li>
+</ol>
+<h1 id="附—Linux相关指令"><a href="#附—Linux相关指令" class="headerlink" title="附—Linux相关指令"></a>附—Linux相关指令</h1><h2 id="top"><a href="#top" class="headerlink" title="top"></a>top</h2><p>主要查看<code>%CPU</code>、<code>%MEM</code>，还有<code>load average</code>。<code>load average</code>后面的三个数字，表示系统1分钟、5分钟、15分钟的平均负载值。如果三者平均值高于0.6，则复杂比较高了。当然，用<code>uptime</code>也可以查看。</p>
+<h2 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a>vmstat</h2><p>查看进程、内存、I/O等多个系统运行状态。2表示每两秒采样一次，3表示一共采样3次。<code>procs</code>的<code>r</code>表示运行和等待CPU时间片的进程数，原则上1核CPU不要超过2。<code>b</code>是等待资源的进程数，比如磁盘I/O、网络I/O等。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@ ~]# vmstat -n 2 3</span><br><span class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</span><br><span class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</span><br><span class="line"> 2  0      0 173188 239748 1362628    0    0     0     3   17    8  0  0 99  0  0</span><br><span class="line"> 0  0      0 172800 239748 1362636    0    0     0     0  194  485  1  1 99  0  0</span><br><span class="line"> 1  0      0 172800 239748 1362640    0    0     0     0  192  421  1  1 99  0  0</span><br></pre></td></tr></table></figure>
+
+<h2 id="pidstat"><a href="#pidstat" class="headerlink" title="pidstat"></a>pidstat</h2><p>查看某个进程的运行信息。</p>
+<h2 id="free"><a href="#free" class="headerlink" title="free"></a>free</h2><p>查看内存信息。</p>
+<h2 id="df"><a href="#df" class="headerlink" title="df"></a>df</h2><p>查看磁盘信息。</p>
+<h2 id="iostat"><a href="#iostat" class="headerlink" title="iostat"></a>iostat</h2><p>查看磁盘I/O信息。比如有时候MySQL在查表的时候，会占用大量磁盘I/O，体现在该指令的<code>%util</code>字段很大。对于死循环的程序，CPU占用固然很高，但是磁盘I/O不高。</p>
+<h2 id="ifstat"><a href="#ifstat" class="headerlink" title="ifstat"></a>ifstat</h2><p>查看网络I/O信息，需要安装。</p>
+<h1 id="CPU占用过高原因定位"><a href="#CPU占用过高原因定位" class="headerlink" title="CPU占用过高原因定位"></a>CPU占用过高原因定位</h1><p>先用<code>top</code>找到CPU占用最高的进程，然后用<code>ps -mp pid -o THREAD,tid,time</code>，得到该<strong>进程</strong>里面占用最高的<strong>线程</strong>。这个线程是10进制的，将其转成16进制，然后用<code>jstack pid | grep tid</code>可以定位到具体哪一行导致了占用过高。</p>
+<h1 id="JVM性能调优和监控工具"><a href="#JVM性能调优和监控工具" class="headerlink" title="JVM性能调优和监控工具"></a>JVM性能调优和监控工具</h1><h2 id="jps"><a href="#jps" class="headerlink" title="jps"></a>jps</h2><p>Java版的<code>ps -ef</code>查看所有JVM进程。</p>
+<h2 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h2><p>查看JVM中运行线程的状态，比较重要。可以定位CPU占用过高位置，定位死锁位置。</p>
+<h2 id="jinfo-jstat"><a href="#jinfo-jstat" class="headerlink" title="jinfo/jstat"></a>jinfo/jstat</h2><p><code>jinfo</code>查看JVM的运行环境参数，比如默认的JVM参数等。<code>jstat</code>统计信息监视工具。</p>
+<h2 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h2><p>JVM内存映像工具。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/28/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="prev" title="Java基础知识">
+                  <i class="fa fa-chevron-left"></i> Java基础知识
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/06/09/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="next" title="Java设计模式">
+                  Java设计模式 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">朝阳暮逝忆</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">217k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:18</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script type="text/javascript">
+!function(e,t,a){function n(){c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),o(),r()}function r(){for(var e=0;e<d.length;e++)d[e].alpha<=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText="left:"+d[e].x+"px;top:"+d[e].y+"px;opacity:"+d[e].alpha+";transform:scale("+d[e].scale+","+d[e].scale+") rotate(45deg);background:"+d[e].color+";z-index:99999");requestAnimationFrame(r)}function o(){var t="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){t&&t(),i(e)}}function i(e){var a=t.createElement("div");a.className="heart",d.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()}),t.body.appendChild(a)}function c(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}function s(){return"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}var d=[];e.requestAnimationFrame=function(){return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)}}(),n()}(window,document);
+</script>
+<script type="text/javascript">
+var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(t,e,i){return e&&n(t.prototype,e),i&&n(t,i),t}}();function _classCallCheck(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}!function(P){P.extend({shuicheMouse:function(t){(new e).init(t)}});var e=(_createClass(t,[{key:"init",value:function(t){!function(){for(var a=0,t=["webkit","moz"],e=0;e<t.length&&!window.requestAnimationFrame;++e)window.requestAnimationFrame=window[t[e]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[t[e]+"CancelAnimationFrame"]||window[t[e]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(t,e){var i=(new Date).getTime(),n=Math.max(0,16.7-(i-a)),o=window.setTimeout(function(){t(i+n)},n);return a=i+n,o}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(t){clearTimeout(t)})}(),t&&P.extend(!0,this.defaluts,t);var e=P("<canvas id='shuicheCanvas' style='position: fixed; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></canvas>");P("body").append(e);var i=this.defaluts.type;1<=i&&i<11&&this.mouseType1(this.defaluts.type,this.defaluts.color),11==i&&this.mouseType2(),12==i&&this.mouseType3()}},{key:"mouseType1",value:function(t,e){var n,o,a,h,i=document.getElementById("shuicheCanvas"),s=i.getContext("2d"),r=P("#shuicheCanvas"),l=[],c={n:100,c:222,bc:"#fff",r:.9,o:.05,a:1,s:20},d=0,f=0,u=0,y=0,w=0,p=0,v=0;g();var m,x=360*Math.random();m=e||"hsl("+x+",100%,80%)",P(window).resize(function(){g()});var M=t;function g(){n=window.innerWidth,o=window.innerHeight,i.width=n,i.height=o,a=n/2,h=o/2}P(window).mousemove(function(t){a=t.pageX-r.offset().left,h=t.pageY-r.offset().top,4==M&&(Math.random()<=.5?(d=Math.random()<=.5?-10:n+10,f=Math.random()*o):(f=Math.random()<=.5?-10:o+10,d=Math.random()*n),u=8*(Math.random()-.5),y=8*(Math.random()-.5)),1==M||2==M||3==M?l.push({x:a,y:h,r:c.r,o:1,v:0}):4==M?l.push({x:a,y:h,r:c.r,o:1,v:0,wx:d,wy:f,vx2:u,vy2:y}):6==M&&l.push({x:a+30*(Math.random()-.5),y:h+30*(Math.random()-.5),o:1,wx:a,wy:h})}),function t(){if(1==M){s.clearRect(0,0,n,o);for(var e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),l[e].r+=c.r,l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--)}else if(2==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].r=10,s.shadowBlur=20,s.shadowColor=m,s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o-=c.o,l[e].v+=c.a,l[e].y+=l[e].v,(l[e].y>=o+l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(3==M)for(w+=5,s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].r=20*(1-l[e].y/o),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o=l[e].y/o,l[e].v+=c.a,l[e].y-=c.s,l[e].x+=10*Math.cos((l[e].y+w)/100),(l[e].y<=0-l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(4==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].vx2+=(a-l[e].wx)/1e3,l[e].vy2+=(h-l[e].wy)/1e3,l[e].wx+=l[e].vx2,l[e].wy+=l[e].vy2,l[e].o-=c.o/2,l[e].r=10,s.arc(l[e].wx,l[e].wy,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o<=0&&(l.splice(e,1),e--);else if(5==M)c.c||(m="hsl("+(x+=.1)+",100%,80%)"),s.clearRect(0,0,n,o),p+=10,s.globalAlpha=1,s.fillStyle=m,s.shadowBlur=20,s.shadowColor=m,s.beginPath(),s.arc(a+50*Math.cos(p*Math.PI/180),h+50*Math.sin(p*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+180)*Math.PI/180),h+50*Math.sin((p+180)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+90)*Math.PI/180),h+50*Math.sin((p+90)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+270)*Math.PI/180),h+50*Math.sin((p+270)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0;else if(6==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.strokeStyle=m,s.beginPath(),s.lineWidth=2,s.moveTo(l[e].x,l[e].y),s.lineTo((l[e].wx+l[e].x)/2+20*Math.random(),(l[e].wy+l[e].y)/2+20*Math.random()),s.lineTo(l[e].wx,l[e].wy),s.closePath(),s.stroke(),l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--);else if(7==M)for(s.clearRect(0,0,n,o),l.length<2*c.n&&(v=2*Math.random()*Math.PI,l.push({x:a+100*(Math.random()-.5)*Math.cos(v),y:h+100*(Math.random()-.5)*Math.cos(v),o:1,h:v})),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].x+=(a-l[e].x)/10,l[e].y+=(h-l[e].y)/10,s.arc(l[e].x,l[e].y,1,0,2*Math.PI),s.closePath(),s.fill(),l[e].o-=c.o,l[e].o<=0&&(l[e].h=2*Math.random()*Math.PI,l[e].x=a+100*(Math.random()-.5)*Math.cos(l[e].h),l[e].y=h+100*(Math.random()-.5)*Math.sin(l[e].h),l[e].o=1);else if(8==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),e=a-60;e<a+60;e+=4)for(var i=h-60;i<h+60;i+=4)Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))<=60&&(s.globalAlpha=1-Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))/60,Math.random()<.2&&s.fillRect(e,i,3,3));else if(9==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),l.length<c.n&&l.push({x:a,y:h,xv:0,yv:0,o:1}),e=0;e<l.length;e++)0==l[e].xv&&0==l[e].yv?Math.random()<.5?Math.random()<.5?l[e].xv=3:l[e].xv=-3:Math.random()<.5?l[e].yv=3:l[e].yv=-3:0==l[e].xv?Math.random()<.66&&(l[e].yv=0,Math.random()<.5?l[e].xv=3:l[e].xv=-3):0==l[e].yv&&Math.random()<.66&&(l[e].xv=0,Math.random()<.5?l[e].yv=3:l[e].yv=-3),l[e].o-=c.o/2,s.globalAlpha=l[e].o,l[e].x+=l[e].xv,l[e].y+=l[e].yv,s.fillRect(l[e].x,l[e].y,3,3),l[e].o<=0&&(l.splice(e,1),e--);else if(10==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,l.push({x:a,y:h,xv:2,yv:1,o:1}),e=0;e<l.length;e++)l[e].o-=c.o/10,s.globalAlpha=l[e].o,l[e].x+=4*(Math.random()-.5),--l[e].y,s.fillRect(l[e].x,l[e].y,2,2),l[e].o<=0&&(l.splice(e,1),e--);window.requestAnimationFrame(t)}()}},{key:"mouseType2",value:function(){var t,o,a,h=window.innerWidth,s=window.innerHeight,i=70,r=1,l=1,c=1.5,n=25,d=.5*h,f=.5*s,u=!1;function e(t){console.log("----------"),d=t.clientX-.5*(window.innerWidth-h),f=t.clientY-.5*(window.innerHeight-s)}function y(t){u=!0}function w(t){u=!1}function p(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function v(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function m(){h=window.innerWidth,s=window.innerHeight,t.width=h,t.height=s}function x(){u?r+=.02*(c-r):r-=.02*(r-l),r=Math.min(r,c),o.clearRect(0,0,o.canvas.width,o.canvas.height);for(var t=0,e=a.length;t<e;t++){var i=a[t],n={x:i.position.x,y:i.position.y};i.offset.x+=i.speed,i.offset.y+=i.speed,i.shift.x+=(d-i.shift.x)*i.speed,i.shift.y+=(f-i.shift.y)*i.speed,i.position.x=i.shift.x+Math.cos(t+i.offset.x)*(i.orbit*r),i.position.y=i.shift.y+Math.sin(t+i.offset.y)*(i.orbit*r),i.position.x=Math.max(Math.min(i.position.x,h),0),i.position.y=Math.max(Math.min(i.position.y,s),0),i.size+=.01*(i.targetSize-i.size),Math.round(i.size)==Math.round(i.targetSize)&&(i.targetSize=1+2*Math.random()),o.beginPath(),o.fillStyle=i.fillColor,o.strokeStyle=i.fillColor,o.lineWidth=i.size,o.moveTo(n.x,n.y),o.lineTo(i.position.x,i.position.y),o.stroke(),o.arc(i.position.x,i.position.y,i.size/2,0,2*Math.PI,!0),o.fill()}window.requestAnimationFrame(x)}(t=document.getElementById("shuicheCanvas"))&&t.getContext&&(o=t.getContext("2d"),window.addEventListener("mousemove",e,!1),window.addEventListener("mousedown",y,!1),window.addEventListener("mouseup",w,!1),document.addEventListener("touchstart",p,!1),document.addEventListener("touchmove",v,!1),window.addEventListener("resize",m,!1),function(){a=[];for(var t=0;t<n;t++){var e={size:1,position:{x:d,y:f},offset:{x:0,y:0},shift:{x:d,y:f},speed:.01+.04*Math.random(),targetSize:1,fillColor:"#"+(9453632*Math.random()+11184810|0).toString(16),orbit:.5*i+.5*i*Math.random()};a.push(e)}}(),m(),x())}},{key:"mouseType3",value:function(){var t=P("<div id='shuicheDiv' style='position: fixed;width: 100%;height: "+P(window).height()+"px; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></div>");P("body").append(t),new(function(){function i(t){return document.getElementById(t)}function t(t,e){this.config=e||{},this.obj=i(t),n=this.config.speed||4,o=this.config.animR||1,a={x:.5*i(t).offsetWidth,y:.5*i(t).offsetHeight},this.setXY(),this.start()}var n,o,a,r=[],l=0;t.prototype={setXY:function(){var t,e;this.obj,t="mousemove",e=function(t){t=t||window.event,console.log(t.clientX),a.x=t.clientX,a.y=t.clientY},window.addEventListener?window.addEventListener(t,e,!1):window.attachEvent("on"+t,function(){e.call(window)})},start:function(){Math.PI;var t,e,i=this.config.fn;r[l++]=t=new c(null,0,0);for(var n=0;n<360;n+=20)for(var o=t,a=10;a<35;a+=1){var h=i(n,a).x,s=i(n,a).y;r[l++]=e=new c(o,h,s),o=e}setInterval(function(){for(var t=0;t<l;t++)r[t].run()},16)}};var c=function(t,e,i){var n=document.createElement("span");this.css=n.style,this.css.backgroundColor="#2D8CF0",this.css.width="2px",this.css.height="2px",this.css.position="absolute",this.css.left="-1000px",this.css.zIndex=1e3-l,document.getElementById("shuicheDiv").appendChild(n),this.ddx=0,this.ddy=0,this.PX=0,this.PY=0,this.x=0,this.y=0,this.x0=0,this.y0=0,this.cx=e,this.cy=i,this.parent=t};return c.prototype.run=function(){this.parent?(this.x0=this.parent.x,this.y0=this.parent.y):(this.x0=a.x,this.y0=a.y),this.x=this.PX+=(this.ddx+=(this.x0-this.PX-this.ddx+this.cx)/o)/n,this.y=this.PY+=(this.ddy+=(this.y0-this.PY-this.ddy+this.cy)/o)/n,this.css.left=Math.round(this.x)+"px",this.css.top=Math.round(this.y)+"px"},t}())("shuicheDiv",{speed:4,animR:2,fn:function(t,e){return{x:e/4*Math.cos(t),y:e/4*Math.sin(t)}}})}},{key:"cnblogs",get:function(){return{canvase:"#shuicheCanvase"}}}]),t);function t(){_classCallCheck(this,t),this.defaluts={type:1,color:!1},this.version="0.0.1"}}(jQuery);
+</script>
+<script type="text/javascript">
+    $.shuicheMouse({
+        type:11,
+        color:false
+    })
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+
+
+
+
+
+</body>
+</html>

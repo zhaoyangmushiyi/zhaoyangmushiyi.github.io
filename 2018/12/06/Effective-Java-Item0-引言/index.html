@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="这本书的目的是帮助你高效地使用java这门编程语言和它的基本类库：java.lang ,  java.util, and java.io和这些包子包下的：java.util.concurrent 和java.util.function 。其它的类库也会时不时地被讨论到。 这本书有90个小项，每一项都表达了一个准则。这些准则是由那些最优秀、最有经验的程序员总结出来的最佳实践。这些小项松散地被分到11">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Effective Java Item0 引言">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item0-%E5%BC%95%E8%A8%80/index.html">
+<meta property="og:site_name" content="朝阳暮逝忆">
+<meta property="og:description" content="这本书的目的是帮助你高效地使用java这门编程语言和它的基本类库：java.lang ,  java.util, and java.io和这些包子包下的：java.util.concurrent 和java.util.function 。其它的类库也会时不时地被讨论到。 这本书有90个小项，每一项都表达了一个准则。这些准则是由那些最优秀、最有经验的程序员总结出来的最佳实践。这些小项松散地被分到11">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-06T08:56:36.000Z">
+<meta property="article:modified_time" content="2021-06-23T11:29:18.909Z">
+<meta property="article:author" content="朝阳暮逝忆">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Effective Java">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item0-%E5%BC%95%E8%A8%80/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Effective Java Item0 引言 | 朝阳暮逝忆</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">朝阳暮逝忆</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
+      src="/images/next/avatar.gif">
+  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
+  <div class="site-description" itemprop="description">Monochrome</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item0-%E5%BC%95%E8%A8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/next/avatar.gif">
+      <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="description" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝阳暮逝忆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Effective Java Item0 引言
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-12-06 16:56:36" itemprop="dateCreated datePublished" datetime="2018-12-06T16:56:36+08:00">2018-12-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-06-23 19:29:18" itemprop="dateModified" datetime="2021-06-23T19:29:18+08:00">2021-06-23</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/Effective-Java/" itemprop="url" rel="index"><span itemprop="name">Effective Java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/Effective-Java/chapter-1/" itemprop="url" rel="index"><span itemprop="name">chapter 1</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>这本书的目的是帮助你高效地使用java这门编程语言和它的基本类库：java.lang ,  java.util, and java.io<br>和这些包子包下的：java.util.concurrent 和java.util.function 。其它的类库也会时不时地被讨论到。</p>
+<p>这本书有90个小项，每一项都表达了一个准则。这些准则是由那些最优秀、最有经验的程序员总结出来的最佳实践。<br>这些小项松散地被分到11个章节下面，每个章节都涵盖了软件设计的一个广泛的方面。这本书不需要一页一页地读，每一项都是独立的，正正好好。<br>这些项目被大量交叉引用，因此您可以轻松地在书中计划自己的课程。</p>
+<span id="more"></span>
+
+<p>自从这本书第二版出版后，Java平台又增添了很多新特性。这本书大部分都或多或少地用到了这些特性。这张表向您展示了主要覆盖了的关键特性:</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>所在条目</th>
+<th>版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lambdas</td>
+<td>第42~44条</td>
+<td>Java8</td>
+</tr>
+<tr>
+<td>Streams</td>
+<td>第45~48条</td>
+<td>Java8</td>
+</tr>
+<tr>
+<td>Optionals</td>
+<td>第55条</td>
+<td>Java8</td>
+</tr>
+<tr>
+<td>Default methods in interfaces</td>
+<td>第21条</td>
+<td>Java8</td>
+</tr>
+<tr>
+<td>try -with-resources</td>
+<td>第9条</td>
+<td>Java7</td>
+</tr>
+<tr>
+<td>@SafeVarargs</td>
+<td>第32条</td>
+<td>Java7</td>
+</tr>
+<tr>
+<td>Modules</td>
+<td>第15条</td>
+<td>Java9</td>
+</tr>
+</tbody></table>
+<p>大多数项目都用程序示例进行说明的。<br>这本书的一个重要特点是它通过一些代码示例，来阐明许多设计模式和习惯用法。<br>在适当的情况下，它们被交叉引用到这个领域的标准参考工作[Gamma95]。</p>
+<p>很多项目都包含了一个或多个程序示例，来说明有些行为是可以避免的。<br>这种例子，被称为反例，然后被清楚地加上了注释，如“Never do this!”。<br>在每种情况下，该项目解释了为什么这个例子不好，并提出了另一种方法。</p>
+<p>这本书不适合初学者:它假定您已经熟悉Java。<br>因为effective java是为那些有这门语言工作经验的人阅读的，所以它应该给那些高级开发人员提供更高级的使用。</p>
+<p>这本书中的大部分规则都源于一些基本原则。简单明了就是是很重要的原则之一。组件的使用者不会对它的行为感到惊讶。<br>组件应该尽可能地小，但又不能太小。（就像这本书中提到的，这里的术语“组件”是指可重用的软件元素，即从一个独立的方法到一个由多个模块组成的复杂的框架，<br>都可以被称为“组件”）。<br>代码应该能重复使用而不是到处复制。组建之间的依赖应该保持低耦合。代码在完成之后错误应该尽快被检测出来，最好是在编译时期。</p>
+<p>虽然这本书中的规则并不是100%的适用，但在绝大多数情况下它们确实都是最佳的编程实践。<br>你不应该盲目地遵循这些规则，如果有充分的理由，你也可以不遵循这些规则。<br>学习编程的艺术，就跟其它大多数学科一样，先要学习规则，然后要知道什么时候去打破规则。</p>
+<p>大部分情况下，这本书并没有涉及性能方面。它指导我们如何写出清晰的，正确的，可重用的，健壮的，可维护的代码。如果你能做到这点，那么提升你想要的性能就是一件相对简单的事情了(Item 67)。<br>有些项目确实讨论了所关心的性能问题，有些项目还给出了有关性能的数据。这些数据在被介绍时，都提前说明是在“我的机器上”。这种描述是被认为最恰当的。</p>
+<p>当讨论Java编程语言的特性和它的类库时，有时候需要引用特定版本。为了方便起见，这本书用别名来指定官方版本名。<br>下面的表展示了官方版本名和别名之间的映射关系。</p>
+<table>
+<thead>
+<tr>
+<th>官方版本名</th>
+<th>别名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JDK 1.0.x</td>
+<td>Java 1.0</td>
+</tr>
+<tr>
+<td>JDK 1.1.x</td>
+<td>Java 1.1</td>
+</tr>
+<tr>
+<td>Java 2 Platform, Standard Edition, v1.2</td>
+<td>Java 2</td>
+</tr>
+<tr>
+<td>Java 2 Platform, Standard Edition, v1.3</td>
+<td>Java 3</td>
+</tr>
+<tr>
+<td>Java 2 Platform, Standard Edition, v1.4</td>
+<td>Java 4</td>
+</tr>
+<tr>
+<td>Java 2 Platform, Standard Edition, v5.0</td>
+<td>Java 5</td>
+</tr>
+<tr>
+<td>Java Platform, Standard Edition 6</td>
+<td>Java 6</td>
+</tr>
+<tr>
+<td>Java Platform, Standard Edition 7</td>
+<td>Java 7</td>
+</tr>
+<tr>
+<td>Java Platform, Standard Edition 8</td>
+<td>Java 8</td>
+</tr>
+<tr>
+<td>Java Platform, Standard Edition 9</td>
+<td>Java 9</td>
+</tr>
+</tbody></table>
+<p>书中的例子都已经相当完整了，但是比完整性跟重要的是可读性。程序员们大量地使用java.util和java.io包下的类。为了成功编译书中的示例，您可能需要添加一个或多个导入声明，或其他这样的样板文件。<br>这本书的网址上<a target="_blank" rel="noopener" href="http://joshbloch.com/effectivejava">Effective Java</a>，包含了每个示例的一个完整版本，你可以下载下来编译并运行它。</p>
+<p>大多数情况下，这本书里用到的技术术语都在Java SE 8这个版本的Java语言规范中定义的。其中有一些术语特别值得提出来。比如说，Java支持四种类型:接口(包括注解)、类(包括枚举)、数组和原生类型。前三种被称为引用类型。类的实例化和数组叫做对象，<br>而原生类型的值不是对象。类的成员包括它的字段、方法、成员类和成员接口。方法的签名包括它的名字和形参的类型；签名不包括方法的返回类型。</p>
+<p>本书使用了一些与Java语言规范不同的术语。与Java语言规范不同，本书使用继承作为子类化的同义词。与使用术语继承来实现接口不同，这本书简单地说明了一个类实现了一个接口，或者一个接口继承了另一个接口。本书使用了传统的包私有的（package-private）访问级别，<br>而不是技术上正确的包访问（package access），来描述没有指定的访问级别。</p>
+<p>这本书用到了一些《Java语言规范》没有定义的技术术语。API暴露出的术语(简称API)指程序员访问类、接口或包里面的的类、接口、构造函数、成员和序列化形式。术语API是application programming interface的简称，它更倾向于使用其他更好的术语接口，<br>以避免与该名称的语言结构混淆。编写使用API的程序的程序员被称为API的用户。通过API来实现的类叫做API的客户端。</p>
+<p>类、接口、构造函数、成员和序列化形式统称为API元素。<br>一个暴露出来的API是由可以在定义该API的包外访问到的API元素组成。这些API元素可以给任意客户端使用，并且API的作者提供支持。不凑巧的是，它们也是Javadoc实用程序在其默认的操作模式中生成文档的元素。宽泛地说，一个包的对外API由公共和受保护的成员和包中的每个公共类或接口的构造函数组成。<br>在Java9中，模块系统被添加到平台里。如果一个库使用了模块系统，它对外的API是该模块系统声明对外包下的对外API的联和。<br>最后，提供一下<a target="_blank" rel="noopener" href="https://github.com/jbloch/effective-java-3e-source-code">Effective Java源码</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Effective-Java/" rel="tag"># Effective Java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/11/26/API%E5%AE%9E%E4%BD%93%E5%92%8CDTO%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/" rel="prev" title="Spring REST API实体和DTO之间的转换">
+                  <i class="fa fa-chevron-left"></i> Spring REST API实体和DTO之间的转换
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/12/06/Effective-Java-Item1-%E8%80%83%E8%99%91%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E4%BB%A3%E6%9B%BF%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95/" rel="next" title="Effective Java Item1 考虑静态工厂方法代替构造方法">
+                  Effective Java Item1 考虑静态工厂方法代替构造方法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">朝阳暮逝忆</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">217k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:18</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script type="text/javascript">
+!function(e,t,a){function n(){c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),o(),r()}function r(){for(var e=0;e<d.length;e++)d[e].alpha<=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText="left:"+d[e].x+"px;top:"+d[e].y+"px;opacity:"+d[e].alpha+";transform:scale("+d[e].scale+","+d[e].scale+") rotate(45deg);background:"+d[e].color+";z-index:99999");requestAnimationFrame(r)}function o(){var t="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){t&&t(),i(e)}}function i(e){var a=t.createElement("div");a.className="heart",d.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()}),t.body.appendChild(a)}function c(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}function s(){return"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}var d=[];e.requestAnimationFrame=function(){return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)}}(),n()}(window,document);
+</script>
+<script type="text/javascript">
+var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(t,e,i){return e&&n(t.prototype,e),i&&n(t,i),t}}();function _classCallCheck(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}!function(P){P.extend({shuicheMouse:function(t){(new e).init(t)}});var e=(_createClass(t,[{key:"init",value:function(t){!function(){for(var a=0,t=["webkit","moz"],e=0;e<t.length&&!window.requestAnimationFrame;++e)window.requestAnimationFrame=window[t[e]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[t[e]+"CancelAnimationFrame"]||window[t[e]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(t,e){var i=(new Date).getTime(),n=Math.max(0,16.7-(i-a)),o=window.setTimeout(function(){t(i+n)},n);return a=i+n,o}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(t){clearTimeout(t)})}(),t&&P.extend(!0,this.defaluts,t);var e=P("<canvas id='shuicheCanvas' style='position: fixed; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></canvas>");P("body").append(e);var i=this.defaluts.type;1<=i&&i<11&&this.mouseType1(this.defaluts.type,this.defaluts.color),11==i&&this.mouseType2(),12==i&&this.mouseType3()}},{key:"mouseType1",value:function(t,e){var n,o,a,h,i=document.getElementById("shuicheCanvas"),s=i.getContext("2d"),r=P("#shuicheCanvas"),l=[],c={n:100,c:222,bc:"#fff",r:.9,o:.05,a:1,s:20},d=0,f=0,u=0,y=0,w=0,p=0,v=0;g();var m,x=360*Math.random();m=e||"hsl("+x+",100%,80%)",P(window).resize(function(){g()});var M=t;function g(){n=window.innerWidth,o=window.innerHeight,i.width=n,i.height=o,a=n/2,h=o/2}P(window).mousemove(function(t){a=t.pageX-r.offset().left,h=t.pageY-r.offset().top,4==M&&(Math.random()<=.5?(d=Math.random()<=.5?-10:n+10,f=Math.random()*o):(f=Math.random()<=.5?-10:o+10,d=Math.random()*n),u=8*(Math.random()-.5),y=8*(Math.random()-.5)),1==M||2==M||3==M?l.push({x:a,y:h,r:c.r,o:1,v:0}):4==M?l.push({x:a,y:h,r:c.r,o:1,v:0,wx:d,wy:f,vx2:u,vy2:y}):6==M&&l.push({x:a+30*(Math.random()-.5),y:h+30*(Math.random()-.5),o:1,wx:a,wy:h})}),function t(){if(1==M){s.clearRect(0,0,n,o);for(var e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),l[e].r+=c.r,l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--)}else if(2==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].r=10,s.shadowBlur=20,s.shadowColor=m,s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o-=c.o,l[e].v+=c.a,l[e].y+=l[e].v,(l[e].y>=o+l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(3==M)for(w+=5,s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].r=20*(1-l[e].y/o),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o=l[e].y/o,l[e].v+=c.a,l[e].y-=c.s,l[e].x+=10*Math.cos((l[e].y+w)/100),(l[e].y<=0-l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(4==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].vx2+=(a-l[e].wx)/1e3,l[e].vy2+=(h-l[e].wy)/1e3,l[e].wx+=l[e].vx2,l[e].wy+=l[e].vy2,l[e].o-=c.o/2,l[e].r=10,s.arc(l[e].wx,l[e].wy,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o<=0&&(l.splice(e,1),e--);else if(5==M)c.c||(m="hsl("+(x+=.1)+",100%,80%)"),s.clearRect(0,0,n,o),p+=10,s.globalAlpha=1,s.fillStyle=m,s.shadowBlur=20,s.shadowColor=m,s.beginPath(),s.arc(a+50*Math.cos(p*Math.PI/180),h+50*Math.sin(p*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+180)*Math.PI/180),h+50*Math.sin((p+180)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+90)*Math.PI/180),h+50*Math.sin((p+90)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+270)*Math.PI/180),h+50*Math.sin((p+270)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0;else if(6==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.strokeStyle=m,s.beginPath(),s.lineWidth=2,s.moveTo(l[e].x,l[e].y),s.lineTo((l[e].wx+l[e].x)/2+20*Math.random(),(l[e].wy+l[e].y)/2+20*Math.random()),s.lineTo(l[e].wx,l[e].wy),s.closePath(),s.stroke(),l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--);else if(7==M)for(s.clearRect(0,0,n,o),l.length<2*c.n&&(v=2*Math.random()*Math.PI,l.push({x:a+100*(Math.random()-.5)*Math.cos(v),y:h+100*(Math.random()-.5)*Math.cos(v),o:1,h:v})),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].x+=(a-l[e].x)/10,l[e].y+=(h-l[e].y)/10,s.arc(l[e].x,l[e].y,1,0,2*Math.PI),s.closePath(),s.fill(),l[e].o-=c.o,l[e].o<=0&&(l[e].h=2*Math.random()*Math.PI,l[e].x=a+100*(Math.random()-.5)*Math.cos(l[e].h),l[e].y=h+100*(Math.random()-.5)*Math.sin(l[e].h),l[e].o=1);else if(8==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),e=a-60;e<a+60;e+=4)for(var i=h-60;i<h+60;i+=4)Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))<=60&&(s.globalAlpha=1-Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))/60,Math.random()<.2&&s.fillRect(e,i,3,3));else if(9==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),l.length<c.n&&l.push({x:a,y:h,xv:0,yv:0,o:1}),e=0;e<l.length;e++)0==l[e].xv&&0==l[e].yv?Math.random()<.5?Math.random()<.5?l[e].xv=3:l[e].xv=-3:Math.random()<.5?l[e].yv=3:l[e].yv=-3:0==l[e].xv?Math.random()<.66&&(l[e].yv=0,Math.random()<.5?l[e].xv=3:l[e].xv=-3):0==l[e].yv&&Math.random()<.66&&(l[e].xv=0,Math.random()<.5?l[e].yv=3:l[e].yv=-3),l[e].o-=c.o/2,s.globalAlpha=l[e].o,l[e].x+=l[e].xv,l[e].y+=l[e].yv,s.fillRect(l[e].x,l[e].y,3,3),l[e].o<=0&&(l.splice(e,1),e--);else if(10==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,l.push({x:a,y:h,xv:2,yv:1,o:1}),e=0;e<l.length;e++)l[e].o-=c.o/10,s.globalAlpha=l[e].o,l[e].x+=4*(Math.random()-.5),--l[e].y,s.fillRect(l[e].x,l[e].y,2,2),l[e].o<=0&&(l.splice(e,1),e--);window.requestAnimationFrame(t)}()}},{key:"mouseType2",value:function(){var t,o,a,h=window.innerWidth,s=window.innerHeight,i=70,r=1,l=1,c=1.5,n=25,d=.5*h,f=.5*s,u=!1;function e(t){console.log("----------"),d=t.clientX-.5*(window.innerWidth-h),f=t.clientY-.5*(window.innerHeight-s)}function y(t){u=!0}function w(t){u=!1}function p(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function v(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function m(){h=window.innerWidth,s=window.innerHeight,t.width=h,t.height=s}function x(){u?r+=.02*(c-r):r-=.02*(r-l),r=Math.min(r,c),o.clearRect(0,0,o.canvas.width,o.canvas.height);for(var t=0,e=a.length;t<e;t++){var i=a[t],n={x:i.position.x,y:i.position.y};i.offset.x+=i.speed,i.offset.y+=i.speed,i.shift.x+=(d-i.shift.x)*i.speed,i.shift.y+=(f-i.shift.y)*i.speed,i.position.x=i.shift.x+Math.cos(t+i.offset.x)*(i.orbit*r),i.position.y=i.shift.y+Math.sin(t+i.offset.y)*(i.orbit*r),i.position.x=Math.max(Math.min(i.position.x,h),0),i.position.y=Math.max(Math.min(i.position.y,s),0),i.size+=.01*(i.targetSize-i.size),Math.round(i.size)==Math.round(i.targetSize)&&(i.targetSize=1+2*Math.random()),o.beginPath(),o.fillStyle=i.fillColor,o.strokeStyle=i.fillColor,o.lineWidth=i.size,o.moveTo(n.x,n.y),o.lineTo(i.position.x,i.position.y),o.stroke(),o.arc(i.position.x,i.position.y,i.size/2,0,2*Math.PI,!0),o.fill()}window.requestAnimationFrame(x)}(t=document.getElementById("shuicheCanvas"))&&t.getContext&&(o=t.getContext("2d"),window.addEventListener("mousemove",e,!1),window.addEventListener("mousedown",y,!1),window.addEventListener("mouseup",w,!1),document.addEventListener("touchstart",p,!1),document.addEventListener("touchmove",v,!1),window.addEventListener("resize",m,!1),function(){a=[];for(var t=0;t<n;t++){var e={size:1,position:{x:d,y:f},offset:{x:0,y:0},shift:{x:d,y:f},speed:.01+.04*Math.random(),targetSize:1,fillColor:"#"+(9453632*Math.random()+11184810|0).toString(16),orbit:.5*i+.5*i*Math.random()};a.push(e)}}(),m(),x())}},{key:"mouseType3",value:function(){var t=P("<div id='shuicheDiv' style='position: fixed;width: 100%;height: "+P(window).height()+"px; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></div>");P("body").append(t),new(function(){function i(t){return document.getElementById(t)}function t(t,e){this.config=e||{},this.obj=i(t),n=this.config.speed||4,o=this.config.animR||1,a={x:.5*i(t).offsetWidth,y:.5*i(t).offsetHeight},this.setXY(),this.start()}var n,o,a,r=[],l=0;t.prototype={setXY:function(){var t,e;this.obj,t="mousemove",e=function(t){t=t||window.event,console.log(t.clientX),a.x=t.clientX,a.y=t.clientY},window.addEventListener?window.addEventListener(t,e,!1):window.attachEvent("on"+t,function(){e.call(window)})},start:function(){Math.PI;var t,e,i=this.config.fn;r[l++]=t=new c(null,0,0);for(var n=0;n<360;n+=20)for(var o=t,a=10;a<35;a+=1){var h=i(n,a).x,s=i(n,a).y;r[l++]=e=new c(o,h,s),o=e}setInterval(function(){for(var t=0;t<l;t++)r[t].run()},16)}};var c=function(t,e,i){var n=document.createElement("span");this.css=n.style,this.css.backgroundColor="#2D8CF0",this.css.width="2px",this.css.height="2px",this.css.position="absolute",this.css.left="-1000px",this.css.zIndex=1e3-l,document.getElementById("shuicheDiv").appendChild(n),this.ddx=0,this.ddy=0,this.PX=0,this.PY=0,this.x=0,this.y=0,this.x0=0,this.y0=0,this.cx=e,this.cy=i,this.parent=t};return c.prototype.run=function(){this.parent?(this.x0=this.parent.x,this.y0=this.parent.y):(this.x0=a.x,this.y0=a.y),this.x=this.PX+=(this.ddx+=(this.x0-this.PX-this.ddx+this.cx)/o)/n,this.y=this.PY+=(this.ddy+=(this.y0-this.PY-this.ddy+this.cy)/o)/n,this.css.left=Math.round(this.x)+"px",this.css.top=Math.round(this.y)+"px"},t}())("shuicheDiv",{speed:4,animR:2,fn:function(t,e){return{x:e/4*Math.cos(t),y:e/4*Math.sin(t)}}})}},{key:"cnblogs",get:function(){return{canvase:"#shuicheCanvase"}}}]),t);function t(){_classCallCheck(this,t),this.defaluts={type:1,color:!1},this.version="0.0.1"}}(jQuery);
+</script>
+<script type="text/javascript">
+    $.shuicheMouse({
+        type:11,
+        color:false
+    })
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+
+
+
+
+
+</body>
+</html>

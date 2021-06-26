@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="Install Elasticsearch with DockerPulling the image1docker pull docker.elastic.co&#x2F;elasticsearch&#x2F;elasticsearch  Starting a single node cluster with Docker采用Docker启动一个单节点的Elasticsearch集群: 12# -d：后台启动 -p：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch整合Kibana和Logstash环境搭建">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2020/01/07/Elasticsearch%E6%95%B4%E5%90%88Kibana%E5%92%8CLogstash%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="朝阳暮逝忆">
+<meta property="og:description" content="Install Elasticsearch with DockerPulling the image1docker pull docker.elastic.co&#x2F;elasticsearch&#x2F;elasticsearch  Starting a single node cluster with Docker采用Docker启动一个单节点的Elasticsearch集群: 12# -d：后台启动 -p：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-07T03:04:28.000Z">
+<meta property="article:modified_time" content="2021-06-23T11:29:18.912Z">
+<meta property="article:author" content="朝阳暮逝忆">
+<meta property="article:tag" content="Elasticsearch">
+<meta property="article:tag" content="Kibana">
+<meta property="article:tag" content="Logstash">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2020/01/07/Elasticsearch%E6%95%B4%E5%90%88Kibana%E5%92%8CLogstash%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Elasticsearch整合Kibana和Logstash环境搭建 | 朝阳暮逝忆</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">朝阳暮逝忆</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-Elasticsearch-with-Docker"><span class="nav-number">1.</span> <span class="nav-text">Install Elasticsearch with Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pulling-the-image"><span class="nav-number">1.1.</span> <span class="nav-text">Pulling the image</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Starting-a-single-node-cluster-with-Docker"><span class="nav-number">1.2.</span> <span class="nav-text">Starting a single node cluster with Docker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Starting-a-multi-node-cluster-with-Docker-Compose"><span class="nav-number">1.3.</span> <span class="nav-text">Starting a multi-node cluster with Docker Compose</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-Kibana-with-Docker"><span class="nav-number">2.</span> <span class="nav-text">Install Kibana with Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pulling-the-image-1"><span class="nav-number">2.1.</span> <span class="nav-text">Pulling the image</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Configuring-Kibana"><span class="nav-number">2.2.</span> <span class="nav-text">Configuring Kibana</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E6%8E%92docker-compose"><span class="nav-number">2.3.</span> <span class="nav-text">编排docker-compose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8Kibana"><span class="nav-number">2.4.</span> <span class="nav-text">启动Kibana</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-Logstash-with-Docker-and-Auto-Sync-Mysql-data"><span class="nav-number">3.</span> <span class="nav-text">Install Logstash with Docker and Auto-Sync Mysql data</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pulling-the-image-2"><span class="nav-number">3.1.</span> <span class="nav-text">Pulling the image</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89docker%E9%95%9C%E5%83%8F"><span class="nav-number">3.2.</span> <span class="nav-text">自定义docker镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">3.3.</span> <span class="nav-text">创建配置相关的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E6%9D%83%E6%96%B9%E5%BC%8F%E5%90%AF%E5%8A%A8Logstash"><span class="nav-number">3.4.</span> <span class="nav-text">特权方式启动Logstash</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
+      src="/images/next/avatar.gif">
+  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
+  <div class="site-description" itemprop="description">Monochrome</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2020/01/07/Elasticsearch%E6%95%B4%E5%90%88Kibana%E5%92%8CLogstash%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/next/avatar.gif">
+      <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="description" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝阳暮逝忆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Elasticsearch整合Kibana和Logstash环境搭建
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-07 11:04:28" itemprop="dateCreated datePublished" datetime="2020-01-07T11:04:28+08:00">2020-01-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-06-23 19:29:18" itemprop="dateModified" datetime="2021-06-23T19:29:18+08:00">2021-06-23</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/Kibana/" itemprop="url" rel="index"><span itemprop="name">Kibana</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/Kibana/Logstash/" itemprop="url" rel="index"><span itemprop="name">Logstash</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Install-Elasticsearch-with-Docker"><a href="#Install-Elasticsearch-with-Docker" class="headerlink" title="Install Elasticsearch with Docker"></a>Install Elasticsearch with Docker</h3><h4 id="Pulling-the-image"><a href="#Pulling-the-image" class="headerlink" title="Pulling the image"></a>Pulling the image</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull docker.elastic.co/elasticsearch/elasticsearch</span><br></pre></td></tr></table></figure>
+
+<h4 id="Starting-a-single-node-cluster-with-Docker"><a href="#Starting-a-single-node-cluster-with-Docker" class="headerlink" title="Starting a single node cluster with Docker"></a>Starting a single node cluster with Docker</h4><p>采用Docker启动一个单节点的<code>Elasticsearch</code>集群:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -d：后台启动 -p：开放端口 --name：设置名称</span></span><br><span class="line">docker -d run -p 9200:9200 -p 9300:9300 -e &quot;discovery.type=single-node&quot; --name elasticsearch-monochrome docker.elastic.co/elasticsearch/elasticsearch:7.5.1</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h4 id="Starting-a-multi-node-cluster-with-Docker-Compose"><a href="#Starting-a-multi-node-cluster-with-Docker-Compose" class="headerlink" title="Starting a multi-node cluster with Docker Compose"></a>Starting a multi-node cluster with Docker Compose</h4><p>通过<code>Docker Compose</code>创建一个包含3个节点的<code>Elasticsearch</code>集群 :</p>
+<ol>
+<li><p>创建一个 <code>docker-compose.yml</code> file:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;2.2&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">es01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.5.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es01</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">node.name=es01</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.name=es-docker-cluster</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">discovery.seed_hosts=es02,es03</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.initial_master_nodes=es01,es02,es03</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">bootstrap.memory_lock=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span></span><br><span class="line">    <span class="attr">ulimits:</span></span><br><span class="line">      <span class="attr">memlock:</span></span><br><span class="line">        <span class="attr">soft:</span> <span class="number">-1</span></span><br><span class="line">        <span class="attr">hard:</span> <span class="number">-1</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">data01:/usr/share/elasticsearch/data</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9200</span><span class="string">:9200</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">elastic</span></span><br><span class="line">  <span class="attr">es02:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.5.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es02</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">node.name=es02</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.name=es-docker-cluster</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">discovery.seed_hosts=es01,es03</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.initial_master_nodes=es01,es02,es03</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">bootstrap.memory_lock=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span></span><br><span class="line">    <span class="attr">ulimits:</span></span><br><span class="line">      <span class="attr">memlock:</span></span><br><span class="line">        <span class="attr">soft:</span> <span class="number">-1</span></span><br><span class="line">        <span class="attr">hard:</span> <span class="number">-1</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">data02:/usr/share/elasticsearch/data</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">elastic</span></span><br><span class="line">  <span class="attr">es03:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.5.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es03</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">node.name=es03</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.name=es-docker-cluster</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">discovery.seed_hosts=es01,es02</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.initial_master_nodes=es01,es02,es03</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">bootstrap.memory_lock=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span></span><br><span class="line">    <span class="attr">ulimits:</span></span><br><span class="line">      <span class="attr">memlock:</span></span><br><span class="line">        <span class="attr">soft:</span> <span class="number">-1</span></span><br><span class="line">        <span class="attr">hard:</span> <span class="number">-1</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">data03:/usr/share/elasticsearch/data</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">elastic</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">data01:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br><span class="line">  <span class="attr">data02:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br><span class="line">  <span class="attr">data03:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">elastic:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>Run <code>docker-compose</code> 来启动集群:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="Install-Kibana-with-Docker"><a href="#Install-Kibana-with-Docker" class="headerlink" title="Install Kibana with Docker"></a>Install Kibana with Docker</h3><h4 id="Pulling-the-image-1"><a href="#Pulling-the-image-1" class="headerlink" title="Pulling the image"></a>Pulling the image</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull docker.elastic.co/kibana/kibana</span><br></pre></td></tr></table></figure>
+
+<h4 id="Configuring-Kibana"><a href="#Configuring-Kibana" class="headerlink" title="Configuring Kibana"></a>Configuring Kibana</h4><p>新建配置文件<code>kibana.yml</code>，很多默认的配置，只需要修改几个配置即可：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Kibana is served by a back end server. This setting specifies the port to use.</span></span><br><span class="line"><span class="comment">#server.port: 5601</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Specifies the address to which the Kibana server will bind. IP addresses and host names are both valid values.</span></span><br><span class="line"><span class="comment"># The default is &#x27;localhost&#x27;, which usually means remote machines will not be able to connect.</span></span><br><span class="line"><span class="comment"># To allow connections from remote users, set this parameter to a non-loopback address.</span></span><br><span class="line"><span class="comment"># 允许远程访问</span></span><br><span class="line"><span class="attr">server.host:</span> <span class="string">&quot;0.0.0.0&quot;</span></span><br><span class="line"><span class="comment">#server.host: &quot;localhost&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enables you to specify a path to mount Kibana at if you are running behind a proxy.</span></span><br><span class="line"><span class="comment"># Use the `server.rewriteBasePath` setting to tell Kibana if it should remove the basePath</span></span><br><span class="line"><span class="comment"># from requests it receives, and to prevent a deprecation warning at startup.</span></span><br><span class="line"><span class="comment"># This setting cannot end in a slash.</span></span><br><span class="line"><span class="comment">#server.basePath: &quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Specifies whether Kibana should rewrite requests that are prefixed with</span></span><br><span class="line"><span class="comment"># `server.basePath` or require that they are rewritten by your reverse proxy.</span></span><br><span class="line"><span class="comment"># This setting was effectively always `false` before Kibana 6.3 and will</span></span><br><span class="line"><span class="comment"># default to `true` starting in Kibana 7.0.</span></span><br><span class="line"><span class="comment">#server.rewriteBasePath: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The maximum payload size in bytes for incoming server requests.</span></span><br><span class="line"><span class="comment">#server.maxPayloadBytes: 1048576</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The Kibana server&#x27;s name.  This is used for display purposes.</span></span><br><span class="line"><span class="comment">#server.name: &quot;your-hostname&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The URLs of the Elasticsearch instances to use for all your queries.</span></span><br><span class="line"><span class="attr">elasticsearch.hosts:</span> [<span class="string">&quot;http://localhost:9200&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># When this setting&#x27;s value is true Kibana uses the hostname specified in the server.host</span></span><br><span class="line"><span class="comment"># setting. When the value of this setting is false, Kibana uses the hostname of the host</span></span><br><span class="line"><span class="comment"># that connects to this Kibana instance.</span></span><br><span class="line"><span class="comment">#elasticsearch.preserveHost: true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Kibana uses an index in Elasticsearch to store saved searches, visualizations and</span></span><br><span class="line"><span class="comment"># dashboards. Kibana creates a new index if the index doesn&#x27;t already exist.</span></span><br><span class="line"><span class="comment">#kibana.index: &quot;.kibana&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The default application to load.</span></span><br><span class="line"><span class="comment">#kibana.defaultAppId: &quot;home&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># If your Elasticsearch is protected with basic authentication, these settings provide</span></span><br><span class="line"><span class="comment"># the username and password that the Kibana server uses to perform maintenance on the Kibana</span></span><br><span class="line"><span class="comment"># index at startup. Your Kibana users still need to authenticate with Elasticsearch, which</span></span><br><span class="line"><span class="comment"># is proxied through the Kibana server.</span></span><br><span class="line"><span class="comment">#elasticsearch.username: &quot;kibana&quot;</span></span><br><span class="line"><span class="comment">#elasticsearch.password: &quot;pass&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enables SSL and paths to the PEM-format SSL certificate and SSL key files, respectively.</span></span><br><span class="line"><span class="comment"># These settings enable SSL for outgoing requests from the Kibana server to the browser.</span></span><br><span class="line"><span class="comment">#server.ssl.enabled: false</span></span><br><span class="line"><span class="comment">#server.ssl.certificate: /path/to/your/server.crt</span></span><br><span class="line"><span class="comment">#server.ssl.key: /path/to/your/server.key</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Optional settings that provide the paths to the PEM-format SSL certificate and key files.</span></span><br><span class="line"><span class="comment"># These files validate that your Elasticsearch backend uses the same key files.</span></span><br><span class="line"><span class="comment">#elasticsearch.ssl.certificate: /path/to/your/client.crt</span></span><br><span class="line"><span class="comment">#elasticsearch.ssl.key: /path/to/your/client.key</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Optional setting that enables you to specify a path to the PEM file for the certificate</span></span><br><span class="line"><span class="comment"># authority for your Elasticsearch instance.</span></span><br><span class="line"><span class="comment">#elasticsearch.ssl.certificateAuthorities: [ &quot;/path/to/your/CA.pem&quot; ]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># To disregard the validity of SSL certificates, change this setting&#x27;s value to &#x27;none&#x27;.</span></span><br><span class="line"><span class="comment">#elasticsearch.ssl.verificationMode: full</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time in milliseconds to wait for Elasticsearch to respond to pings. Defaults to the value of</span></span><br><span class="line"><span class="comment"># the elasticsearch.requestTimeout setting.</span></span><br><span class="line"><span class="comment">#elasticsearch.pingTimeout: 1500</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time in milliseconds to wait for responses from the back end or Elasticsearch. This value</span></span><br><span class="line"><span class="comment"># must be a positive integer.</span></span><br><span class="line"><span class="comment">#elasticsearch.requestTimeout: 30000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># List of Kibana client-side headers to send to Elasticsearch. To send *no* client-side</span></span><br><span class="line"><span class="comment"># headers, set this value to [] (an empty list).</span></span><br><span class="line"><span class="comment">#elasticsearch.requestHeadersWhitelist: [ authorization ]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Header names and values that are sent to Elasticsearch. Any custom headers cannot be overwritten</span></span><br><span class="line"><span class="comment"># by client-side headers, regardless of the elasticsearch.requestHeadersWhitelist configuration.</span></span><br><span class="line"><span class="comment">#elasticsearch.customHeaders: &#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time in milliseconds for Elasticsearch to wait for responses from shards. Set to 0 to disable.</span></span><br><span class="line"><span class="comment">#elasticsearch.shardTimeout: 30000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time in milliseconds to wait for Elasticsearch at Kibana startup before retrying.</span></span><br><span class="line"><span class="comment">#elasticsearch.startupTimeout: 5000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Logs queries sent to Elasticsearch. Requires logging.verbose set to true.</span></span><br><span class="line"><span class="comment">#elasticsearch.logQueries: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Specifies the path where Kibana creates the process ID file.</span></span><br><span class="line"><span class="comment">#pid.file: /var/run/kibana.pid</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enables you specify a file where Kibana stores log output.</span></span><br><span class="line"><span class="comment">#logging.dest: stdout</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the value of this setting to true to suppress all logging output.</span></span><br><span class="line"><span class="comment">#logging.silent: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the value of this setting to true to suppress all logging output other than error messages.</span></span><br><span class="line"><span class="comment">#logging.quiet: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the value of this setting to true to log all events, including system usage information</span></span><br><span class="line"><span class="comment"># and all requests.</span></span><br><span class="line"><span class="comment">#logging.verbose: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the interval in milliseconds to sample system and process performance</span></span><br><span class="line"><span class="comment"># metrics. Minimum is 100ms. Defaults to 5000.</span></span><br><span class="line"><span class="comment">#ops.interval: 5000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Specifies locale to be used for all localizable strings, dates and number formats.</span></span><br><span class="line"><span class="comment"># Supported languages are the following: English - en , by default , Chinese - zh-CN .</span></span><br><span class="line"><span class="comment"># 默认语言设置为中文</span></span><br><span class="line"><span class="attr">i18n.locale:</span> <span class="string">&quot;zh-CN&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="编排docker-compose"><a href="#编排docker-compose" class="headerlink" title="编排docker-compose"></a>编排docker-compose</h4><p>新建文件<code>docker-compose.yml</code>，配置特权方式和端口，映射配置kibana.yml文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;2&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">kibana:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/kibana/kibana:7.5.1</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;5601:5601&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./kibana.yml:/usr/share/kibana/config/kibana.yml</span></span><br><span class="line">    <span class="attr">privileged:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="启动Kibana"><a href="#启动Kibana" class="headerlink" title="启动Kibana"></a>启动Kibana</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<h3 id="Install-Logstash-with-Docker-and-Auto-Sync-Mysql-data"><a href="#Install-Logstash-with-Docker-and-Auto-Sync-Mysql-data" class="headerlink" title="Install Logstash with Docker and Auto-Sync Mysql data"></a>Install Logstash with Docker and Auto-Sync Mysql data</h3><h4 id="Pulling-the-image-2"><a href="#Pulling-the-image-2" class="headerlink" title="Pulling the image"></a>Pulling the image</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull docker.elastic.co/logstash/logstash:7.5.1</span><br></pre></td></tr></table></figure>
+
+<h4 id="自定义docker镜像"><a href="#自定义docker镜像" class="headerlink" title="自定义docker镜像"></a>自定义docker镜像</h4><ol>
+<li><p>新建<code>Dockerfile</code>文件</p>
+</li>
+<li><p>配置<code>Dockerfile</code></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> docker.elastic.co/logstash/logstash:<span class="number">7.5</span>.<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装input插件</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> logstash-plugin install logstash-input-jdbc</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装output插件</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> logstash-plugin install logstash-output-elasticsearch</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装json_lines插件</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> logstash-plugin install logstash-codec-json_lines</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#容器启动时执行的命令.(CMD 能够被 docker run 后面跟的命令行参数替换)</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;-f&quot;</span>,<span class="string">&quot;/usr/share/logstash/config/mysql.conf&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构建镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t my_logstash .</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="创建配置相关的文件"><a href="#创建配置相关的文件" class="headerlink" title="创建配置相关的文件"></a>创建配置相关的文件</h4><ol>
+<li><p>创建配置文件夹，所有配置文件都放在这个文件夹下面</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /data/logstash/config</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>logstash.yml (空文件就行)</strong></p>
+</li>
+<li><p><strong>log4j2.properties</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">logger.elasticsearchoutput.name</span> = <span class="string">logstash.outputs.elasticsearch</span></span><br><span class="line"><span class="meta">logger.elasticsearchoutput.level</span> = <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>pipelines.yml</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- pipeline.id: my-logstash</span><br><span class="line">  path.config: &quot;&#x2F;usr&#x2F;share&#x2F;logstash&#x2F;config&#x2F;*.conf&quot;</span><br><span class="line">  pipeline.workers: 3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>mysql.conf</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">	jdbc &#123;</span><br><span class="line">		jdbc_connection_string =&gt;</span><br><span class="line">			<span class="string">&quot;jdbc:mysql://localhost:3306/&lt;database_name&gt;?allowMultiQueries=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;rewriteBatchedStatements=true&quot;</span></span><br><span class="line">        ## 数据库账号和密码</span><br><span class="line">		jdbc_user =&gt; &quot;root&quot;</span><br><span class="line">		jdbc_password =&gt; &quot;root&quot;</span><br><span class="line">		## 数据库驱动的JAR位置</span><br><span class="line">		jdbc_driver_library =&gt; &quot;/usr/share/logstash/config/mysql-connector-java-5.1.47.jar&quot;</span><br><span class="line">		jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">		jdbc_paging_enabled =&gt; &quot;true&quot;</span><br><span class="line">		jdbc_page_size =&gt; &quot;50000&quot;</span><br><span class="line">        ## 查询的数据，根据数据库自己定义</span><br><span class="line">		statement =&gt; &quot;select * from tb_user&quot;</span><br><span class="line">		## 每分钟执行一次</span><br><span class="line">		schedule =&gt; &quot;* * * * *&quot;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">	elasticsearch &#123;</span><br><span class="line">		## elasticsearch 地址</span><br><span class="line">		hosts =&gt; &quot;localhost:9200&quot;</span><br><span class="line">		## 索引名称</span><br><span class="line">		index =&gt; &quot;index-user&quot;</span><br><span class="line">        ## 主键</span><br><span class="line">		document_id =&gt; &quot;%&#123;id&#125;&quot;</span><br><span class="line">		## 索引类型</span><br><span class="line">		document_type =&gt; &quot;user&quot;</span><br><span class="line">	&#125;</span><br><span class="line">	stdout &#123;</span><br><span class="line">		codec =&gt; json_lines</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据库驱动jar包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="特权方式启动Logstash"><a href="#特权方式启动Logstash" class="headerlink" title="特权方式启动Logstash"></a>特权方式启动<code>Logstash</code></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --privileged=true -p 4560:4560 -p 9600:9600 -it --name=my_logstash -v /data/logstash/config/:/usr/share/logstash/config/   my_logstash</span><br></pre></td></tr></table></figure>
+
+<p>查看日志：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs -f -t --tail 10 my_logstash</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+              <a href="/tags/Kibana/" rel="tag"># Kibana</a>
+              <a href="/tags/Logstash/" rel="tag"># Logstash</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/12/20/Git%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" rel="prev" title="Git开发规范">
+                  <i class="fa fa-chevron-left"></i> Git开发规范
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/01/16/Spring-boot%E6%95%B4%E5%90%88Elasticsearch/" rel="next" title="Spring boot整合Elasticsearch">
+                  Spring boot整合Elasticsearch <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">朝阳暮逝忆</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">217k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:18</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script type="text/javascript">
+!function(e,t,a){function n(){c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),o(),r()}function r(){for(var e=0;e<d.length;e++)d[e].alpha<=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText="left:"+d[e].x+"px;top:"+d[e].y+"px;opacity:"+d[e].alpha+";transform:scale("+d[e].scale+","+d[e].scale+") rotate(45deg);background:"+d[e].color+";z-index:99999");requestAnimationFrame(r)}function o(){var t="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){t&&t(),i(e)}}function i(e){var a=t.createElement("div");a.className="heart",d.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()}),t.body.appendChild(a)}function c(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}function s(){return"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}var d=[];e.requestAnimationFrame=function(){return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)}}(),n()}(window,document);
+</script>
+<script type="text/javascript">
+var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(t,e,i){return e&&n(t.prototype,e),i&&n(t,i),t}}();function _classCallCheck(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}!function(P){P.extend({shuicheMouse:function(t){(new e).init(t)}});var e=(_createClass(t,[{key:"init",value:function(t){!function(){for(var a=0,t=["webkit","moz"],e=0;e<t.length&&!window.requestAnimationFrame;++e)window.requestAnimationFrame=window[t[e]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[t[e]+"CancelAnimationFrame"]||window[t[e]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(t,e){var i=(new Date).getTime(),n=Math.max(0,16.7-(i-a)),o=window.setTimeout(function(){t(i+n)},n);return a=i+n,o}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(t){clearTimeout(t)})}(),t&&P.extend(!0,this.defaluts,t);var e=P("<canvas id='shuicheCanvas' style='position: fixed; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></canvas>");P("body").append(e);var i=this.defaluts.type;1<=i&&i<11&&this.mouseType1(this.defaluts.type,this.defaluts.color),11==i&&this.mouseType2(),12==i&&this.mouseType3()}},{key:"mouseType1",value:function(t,e){var n,o,a,h,i=document.getElementById("shuicheCanvas"),s=i.getContext("2d"),r=P("#shuicheCanvas"),l=[],c={n:100,c:222,bc:"#fff",r:.9,o:.05,a:1,s:20},d=0,f=0,u=0,y=0,w=0,p=0,v=0;g();var m,x=360*Math.random();m=e||"hsl("+x+",100%,80%)",P(window).resize(function(){g()});var M=t;function g(){n=window.innerWidth,o=window.innerHeight,i.width=n,i.height=o,a=n/2,h=o/2}P(window).mousemove(function(t){a=t.pageX-r.offset().left,h=t.pageY-r.offset().top,4==M&&(Math.random()<=.5?(d=Math.random()<=.5?-10:n+10,f=Math.random()*o):(f=Math.random()<=.5?-10:o+10,d=Math.random()*n),u=8*(Math.random()-.5),y=8*(Math.random()-.5)),1==M||2==M||3==M?l.push({x:a,y:h,r:c.r,o:1,v:0}):4==M?l.push({x:a,y:h,r:c.r,o:1,v:0,wx:d,wy:f,vx2:u,vy2:y}):6==M&&l.push({x:a+30*(Math.random()-.5),y:h+30*(Math.random()-.5),o:1,wx:a,wy:h})}),function t(){if(1==M){s.clearRect(0,0,n,o);for(var e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),l[e].r+=c.r,l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--)}else if(2==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].r=10,s.shadowBlur=20,s.shadowColor=m,s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o-=c.o,l[e].v+=c.a,l[e].y+=l[e].v,(l[e].y>=o+l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(3==M)for(w+=5,s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].r=20*(1-l[e].y/o),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o=l[e].y/o,l[e].v+=c.a,l[e].y-=c.s,l[e].x+=10*Math.cos((l[e].y+w)/100),(l[e].y<=0-l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(4==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].vx2+=(a-l[e].wx)/1e3,l[e].vy2+=(h-l[e].wy)/1e3,l[e].wx+=l[e].vx2,l[e].wy+=l[e].vy2,l[e].o-=c.o/2,l[e].r=10,s.arc(l[e].wx,l[e].wy,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o<=0&&(l.splice(e,1),e--);else if(5==M)c.c||(m="hsl("+(x+=.1)+",100%,80%)"),s.clearRect(0,0,n,o),p+=10,s.globalAlpha=1,s.fillStyle=m,s.shadowBlur=20,s.shadowColor=m,s.beginPath(),s.arc(a+50*Math.cos(p*Math.PI/180),h+50*Math.sin(p*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+180)*Math.PI/180),h+50*Math.sin((p+180)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+90)*Math.PI/180),h+50*Math.sin((p+90)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+270)*Math.PI/180),h+50*Math.sin((p+270)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0;else if(6==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.strokeStyle=m,s.beginPath(),s.lineWidth=2,s.moveTo(l[e].x,l[e].y),s.lineTo((l[e].wx+l[e].x)/2+20*Math.random(),(l[e].wy+l[e].y)/2+20*Math.random()),s.lineTo(l[e].wx,l[e].wy),s.closePath(),s.stroke(),l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--);else if(7==M)for(s.clearRect(0,0,n,o),l.length<2*c.n&&(v=2*Math.random()*Math.PI,l.push({x:a+100*(Math.random()-.5)*Math.cos(v),y:h+100*(Math.random()-.5)*Math.cos(v),o:1,h:v})),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].x+=(a-l[e].x)/10,l[e].y+=(h-l[e].y)/10,s.arc(l[e].x,l[e].y,1,0,2*Math.PI),s.closePath(),s.fill(),l[e].o-=c.o,l[e].o<=0&&(l[e].h=2*Math.random()*Math.PI,l[e].x=a+100*(Math.random()-.5)*Math.cos(l[e].h),l[e].y=h+100*(Math.random()-.5)*Math.sin(l[e].h),l[e].o=1);else if(8==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),e=a-60;e<a+60;e+=4)for(var i=h-60;i<h+60;i+=4)Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))<=60&&(s.globalAlpha=1-Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))/60,Math.random()<.2&&s.fillRect(e,i,3,3));else if(9==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),l.length<c.n&&l.push({x:a,y:h,xv:0,yv:0,o:1}),e=0;e<l.length;e++)0==l[e].xv&&0==l[e].yv?Math.random()<.5?Math.random()<.5?l[e].xv=3:l[e].xv=-3:Math.random()<.5?l[e].yv=3:l[e].yv=-3:0==l[e].xv?Math.random()<.66&&(l[e].yv=0,Math.random()<.5?l[e].xv=3:l[e].xv=-3):0==l[e].yv&&Math.random()<.66&&(l[e].xv=0,Math.random()<.5?l[e].yv=3:l[e].yv=-3),l[e].o-=c.o/2,s.globalAlpha=l[e].o,l[e].x+=l[e].xv,l[e].y+=l[e].yv,s.fillRect(l[e].x,l[e].y,3,3),l[e].o<=0&&(l.splice(e,1),e--);else if(10==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,l.push({x:a,y:h,xv:2,yv:1,o:1}),e=0;e<l.length;e++)l[e].o-=c.o/10,s.globalAlpha=l[e].o,l[e].x+=4*(Math.random()-.5),--l[e].y,s.fillRect(l[e].x,l[e].y,2,2),l[e].o<=0&&(l.splice(e,1),e--);window.requestAnimationFrame(t)}()}},{key:"mouseType2",value:function(){var t,o,a,h=window.innerWidth,s=window.innerHeight,i=70,r=1,l=1,c=1.5,n=25,d=.5*h,f=.5*s,u=!1;function e(t){console.log("----------"),d=t.clientX-.5*(window.innerWidth-h),f=t.clientY-.5*(window.innerHeight-s)}function y(t){u=!0}function w(t){u=!1}function p(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function v(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function m(){h=window.innerWidth,s=window.innerHeight,t.width=h,t.height=s}function x(){u?r+=.02*(c-r):r-=.02*(r-l),r=Math.min(r,c),o.clearRect(0,0,o.canvas.width,o.canvas.height);for(var t=0,e=a.length;t<e;t++){var i=a[t],n={x:i.position.x,y:i.position.y};i.offset.x+=i.speed,i.offset.y+=i.speed,i.shift.x+=(d-i.shift.x)*i.speed,i.shift.y+=(f-i.shift.y)*i.speed,i.position.x=i.shift.x+Math.cos(t+i.offset.x)*(i.orbit*r),i.position.y=i.shift.y+Math.sin(t+i.offset.y)*(i.orbit*r),i.position.x=Math.max(Math.min(i.position.x,h),0),i.position.y=Math.max(Math.min(i.position.y,s),0),i.size+=.01*(i.targetSize-i.size),Math.round(i.size)==Math.round(i.targetSize)&&(i.targetSize=1+2*Math.random()),o.beginPath(),o.fillStyle=i.fillColor,o.strokeStyle=i.fillColor,o.lineWidth=i.size,o.moveTo(n.x,n.y),o.lineTo(i.position.x,i.position.y),o.stroke(),o.arc(i.position.x,i.position.y,i.size/2,0,2*Math.PI,!0),o.fill()}window.requestAnimationFrame(x)}(t=document.getElementById("shuicheCanvas"))&&t.getContext&&(o=t.getContext("2d"),window.addEventListener("mousemove",e,!1),window.addEventListener("mousedown",y,!1),window.addEventListener("mouseup",w,!1),document.addEventListener("touchstart",p,!1),document.addEventListener("touchmove",v,!1),window.addEventListener("resize",m,!1),function(){a=[];for(var t=0;t<n;t++){var e={size:1,position:{x:d,y:f},offset:{x:0,y:0},shift:{x:d,y:f},speed:.01+.04*Math.random(),targetSize:1,fillColor:"#"+(9453632*Math.random()+11184810|0).toString(16),orbit:.5*i+.5*i*Math.random()};a.push(e)}}(),m(),x())}},{key:"mouseType3",value:function(){var t=P("<div id='shuicheDiv' style='position: fixed;width: 100%;height: "+P(window).height()+"px; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></div>");P("body").append(t),new(function(){function i(t){return document.getElementById(t)}function t(t,e){this.config=e||{},this.obj=i(t),n=this.config.speed||4,o=this.config.animR||1,a={x:.5*i(t).offsetWidth,y:.5*i(t).offsetHeight},this.setXY(),this.start()}var n,o,a,r=[],l=0;t.prototype={setXY:function(){var t,e;this.obj,t="mousemove",e=function(t){t=t||window.event,console.log(t.clientX),a.x=t.clientX,a.y=t.clientY},window.addEventListener?window.addEventListener(t,e,!1):window.attachEvent("on"+t,function(){e.call(window)})},start:function(){Math.PI;var t,e,i=this.config.fn;r[l++]=t=new c(null,0,0);for(var n=0;n<360;n+=20)for(var o=t,a=10;a<35;a+=1){var h=i(n,a).x,s=i(n,a).y;r[l++]=e=new c(o,h,s),o=e}setInterval(function(){for(var t=0;t<l;t++)r[t].run()},16)}};var c=function(t,e,i){var n=document.createElement("span");this.css=n.style,this.css.backgroundColor="#2D8CF0",this.css.width="2px",this.css.height="2px",this.css.position="absolute",this.css.left="-1000px",this.css.zIndex=1e3-l,document.getElementById("shuicheDiv").appendChild(n),this.ddx=0,this.ddy=0,this.PX=0,this.PY=0,this.x=0,this.y=0,this.x0=0,this.y0=0,this.cx=e,this.cy=i,this.parent=t};return c.prototype.run=function(){this.parent?(this.x0=this.parent.x,this.y0=this.parent.y):(this.x0=a.x,this.y0=a.y),this.x=this.PX+=(this.ddx+=(this.x0-this.PX-this.ddx+this.cx)/o)/n,this.y=this.PY+=(this.ddy+=(this.y0-this.PY-this.ddy+this.cy)/o)/n,this.css.left=Math.round(this.x)+"px",this.css.top=Math.round(this.y)+"px"},t}())("shuicheDiv",{speed:4,animR:2,fn:function(t,e){return{x:e/4*Math.cos(t),y:e/4*Math.sin(t)}}})}},{key:"cnblogs",get:function(){return{canvase:"#shuicheCanvase"}}}]),t);function t(){_classCallCheck(this,t),this.defaluts={type:1,color:!1},this.version="0.0.1"}}(jQuery);
+</script>
+<script type="text/javascript">
+    $.shuicheMouse({
+        type:11,
+        color:false
+    })
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向对象编程语言的代表，极好地实现了面向对象理论，允许程序员以优雅的思维方式进行复杂的编程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础知识">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2021/05/28/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="朝阳暮逝忆">
+<meta property="og:description" content="Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向对象编程语言的代表，极好地实现了面向对象理论，允许程序员以优雅的思维方式进行复杂的编程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/Java%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/IO%E6%B5%81%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F%E5%88%92%E5%88%86.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/IO%E6%B5%81%E6%93%8D%E4%BD%9C%E5%AF%B9%E8%B1%A1%E5%88%92%E5%88%86.png">
+<meta property="article:published_time" content="2021-05-28T02:48:08.000Z">
+<meta property="article:modified_time" content="2021-06-24T13:31:40.973Z">
+<meta property="article:author" content="朝阳暮逝忆">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zhaoyangmushiyi.github.io/images/Java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/Java%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B.png">
+
+
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2021/05/28/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Java基础知识 | 朝阳暮逝忆</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">朝阳暮逝忆</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">Java概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%80%A7%EF%BC%9F%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">什么是跨平台性？原理是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E8%AF%AD%E8%A8%80%E6%9C%89%E5%93%AA%E4%BA%9B%E7%89%B9%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">Java语言有哪些特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-JDK-%E5%92%8C-OpenJDK-%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-number">1.3.</span> <span class="nav-text">Oracle JDK 和 OpenJDK 的对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">基础语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E6%9C%89%E5%93%AA%E4%BA%9B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.1.</span> <span class="nav-text">Java有哪些数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#switch-%E6%98%AF%E5%90%A6%E8%83%BD%E4%BD%9C%E7%94%A8%E5%9C%A8-byte-%E4%B8%8A%EF%BC%8C%E6%98%AF%E5%90%A6%E8%83%BD%E4%BD%9C%E7%94%A8%E5%9C%A8-long-%E4%B8%8A%EF%BC%8C%E6%98%AF%E5%90%A6%E8%83%BD%E4%BD%9C%E7%94%A8%E5%9C%A8-String-%E4%B8%8A"><span class="nav-number">2.1.2.</span> <span class="nav-text">switch 是否能作用在 byte 上，是否能作用在 long 上，是否能作用在 String 上</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">2.2.</span> <span class="nav-text">关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#this%E4%B8%8Esuper%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.1.</span> <span class="nav-text">this与super的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static%E5%AD%98%E5%9C%A8%E7%9A%84%E4%B8%BB%E8%A6%81%E6%84%8F%E4%B9%89"><span class="nav-number">2.2.2.</span> <span class="nav-text">static存在的主要意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static%E7%9A%84%E7%8B%AC%E7%89%B9%E4%B9%8B%E5%A4%84"><span class="nav-number">2.2.3.</span> <span class="nav-text">static的独特之处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.2.4.</span> <span class="nav-text">static应用场景</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%A6%82%E8%BF%B0"><span class="nav-number">3.1.</span> <span class="nav-text">面向对象概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%92%8C%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.1.1.</span> <span class="nav-text">面向对象和面向过程的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7"><span class="nav-number">3.2.</span> <span class="nav-text">面向对象三大特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E5%BE%81%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E9%9D%A2"><span class="nav-number">3.2.1.</span> <span class="nav-text">面向对象的特征有哪些方面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%A4%9A%E6%80%81%E6%9C%BA%E5%88%B6%EF%BC%9FJava%E8%AF%AD%E8%A8%80%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E6%80%81%E7%9A%84%EF%BC%9F"><span class="nav-number">3.2.2.</span> <span class="nav-text">什么是多态机制？Java语言是如何实现多态的？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">多态的实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%94%E5%A4%A7%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="nav-number">3.2.3.</span> <span class="nav-text">面向对象五大基本原则是什么（可选）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%B8%8E%E6%8E%A5%E5%8F%A3"><span class="nav-number">3.3.</span> <span class="nav-text">类与接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-number">3.3.1.</span> <span class="nav-text">抽象类和接口的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E7%B1%BB%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.3.2.</span> <span class="nav-text">普通类和抽象类有哪些区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E8%83%BD%E4%BD%BF%E7%94%A8-final-%E4%BF%AE%E9%A5%B0%E5%90%97%EF%BC%9F"><span class="nav-number">3.3.3.</span> <span class="nav-text">抽象类能使用 final 修饰吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E4%B8%8E%E6%96%B9%E6%B3%95"><span class="nav-number">3.4.</span> <span class="nav-text">变量与方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">3.4.1.</span> <span class="nav-text">成员变量与局部变量的区别有哪些</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%92%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.4.1.1.</span> <span class="nav-text">成员变量和局部变量的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8Java%E4%B8%AD%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E4%B8%8D%E5%81%9A%E4%BA%8B%E4%B8%94%E6%B2%A1%E6%9C%89%E5%8F%82%E6%95%B0%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">3.4.2.</span> <span class="nav-text">在Java中定义一个不做事且没有参数的构造方法的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E8%8B%A5%E4%B8%80%E4%B8%AA%E7%B1%BB%E6%B2%A1%E6%9C%89%E5%A3%B0%E6%98%8E%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%EF%BC%8C%E6%94%B9%E7%A8%8B%E5%BA%8F%E8%83%BD%E6%AD%A3%E7%A1%AE%E6%89%A7%E8%A1%8C%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.4.3.</span> <span class="nav-text">一个类的构造方法的作用是什么？若一个类没有声明构造方法，改程序能正确执行吗？为什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="nav-number">3.4.4.</span> <span class="nav-text">构造方法有哪些特性？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E5%92%8C%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F%E5%8C%BA%E5%88%AB"><span class="nav-number">3.4.5.</span> <span class="nav-text">静态变量和实例变量区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E4%B8%8E%E6%99%AE%E9%80%9A%E5%8F%98%E9%87%8F%E5%8C%BA%E5%88%AB"><span class="nav-number">3.4.6.</span> <span class="nav-text">静态变量与普通变量区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E5%92%8C%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95%E6%9C%89%E4%BD%95%E4%B8%8D%E5%90%8C%EF%BC%9F"><span class="nav-number">3.4.7.</span> <span class="nav-text">静态方法和实例方法有何不同？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E5%86%85%E8%B0%83%E7%94%A8%E4%B8%80%E4%B8%AA%E9%9D%9E%E9%9D%99%E6%80%81%E6%88%90%E5%91%98%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E9%9D%9E%E6%B3%95%E7%9A%84%EF%BC%9F"><span class="nav-number">3.4.8.</span> <span class="nav-text">在一个静态方法内调用一个非静态成员为什么是非法的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC%EF%BC%9F%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.4.9.</span> <span class="nav-text">什么是方法的返回值？返回值的作用是什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">3.5.</span> <span class="nav-text">内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%85%E9%83%A8%E7%B1%BB%EF%BC%9F"><span class="nav-number">3.5.1.</span> <span class="nav-text">什么是内部类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB%E7%9A%84%E5%88%86%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">3.5.2.</span> <span class="nav-text">内部类的分类有哪些</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">3.5.3.</span> <span class="nav-text">内部类的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.5.4.</span> <span class="nav-text">内部类有哪些应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%80%E9%83%A8%E5%86%85%E9%83%A8%E7%B1%BB%E5%92%8C%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E8%AE%BF%E9%97%AE%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%98%E9%87%8F%E5%BF%85%E9%A1%BB%E8%A6%81%E5%8A%A0%E4%B8%8Afinal%EF%BC%9F"><span class="nav-number">3.5.5.</span> <span class="nav-text">局部内部类和匿名内部类访问局部变量的时候，为什么变量必须要加上final？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%86%99%E4%B8%8E%E9%87%8D%E8%BD%BD"><span class="nav-number">3.6.</span> <span class="nav-text">重写与重载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%99%A8%EF%BC%88constructor%EF%BC%89%E6%98%AF%E5%90%A6%E5%8F%AF%E8%A2%AB%E9%87%8D%E5%86%99%EF%BC%88override%EF%BC%89"><span class="nav-number">3.6.1.</span> <span class="nav-text">构造器（constructor）是否可被重写（override）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E8%BD%BD%EF%BC%88Overload%EF%BC%89%E5%92%8C%E9%87%8D%E5%86%99%EF%BC%88Override%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB%E3%80%82%E9%87%8D%E8%BD%BD%E7%9A%84%E6%96%B9%E6%B3%95%E8%83%BD%E5%90%A6%E6%A0%B9%E6%8D%AE%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B%E8%BF%9B%E8%A1%8C%E5%8C%BA%E5%88%86%EF%BC%9F"><span class="nav-number">3.6.2.</span> <span class="nav-text">重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%80%BC%E4%BC%A0%E9%80%92"><span class="nav-number">3.7.</span> <span class="nav-text">值传递</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%93%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A2%AB%E5%BD%93%E4%BD%9C%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E5%88%B0%E4%B8%80%E4%B8%AA%E6%96%B9%E6%B3%95%E5%90%8E%EF%BC%8C%E6%AD%A4%E6%96%B9%E6%B3%95%E5%8F%AF%E6%94%B9%E5%8F%98%E8%BF%99%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B1%9E%E6%80%A7%EF%BC%8C%E5%B9%B6%E5%8F%AF%E8%BF%94%E5%9B%9E%E5%8F%98%E5%8C%96%E5%90%8E%E7%9A%84%E7%BB%93%E6%9E%9C%EF%BC%8C%E9%82%A3%E4%B9%88%E8%BF%99%E9%87%8C%E5%88%B0%E5%BA%95%E6%98%AF%E5%80%BC%E4%BC%A0%E9%80%92%E8%BF%98%E6%98%AF%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92"><span class="nav-number">3.7.1.</span> <span class="nav-text">当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-Java-%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92"><span class="nav-number">3.7.2.</span> <span class="nav-text">为什么 Java 中只有值传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%80%BC%E4%BC%A0%E9%80%92%E5%92%8C%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="nav-number">3.7.3.</span> <span class="nav-text">值传递和引用传递有什么区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IO%E6%B5%81"><span class="nav-number">4.</span> <span class="nav-text">IO流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#java-%E4%B8%AD-IO-%E6%B5%81%E5%88%86%E4%B8%BA%E5%87%A0%E7%A7%8D"><span class="nav-number">4.0.1.</span> <span class="nav-text">java 中 IO 流分为几种?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BIO-NIO-AIO-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="nav-number">4.0.2.</span> <span class="nav-text">BIO,NIO,AIO 有什么区别?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Files%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">4.0.3.</span> <span class="nav-text">Files的常用方法都有哪些？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">4.1.</span> <span class="nav-text">反射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="nav-number">4.1.1.</span> <span class="nav-text">什么是反射机制？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">4.1.2.</span> <span class="nav-text">反射机制优缺点</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
+      src="/images/next/avatar.gif">
+  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
+  <div class="site-description" itemprop="description">Monochrome</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2021/05/28/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/next/avatar.gif">
+      <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="description" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝阳暮逝忆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java基础知识
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-05-28 10:48:08" itemprop="dateCreated datePublished" datetime="2021-05-28T10:48:08+08:00">2021-05-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-06-24 21:31:40" itemprop="dateModified" datetime="2021-06-24T21:31:40+08:00">2021-06-24</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向对象编程语言的代表，极好地实现了面向对象理论，允许程序员以优雅的思维方式进行复杂的编程。</p>
+<span id="more"></span>
+
+<h1 id="Java概述"><a href="#Java概述" class="headerlink" title="Java概述"></a>Java概述</h1><h2 id="什么是跨平台性？原理是什么"><a href="#什么是跨平台性？原理是什么" class="headerlink" title="什么是跨平台性？原理是什么"></a>什么是跨平台性？原理是什么</h2><p>所谓跨平台性，是指java语言编写的程序，一次编译后，可以在多个系统平台上运行。</p>
+<p>实现原理：Java程序是通过java虚拟机在系统平台上运行的，只要该系统可以安装相应的java虚拟机，该系统就可以运行java程序。</p>
+<h2 id="Java语言有哪些特点"><a href="#Java语言有哪些特点" class="headerlink" title="Java语言有哪些特点"></a>Java语言有哪些特点</h2><ul>
+<li>简单易学（Java语言的语法与C语言和C++语言很接近）</li>
+<li>面向对象（封装，继承，多态）</li>
+<li>平台无关性（Java虚拟机实现平台无关性）</li>
+<li>支持网络编程并且很方便（Java语言诞生本身就是为简化网络编程设计的）</li>
+<li>支持多线程（多线程机制使应用程序在同一时间并行执行多项任）</li>
+<li>健壮性（Java语言的强类型机制、异常处理、垃圾的自动收集等）</li>
+<li>安全性</li>
+</ul>
+<h2 id="Oracle-JDK-和-OpenJDK-的对比"><a href="#Oracle-JDK-和-OpenJDK-的对比" class="headerlink" title="Oracle JDK 和 OpenJDK 的对比"></a>Oracle JDK 和 OpenJDK 的对比</h2><ol>
+<li>Oracle JDK版本将每三年发布一次，而OpenJDK版本每三个月发布一次；</li>
+<li>OpenJDK 是一个参考模型并且是完全开源的，而Oracle JDK是OpenJDK的一个实现，并不是完全<br> 开源的；</li>
+<li>Oracle JDK 比 OpenJDK 更稳定。OpenJDK和Oracle JDK的代码几乎相同，但Oracle JDK有更多的类和一些错误修复。因此，如果您想开发企业/商业软件，我建议您选择Oracle JDK，因为它经过了彻底的测试和稳定。某些情况下，有些人提到在使用OpenJDK 可能会遇到了许多应用程序崩溃的问题，但是，只需切换到Oracle JDK就可以解决问题；</li>
+<li>在响应性和JVM性能方面，Oracle JDK与OpenJDK相比提供了更好的性能；</li>
+<li>Oracle JDK不会为即将发布的版本提供长期支持，用户每次都必须通过更新到最新版本获得支持来获取最新版本；</li>
+<li>Oracle JDK根据二进制代码许可协议获得许可，而OpenJDK根据GPL v2许可获得许可。</li>
+</ol>
+<h1 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="Java有哪些数据类型"><a href="#Java有哪些数据类型" class="headerlink" title="Java有哪些数据类型"></a>Java有哪些数据类型</h3><p><strong>定义</strong>：Java语言是强类型语言，对于每一种数据都定义了明确的具体的数据类型，在内存中分配了不同大小的内存空间。<br><strong>分类</strong></p>
+<ul>
+<li>基本数据类型<ul>
+<li>数值型<ul>
+<li>整数类型(byte,short,int,long)</li>
+<li>浮点类型(float,double)</li>
+</ul>
+</li>
+<li>字符型(char)</li>
+<li>布尔型(boolean)</li>
+</ul>
+</li>
+<li>引用数据类型<ul>
+<li>类(class)</li>
+<li>接口(interface)</li>
+<li>数组([])</li>
+</ul>
+</li>
+</ul>
+<p><strong>Java基本数据类型图</strong></p>
+<p><img src="/images/Java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/Java%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B.png" alt="Java基本类型"></p>
+<h3 id="switch-是否能作用在-byte-上，是否能作用在-long-上，是否能作用在-String-上"><a href="#switch-是否能作用在-byte-上，是否能作用在-long-上，是否能作用在-String-上" class="headerlink" title="switch 是否能作用在 byte 上，是否能作用在 long 上，是否能作用在 String 上"></a>switch 是否能作用在 byte 上，是否能作用在 long 上，是否能作用在 String 上</h3><p>在 Java 5 以前，switch(expr)中，expr 只能是 <code>byte、short、char、int</code>。从 Java5 开始，Java 中引入了枚举类型，expr 也可以是<code>enum</code>类型，从 Java 7 开始，expr 还可以是字符串<code>String</code>，但是长整型<code>long</code>在目前所有的版本中都是不可以的</p>
+<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><h3 id="this与super的区别"><a href="#this与super的区别" class="headerlink" title="this与super的区别"></a>this与super的区别</h3><ul>
+<li>super: 它引用当前对象的直接父类中的成员（用来访问直接父类中被隐藏的父类中成员数据或函数，基类与派生类中有相同成员定义时如：super.变量名 super.成员函数据名（实参）</li>
+<li>this：它代表当前对象名（在程序中易产生二义性之处，应使用this来指明当前对象；如果函数的形参与类中的成员数据同名，这时需用this来指明成员变量名）</li>
+<li>super()和this()类似,区别是，super()在子类中调用父类的构造方法，this()在本类内调用本类的其它构造方法。</li>
+<li>super()和this()均需放在构造方法内第一行。</li>
+<li>尽管可以用this调用一个构造器，但却不能调用两个。</li>
+<li>this和super不能同时出现在一个构造函数里面，因为this必然会调用其它的构造函数，其它的构造函数必然也会有super语句的存在，所以在同一个构造函数里面有相同的语句，就失去了语句的意义，编译器也不会通过。</li>
+<li>this()和super()都指的是对象，所以，均不可以在static环境中使用。包括：static变量,static方法，static语句块。</li>
+<li>从本质上讲，this是一个指向本对象的指针, 然而super是一个Java关键字</li>
+</ul>
+<h3 id="static存在的主要意义"><a href="#static存在的主要意义" class="headerlink" title="static存在的主要意义"></a>static存在的主要意义</h3><p>static的主要意义是在于创建独立于具体对象的域变量或者方法。<strong>以致于即使没有创建对象，也能使用属性和调用方法！</strong></p>
+<p>static关键字还有一个比较关键的作用就是 <strong>用来形成静态代码块以优化程序性能</strong>。static块可以置于类中的任何地方，类中可以有多个static块。在类初次被加载的时候，会按照static块的顺序来执行每个static块，并且只会执行一次。</p>
+<p>为什么说static块可以用来优化程序性能，是因为它的特性:只会在类加载的时候执行一次。因此，很多时候会将一些只需要进行一次的初始化操作都放在static代码块中进行。</p>
+<h3 id="static的独特之处"><a href="#static的独特之处" class="headerlink" title="static的独特之处"></a>static的独特之处</h3><ol>
+<li>被<code>static</code>修饰的变量或者方法是独立于该类的任何对象，也就是说，这些变量和方法不属于任何一个<br>实例对象，而是被类的实例对象所共享。</li>
+<li>在该类被第一次加载的时候，就会去加载被<code>static</code>修饰的部分，而且只在类第一次使用时加载并进行<br>初始化，注意这是第一次用就要初始化，后面根据需要是可以再次赋值的。</li>
+<li><code>static</code>变量值在类加载的时候分配空间，以后创建类对象的时候不会重新分配。赋值的话，是可以任意赋值的！</li>
+<li>被<code>static</code>修饰的变量或者方法是优先于对象存在的，也就是说当一个类加载完毕之后，即便没有创建对象，也可以去访问。</li>
+</ol>
+<h3 id="static应用场景"><a href="#static应用场景" class="headerlink" title="static应用场景"></a>static应用场景</h3><p>因为static是被类的实例对象所共享，因此<strong>如果某个成员变量是被所有对象所共享的，那么这个成员变量就应该定义为静态变量。</strong></p>
+<p>因此比较常见的static应用场景有：</p>
+<ol>
+<li>修饰成员变量 </li>
+<li>修饰成员方法</li>
+<li>静态代码块</li>
+<li>修饰类【只能修饰内部类也就是静态内部类】</li>
+<li>静态导包</li>
+</ol>
+<p>static注意事项</p>
+<ol>
+<li>静态只能访问静态</li>
+<li>非静态既可以访问非静态的，也可以访问静态的</li>
+</ol>
+<h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><h2 id="面向对象概述"><a href="#面向对象概述" class="headerlink" title="面向对象概述"></a>面向对象概述</h2><h3 id="面向对象和面向过程的区别"><a href="#面向对象和面向过程的区别" class="headerlink" title="面向对象和面向过程的区别"></a>面向对象和面向过程的区别</h3><p>面向过程：</p>
+<p>优点：性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源;比如单片机、嵌入式开发、Linux/Unix等一般采用面向过程开发，性能是最重要的因素。</p>
+<p>缺点：没有面向对象易维护、易复用、易扩展</p>
+<p>面向对象：</p>
+<p>优点：易维护、易复用、易扩展，由于面向对象有封装、继承、多态性的特性，可以设计出低耦合的系统，使系统更加灵活、更加易于维护</p>
+<p>缺点：性能比面向过程低</p>
+<p>面向过程是具体化的，流程化的，解决一个问题，你需要一步一步的分析，一步一步的实现。面向对象是模型化的，你只需抽象出一个类，这是一个封闭的盒子，在这里你拥有数据也拥有解决问题的方法。需要什么功能直接使用就可以了，不必去一步一步的实现，至于这个功能是如何实现的，管我们什么事？我们会用就可以了。面向对象的底层其实还是面向过程，把面向过程抽象成类，然后封装，方便我们使用的就是面向对象了。</p>
+<h2 id="面向对象三大特性"><a href="#面向对象三大特性" class="headerlink" title="面向对象三大特性"></a>面向对象三大特性</h2><h3 id="面向对象的特征有哪些方面"><a href="#面向对象的特征有哪些方面" class="headerlink" title="面向对象的特征有哪些方面"></a>面向对象的特征有哪些方面</h3><p><strong>抽象</strong>：抽象是将一类对象的共同特征总结出来构造类的过程，包括数据抽象和行为抽象两方面。抽象只关注对象有哪些属性和行为，并不关注这些行为的细节是什么。</p>
+<p><strong>封装</strong>：封装把一个对象的属性私有化，同时提供一些可以被外界访问的属性的方法，如果属性不想被外界访问，我们大可不必提供方法给外界访问。但是如果一个类没有提供给外界访问的方法，那么这个类也没有什么意义了。</p>
+<p><strong>继承</strong>：继承是使用已存在的类的定义作为基础建立新类的技术，新类的定义可以增加新的数据或新的功能，也可以用父类的功能，但不能选择性地继承父类。通过使用继承我们能够非常方便地复用以前的代码。</p>
+<p>关于继承如下 3 点请记住：</p>
+<ol>
+<li>子类拥有父类非 private 的属性和方法。</li>
+<li>子类可以拥有自己属性和方法，即子类可以对父类进行扩展。</li>
+<li>子类可以用自己的方式实现父类的方法。</li>
+</ol>
+<p><strong>多态</strong>：所谓多态就是指程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在编程时并不确定，而是在程序运行期间才确定，即一个引用变量到底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定。</p>
+<p>在Java中有两种形式可以实现多态：继承（多个子类对同一方法的重写）和接口（实现接口并覆盖接口中同一方法）。</p>
+<p>方法重载（overload）实现的是编译时的多态性（也称为前绑定），而方法重写（override）实现的是运行时的多态性（也称为后绑定）。一个引用变量到底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定。运行时的多态是面向对象最精髓的东西，要实现多态需要做两件事：</p>
+<p>方法重写（子类继承父类并重写父类中已有的或抽象的方法）；</p>
+<p>对象造型（用父类型引用子类型对象，这样同样的引用调用同样的方法就会根据子类对象的不同而表现出不同的行为）。</p>
+<h3 id="什么是多态机制？Java语言是如何实现多态的？"><a href="#什么是多态机制？Java语言是如何实现多态的？" class="headerlink" title="什么是多态机制？Java语言是如何实现多态的？"></a>什么是多态机制？Java语言是如何实现多态的？</h3><p>所谓多态就是指程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在编程时并不确定，而是在程序运行期间才确定，即一个引用变量倒底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定。因为在程序运行时才确定具体的类，这样，不用修改源程序代码，就可以让引用变量绑定到各种不同的类实现上，从而导致该引用调用的具体方法随之改变，即不修改程序代码就可以改变程序运行时所绑定的具体代码，让程序可以选择多个运行状态，这就是多态性。</p>
+<p>多态分为编译时多态和运行时多态。其中编辑时多态是静态的，主要是指方法的重载，它是根据参数列表的不同来区分不同的函数，通过编辑之后会变成两个不同的函数，在运行时谈不上多态。而运行时多态是动态的，它是通过动态绑定来实现的，也就是我们所说的多态性。</p>
+<h4 id="多态的实现"><a href="#多态的实现" class="headerlink" title="多态的实现"></a>多态的实现</h4><p>Java实现多态有三个必要条件：继承、重写、向上转型。</p>
+<p>继承：在多态中必须存在有继承关系的子类和父类。</p>
+<p>重写：子类对父类中某些方法进行重新定义，在调用这些方法时就会调用子类的方法。</p>
+<p>向上转型：在多态中需要将子类的引用赋给父类对象，只有这样该引用才能够具备技能调用父类的方法和子类的方法。</p>
+<p>只有满足了上述三个条件，我们才能够在同一个继承结构中使用统一的逻辑实现代码处理不同的对象，从而达到执行不同的行为。</p>
+<p>对于Java而言，它多态的实现机制遵循一个原则：当超类对象引用变量引用子类对象时，被引用对象的类型而不是引用变量的类型决定了调用谁的成员方法，但是这个被调用的方法必须是在超类中定义过的，也就是说被子类覆盖的方法。</p>
+<h3 id="面向对象五大基本原则是什么（可选）"><a href="#面向对象五大基本原则是什么（可选）" class="headerlink" title="面向对象五大基本原则是什么（可选）"></a>面向对象五大基本原则是什么（可选）</h3><ul>
+<li><p>单一职责原则SRP(Single Responsibility Principle)</p>
+<p>类的功能要单一，不能包罗万象，跟杂货铺似的。</p>
+</li>
+<li><p>开放封闭原则OCP(Open－Close Principle)</p>
+<p>一个模块对于拓展是开放的，对于修改是封闭的，想要增加功能热烈欢迎，想要修改，哼，一万个不乐意。</p>
+</li>
+<li><p>里式替换原则LSP(the Liskov Substitution Principle LSP)</p>
+<p>子类可以替换父类出现在父类能够出现的任何地方。比如你能代表你爸去你姥姥家干活。哈哈~~</p>
+</li>
+<li><p>依赖倒置原则DIP(the Dependency Inversion Principle DIP)</p>
+<p>高层次的模块不应该依赖于低层次的模块，他们都应该依赖于抽象。抽象不应该依赖于具体实现，具体实现应该依赖于抽象。就是你出国要说你是中国人，而不能说你是哪个村子的。比如说中国人是抽象的，下面有具体的xx省，xx市，xx县。你要依赖的抽象是中国人，而不是你是xx村的。</p>
+</li>
+<li><p>接口分离原则ISP(the Interface Segregation Principle ISP)</p>
+<p>设计时采用多个与特定客户类有关的接口比采用一个通用的接口要好。就比如一个手机拥有打电话，看视频，玩游戏等功能，把这几个功能拆分成不同的接口，比在一个接口里要好的多。</p>
+</li>
+</ul>
+<h2 id="类与接口"><a href="#类与接口" class="headerlink" title="类与接口"></a>类与接口</h2><h3 id="抽象类和接口的对比"><a href="#抽象类和接口的对比" class="headerlink" title="抽象类和接口的对比"></a>抽象类和接口的对比</h3><p>抽象类是用来捕捉子类的通用特性的。接口是抽象方法的集合。</p>
+<p>从设计层面来说，抽象类是对类的抽象，是一种模板设计，接口是行为的抽象，是一种行为的规范。</p>
+<p><strong>相同点</strong></p>
+<ul>
+<li>接口和抽象类都不能实例化</li>
+<li>都位于继承的顶端，用于被其他实现或继承</li>
+<li>都包含抽象方法，其子类都必须覆写这些抽象方法</li>
+</ul>
+<p><strong>不同点</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>抽象类</th>
+<th>接口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>声明</td>
+<td>抽象类使用<code>abstract</code>关键字声明</td>
+<td>接口使用<code>interface</code>关键字声明</td>
+</tr>
+<tr>
+<td>实现</td>
+<td>子类使用<code>extends</code>关键字来继承抽象类。如果子类不是抽象类的话，它需要提供抽象类中所有声明的方法的实现</td>
+<td>子类使用<code>implements</code>关键字来实现接口。它需要提供接口中所有声明的方法的实现</td>
+</tr>
+<tr>
+<td>构造器</td>
+<td>抽象类可以有构造器</td>
+<td>接口不能有构造器</td>
+</tr>
+<tr>
+<td>访问修饰符</td>
+<td>抽象类中的方法可以是任意访问修饰符</td>
+<td>接口方法默认修饰符是<code>public</code>。并且不允许定义为<code>private</code>或者<code>protected</code></td>
+</tr>
+<tr>
+<td>多继承</td>
+<td>一个类最多只能继承一个抽象类</td>
+<td>一个类可以实现多个接口</td>
+</tr>
+<tr>
+<td>字段声明</td>
+<td>抽象类的字段声明可以是任意的</td>
+<td>接口的字段默认都是<code>static</code>和<code>final</code>的</td>
+</tr>
+</tbody></table>
+<p><strong>备注</strong>：Java8中接口中引入默认方法和静态方法，以此来减少抽象类和接口之间的差异。</p>
+<p>现在，我们可以为接口提供默认实现的方法了，并且不用强制子类来实现它。</p>
+<p>接口和抽象类各有优缺点，在接口和抽象类的选择上，必须遵守这样一个原则：</p>
+<ul>
+<li>行为模型应该总是通过接口而不是抽象类定义，所以通常是优先选用接口，尽量少用抽象类。</li>
+<li>选择抽象类的时候通常是如下情况：需要定义子类的行为，又要为子类提供通用的功能。</li>
+</ul>
+<h3 id="普通类和抽象类有哪些区别？"><a href="#普通类和抽象类有哪些区别？" class="headerlink" title="普通类和抽象类有哪些区别？"></a>普通类和抽象类有哪些区别？</h3><p>普通类不能包含抽象方法，抽象类可以包含抽象方法。</p>
+<p>抽象类不能直接实例化，普通类可以直接实例化。</p>
+<h3 id="抽象类能使用-final-修饰吗？"><a href="#抽象类能使用-final-修饰吗？" class="headerlink" title="抽象类能使用 final 修饰吗？"></a>抽象类能使用 final 修饰吗？</h3><p>不能，定义抽象类就是让其他类继承的，如果定义为<code>final</code>该类就不能被继承，这样彼此就会产生矛盾，所以<code>final</code>不能修饰抽象类</p>
+<h2 id="变量与方法"><a href="#变量与方法" class="headerlink" title="变量与方法"></a>变量与方法</h2><h3 id="成员变量与局部变量的区别有哪些"><a href="#成员变量与局部变量的区别有哪些" class="headerlink" title="成员变量与局部变量的区别有哪些"></a>成员变量与局部变量的区别有哪些</h3><p>变量：在程序执行的过程中，在某个范围内其值可以发生改变的量。从本质上讲，变量其实是内存中的一小块区域</p>
+<p>成员变量：方法外部，类内部定义的变量</p>
+<p>局部变量：类的方法中的变量。</p>
+<h4 id="成员变量和局部变量的区别"><a href="#成员变量和局部变量的区别" class="headerlink" title="成员变量和局部变量的区别"></a>成员变量和局部变量的区别</h4><p>作用域</p>
+<ul>
+<li>成员变量：针对整个类有效。</li>
+<li>局部变量：只在某个范围内有效。(一般指的就是方法,语句体内)</li>
+</ul>
+<p>存储位置</p>
+<ul>
+<li>成员变量：随着对象的创建而存在，随着对象的消失而消失，存储在堆内存中。</li>
+<li>局部变量：在方法被调用，或者语句被执行的时候存在，存储在栈内存中。当方法调用完，或者语句结束后，就自动释放。</li>
+</ul>
+<p>生命周期</p>
+<ul>
+<li>成员变量：随着对象的创建而存在，随着对象的消失而消失</li>
+<li>局部变量：当方法调用完，或者语句结束后，就自动释放。</li>
+</ul>
+<p>初始值</p>
+<ul>
+<li>成员变量：有默认初始值。</li>
+<li>局部变量：没有默认初始值，使用前必须赋值。</li>
+</ul>
+<p>使用原则</p>
+<ul>
+<li>在使用变量时需要遵循的原则为：就近原则</li>
+<li>首先在局部范围找，有就使用；接着在成员位置找。</li>
+</ul>
+<h3 id="在Java中定义一个不做事且没有参数的构造方法的作用"><a href="#在Java中定义一个不做事且没有参数的构造方法的作用" class="headerlink" title="在Java中定义一个不做事且没有参数的构造方法的作用"></a>在Java中定义一个不做事且没有参数的构造方法的作用</h3><p>Java程序在执行子类的构造方法之前，如果没有用super()来调用父类特定的构造方法，则会调用父类中“没有参数的构造方法”。因此，如果父类中只定义了有参数的构造方法，而在子类的构造方法中又没有用super()来调用父类中特定的构造方法，则编译时将发生错误，因为Java程序在父类中找不到没有参数的构造方法可供执行。解决办法是在父类里加上一个不做事且没有参数的构造方法。</p>
+<h3 id="一个类的构造方法的作用是什么？若一个类没有声明构造方法，改程序能正确执行吗？为什么？"><a href="#一个类的构造方法的作用是什么？若一个类没有声明构造方法，改程序能正确执行吗？为什么？" class="headerlink" title="一个类的构造方法的作用是什么？若一个类没有声明构造方法，改程序能正确执行吗？为什么？"></a>一个类的构造方法的作用是什么？若一个类没有声明构造方法，改程序能正确执行吗？为什么？</h3><p>主要作用是完成对类对象的初始化工作。可以执行。因为一个类即使没有声明构造方法也会有默认的不带参数的构造方法。</p>
+<h3 id="构造方法有哪些特性？"><a href="#构造方法有哪些特性？" class="headerlink" title="构造方法有哪些特性？"></a>构造方法有哪些特性？</h3><ul>
+<li>名字与类名相同；</li>
+<li>没有返回值，但不能用void声明构造函数；</li>
+<li>生成类的对象时自动执行，无需调用。</li>
+</ul>
+<h3 id="静态变量和实例变量区别"><a href="#静态变量和实例变量区别" class="headerlink" title="静态变量和实例变量区别"></a>静态变量和实例变量区别</h3><p>静态变量： 静态变量由于不属于任何实例对象，属于类的，所以在内存中只会有一份，在类的加载过程中，JVM只为静态变量分配一次内存空间。</p>
+<p>实例变量： 每次创建对象，都会为每个对象分配成员变量内存空间，实例变量是属于实例对象的，在内存中，创建几次对象，就有几份成员变量。</p>
+<h3 id="静态变量与普通变量区别"><a href="#静态变量与普通变量区别" class="headerlink" title="静态变量与普通变量区别"></a>静态变量与普通变量区别</h3><p><code>static</code>变量也称作静态变量，静态变量和非静态变量的区别是：静态变量被所有的对象所共享，在内存中只有一个副本，它当且仅当在类初次加载时会被初始化。而非静态变量是对象所拥有的，在创建对象的时候被初始化，存在多个副本，各个对象拥有的副本互不影响。</p>
+<p>还有一点就是<code>static</code>成员变量的初始化顺序按照定义的顺序进行初始化。</p>
+<h3 id="静态方法和实例方法有何不同？"><a href="#静态方法和实例方法有何不同？" class="headerlink" title="静态方法和实例方法有何不同？"></a>静态方法和实例方法有何不同？</h3><p>静态方法和实例方法的区别主要体现在两个方面：</p>
+<ol>
+<li>在外部调用静态方法时，可以使用”类名.方法名”的方式，也可以使用”对象名.方法名”的方式。而实例方法只有后面这种方式。也就是说，调用静态方法可以无需创建对象。</li>
+<li>静态方法在访问本类的成员时，只允许访问静态成员（即静态成员变量和静态方法），而不允许访问实例成员变量和实例方法；实例方法则无此限制</li>
+</ol>
+<h3 id="在一个静态方法内调用一个非静态成员为什么是非法的？"><a href="#在一个静态方法内调用一个非静态成员为什么是非法的？" class="headerlink" title="在一个静态方法内调用一个非静态成员为什么是非法的？"></a>在一个静态方法内调用一个非静态成员为什么是非法的？</h3><p>由于静态方法可以不通过对象进行调用，因此在静态方法里，不能调用其他非静态变量，也不可以访问非静态变量成员。</p>
+<h3 id="什么是方法的返回值？返回值的作用是什么？"><a href="#什么是方法的返回值？返回值的作用是什么？" class="headerlink" title="什么是方法的返回值？返回值的作用是什么？"></a>什么是方法的返回值？返回值的作用是什么？</h3><p>方法的返回值是指我们获取到的某个方法体中的代码执行后产生的结果！（前提是该方法可能产生结果）。返回值的作用:接收出结果，使得它可以用于其他的操作！</p>
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><h3 id="什么是内部类？"><a href="#什么是内部类？" class="headerlink" title="什么是内部类？"></a>什么是内部类？</h3><p>在Java中，可以将一个类的定义放在另外一个类的定义内部，这就是内部类。内部类本身就是类的一个属性，与其他属性定义方式一致。</p>
+<h3 id="内部类的分类有哪些"><a href="#内部类的分类有哪些" class="headerlink" title="内部类的分类有哪些"></a>内部类的分类有哪些</h3><p>内部类可以分为四种：<strong>静态内部类</strong>、<strong>成员内部类</strong>、<strong>局部内部类</strong>、<strong>匿名内部类</strong>。</p>
+<p><strong>静态内部类：</strong></p>
+<p>定义在类内部的静态类，就是静态内部类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> radius = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticInner</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;visit outer static variable:&quot;</span> + radius);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Outer.StaticInner inner = <span class="keyword">new</span> Outer.StaticInner();</span><br><span class="line">        StaticInner inner2 = <span class="keyword">new</span> StaticInner();</span><br><span class="line">        inner.visit();</span><br><span class="line">        inner2.visit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>静态内部类可以访问外部类所有的静态变量，而不可访问外部类的非静态变量；静态内部类的创建方式： <code>new 外部类.静态内部类()</code> ,如果在外部类里可以直接<code>StaticInner inner2 = new StaticInner();</code></p>
+<p><strong>成员内部类：</strong></p>
+<p>定义在类内部，成员位置上的非静态类，就是成员内部类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> radius = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count =<span class="number">2</span>;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;visit outer static variable:&quot;</span> + radius);</span><br><span class="line">            System.out.println(<span class="string">&quot;visit outer variable:&quot;</span> + count);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Outer outer = <span class="keyword">new</span> Outer();</span><br><span class="line">        Outer.Inner inner = outer.<span class="function">new <span class="title">Inner</span><span class="params">()</span></span>;</span><br><span class="line">        inner.visit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>成员内部类可以访问外部类所有的变量和方法，包括静态和非静态，私有和公有。成员内部类依赖于外部类的实例，它的创建方式：<code>外部类实例.new 内部类()</code></p>
+<p><strong>局部内部类：</strong></p>
+<p>定义在方法中的内部类，就是局部内部类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> out_a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> STATIC_b = <span class="number">2</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testFunctionClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> inner_c = <span class="number">3</span>;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;</span><br><span class="line">            <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fun</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(out_a);</span><br><span class="line">                System.out.println(STATIC_b);</span><br><span class="line">                System.out.println(inner_c);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Inner inner = <span class="keyword">new</span> Inner();</span><br><span class="line">        inner.fun();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testStaticFunctionClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> d = <span class="number">3</span>;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;</span><br><span class="line">            <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fun</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="comment">// System.out.println(out_a); 编译错误，定义在静态方法中的局部类不可以访问外部类的实例变量</span></span><br><span class="line">                System.out.println(STATIC_b);</span><br><span class="line">                System.out.println(d);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Inner inner = <span class="keyword">new</span> Inner();</span><br><span class="line">        inner.fun();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义在实例方法中的局部类可以访问外部类的所有变量和方法，定义在静态方法中的局部类只能访问外部类的静态变量和方法。局部内部类的创建方式，在对应方法内， <code>new 内部类()</code> ，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testStaticFunctionClass</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	Inner inner = <span class="keyword">new</span> Inner();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>匿名内部类：</strong></p>
+<p>匿名内部类就是没有名字的内部类，日常开发中使用的比较多。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Service() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;匿名内部类&quot;</span> );</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.method();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//匿名内部类必须继承或实现一个已有的接口</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Service</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除了没有名字，匿名内部类还有以下特点：</p>
+<ul>
+<li>匿名内部类必须继承一个抽象类或者实现一个接口。</li>
+<li>匿名内部类不能定义任何静态成员和静态方法。</li>
+<li>当所在的方法的形参需要被匿名内部类使用时，必须声明为 final。</li>
+<li>匿名内部类不能是抽象的，它必须要实现继承的类或者实现的接口的所有抽象方法。</li>
+</ul>
+<p>匿名内部类创建方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> 类/接口&#123;</span><br><span class="line">	<span class="comment">//匿名内部类实现部分</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="内部类的优点"><a href="#内部类的优点" class="headerlink" title="内部类的优点"></a>内部类的优点</h3><ul>
+<li>一个内部类对象可以访问创建它的外部类对象的内容，包括私有数据！</li>
+<li>内部类不为同一包的其他类所见，具有很好的封装性；</li>
+<li>内部类有效实现了“多重继承”，优化 java 单继承的缺陷。</li>
+<li>匿名内部类可以很方便的定义回调。</li>
+</ul>
+<h3 id="内部类有哪些应用场景"><a href="#内部类有哪些应用场景" class="headerlink" title="内部类有哪些应用场景"></a>内部类有哪些应用场景</h3><ol>
+<li>一些多算法场合</li>
+<li>解决一些非面向对象的语句块。</li>
+<li>适当使用内部类，使得代码更加灵活和富有扩展性。</li>
+<li>当某个类除了它的外部类，不再被其他的类使用时。</li>
+</ol>
+<h3 id="局部内部类和匿名内部类访问局部变量的时候，为什么变量必须要加上final？"><a href="#局部内部类和匿名内部类访问局部变量的时候，为什么变量必须要加上final？" class="headerlink" title="局部内部类和匿名内部类访问局部变量的时候，为什么变量必须要加上final？"></a>局部内部类和匿名内部类访问局部变量的时候，为什么变量必须要加上<code>final</code>？</h3><p>先看这段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Outer &#123;</span><br><span class="line">	void outMethod()&#123;</span><br><span class="line">		final int a &#x3D; 10;</span><br><span class="line">		class Inner &#123;</span><br><span class="line">			void innerMethod()&#123;</span><br><span class="line">				System.out.println(a);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上例子，为什么要加<code>final</code>呢？是因为生命周期不一致， 局部变量直接存储在栈中，当方法执行结束后，非<code>final</code>的局部变量就被销毁。而局部内部类对局部变量的引用依然存在，如果局部内部类要调用局部变量时，就会出错。加了<code>final</code>，可以确保局部内部类使用的变量与外层的局部变量区分开，解决了这个问题。</p>
+<h2 id="重写与重载"><a href="#重写与重载" class="headerlink" title="重写与重载"></a>重写与重载</h2><h3 id="构造器（constructor）是否可被重写（override）"><a href="#构造器（constructor）是否可被重写（override）" class="headerlink" title="构造器（constructor）是否可被重写（override）"></a>构造器（constructor）是否可被重写（override）</h3><p>构造器不能被继承，因此不能被重写，但可以被重载。</p>
+<h3 id="重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？"><a href="#重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？" class="headerlink" title="重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？"></a>重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？</h3><p>方法的重载和重写都是实现多态的方式，区别在于前者实现的是编译时的多态性，而后者实现的是运行时的多态性。</p>
+<p>重载：发生在同一个类中，方法名相同参数列表不同（参数类型不同、个数不同、顺序不同），与方法返回值和访问修饰符无关，即重载的方法不能根据返回类型进行区分</p>
+<p>重写：发生在父子类中，方法名、参数列表必须相同，返回值小于等于父类，抛出的异常小于等于父类，访问修饰符大于等于父类（里氏代换原则）；如果父类方法访问修饰符为private则子类中就不是重写。</p>
+<h2 id="值传递"><a href="#值传递" class="headerlink" title="值传递"></a>值传递</h2><h3 id="当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递"><a href="#当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递" class="headerlink" title="当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递"></a>当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递</h3><p>是值传递。Java 语言的方法调用只支持参数的值传递。当一个对象实例作为一个参数被传递到方法中时，参数的值就是对该对象的引用。对象的属性可以在被调用过程中被改变，但对对象引用的改变是不会影响到调用者的</p>
+<h3 id="为什么-Java-中只有值传递"><a href="#为什么-Java-中只有值传递" class="headerlink" title="为什么 Java 中只有值传递"></a>为什么 Java 中只有值传递</h3><p>首先回顾一下在程序设计语言中有关将参数传递给方法（或函数）的一些专业术语。按值调用(call by value)表示方法接收的是调用者提供的值，而按引用调用（call by reference)表示方法接收的是调用者提供的变量地址。一个方法可以修改传递引用所对应的变量值，而不能修改传递值调用所对应的变量值。 它用来描述各种程序设计语言（不只是Java)中方法参数传递方式。</p>
+<p>Java程序设计语言总是采用按值调用。也就是说，方法得到的是所有参数值的一个拷贝，也就是说，方法不能修改传递给它的任何参数变量的内容。</p>
+<h3 id="值传递和引用传递有什么区别"><a href="#值传递和引用传递有什么区别" class="headerlink" title="值传递和引用传递有什么区别"></a>值传递和引用传递有什么区别</h3><p>值传递：指的是在方法调用时，传递的参数是按值的拷贝传递，传递的是值的拷贝，也就是说传递后就互不相关了。</p>
+<p>引用传递：指的是在方法调用时，传递的参数是按引用进行传递，其实传递的引用的地址，也就是变量所对应的内存空间的地址。传递的是值的引用，也就是说传递前和传递后都指向同一个引用（也就是同一个内存空间）。</p>
+<h1 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h1><h3 id="java-中-IO-流分为几种"><a href="#java-中-IO-流分为几种" class="headerlink" title="java 中 IO 流分为几种?"></a>java 中 IO 流分为几种?</h3><ul>
+<li>按照流的流向分，可以分为输入流和输出流；</li>
+<li>按照操作单元划分，可以划分为字节流和字符流；</li>
+<li>按照流的角色划分为节点流和处理流。</li>
+</ul>
+<p>Java IO流共涉及40多个类，这些类看上去很杂乱，但实际上很有规则，而且彼此之间存在非常紧密的联系， Java IO流的40多个类都是从如下4个抽象类基类中派生出来的。</p>
+<ul>
+<li><code>InputStream/Reader</code>: 所有的输入流的基类，前者是字节输入流，后者是字符输入流。</li>
+<li><code>OutputStream/Writer</code>: 所有输出流的基类，前者是字节输出流，后者是字符输出流。</li>
+</ul>
+<p>按操作方式分类结构图：</p>
+<p><img src="/images/Java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/IO%E6%B5%81%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F%E5%88%92%E5%88%86.png" alt="IO流操作方式划分"></p>
+<p>按操作对象分类结构图：</p>
+<p><img src="/images/Java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/IO%E6%B5%81%E6%93%8D%E4%BD%9C%E5%AF%B9%E8%B1%A1%E5%88%92%E5%88%86.png" alt="IO流操作对象划分"></p>
+<h3 id="BIO-NIO-AIO-有什么区别"><a href="#BIO-NIO-AIO-有什么区别" class="headerlink" title="BIO,NIO,AIO 有什么区别?"></a>BIO,NIO,AIO 有什么区别?</h3><ul>
+<li>BIO：Block IO 同步阻塞式 IO，就是我们平常使用的传统 IO，它的特点是模式简单使用方便，并发处理能力低。</li>
+<li>NIO：Non IO 同步非阻塞 IO，是传统 IO 的升级，客户端和服务器端通过 Channel（通道）通讯，实现了多路复用。</li>
+<li>AIO：Asynchronous IO 是 NIO 的升级，也叫 NIO2，实现了异步非堵塞 IO ，异步 IO 的操作基于事件和回调机制。</li>
+</ul>
+<h3 id="Files的常用方法都有哪些？"><a href="#Files的常用方法都有哪些？" class="headerlink" title="Files的常用方法都有哪些？"></a>Files的常用方法都有哪些？</h3><ul>
+<li>Files. exists()：检测文件路径是否存在。</li>
+<li>Files. createFile()：创建文件。</li>
+<li>Files. createDirectory()：创建文件夹。</li>
+<li>Files. delete()：删除一个文件或目录。</li>
+<li>Files. copy()：复制文件。</li>
+<li>Files. move()：移动文件。</li>
+<li>Files. size()：查看文件个数。</li>
+<li>Files. read()：读取文件。</li>
+<li>Files. write()：写入文件。</li>
+</ul>
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><h3 id="什么是反射机制？"><a href="#什么是反射机制？" class="headerlink" title="什么是反射机制？"></a>什么是反射机制？</h3><p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。</p>
+<p>静态编译和动态编译</p>
+<ul>
+<li>静态编译：在编译时确定类型，绑定对象</li>
+<li>动态编译：运行时确定类型，绑定对象</li>
+</ul>
+<h3 id="反射机制优缺点"><a href="#反射机制优缺点" class="headerlink" title="反射机制优缺点"></a>反射机制优缺点</h3><ul>
+<li>优点： 运行期类型的判断，动态加载类，提高代码灵活度。</li>
+<li>缺点： 性能瓶颈：反射相当于一系列解释操作，通知 JVM 要做的事情，性能比直接的java代码要慢很多。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/20/JUC%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="prev" title="JUC核心知识点">
+                  <i class="fa fa-chevron-left"></i> JUC核心知识点
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/06/01/JVM%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="next" title="JVM核心知识点">
+                  JVM核心知识点 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">朝阳暮逝忆</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">217k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:18</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script type="text/javascript">
+!function(e,t,a){function n(){c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),o(),r()}function r(){for(var e=0;e<d.length;e++)d[e].alpha<=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText="left:"+d[e].x+"px;top:"+d[e].y+"px;opacity:"+d[e].alpha+";transform:scale("+d[e].scale+","+d[e].scale+") rotate(45deg);background:"+d[e].color+";z-index:99999");requestAnimationFrame(r)}function o(){var t="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){t&&t(),i(e)}}function i(e){var a=t.createElement("div");a.className="heart",d.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()}),t.body.appendChild(a)}function c(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}function s(){return"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}var d=[];e.requestAnimationFrame=function(){return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)}}(),n()}(window,document);
+</script>
+<script type="text/javascript">
+var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(t,e,i){return e&&n(t.prototype,e),i&&n(t,i),t}}();function _classCallCheck(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}!function(P){P.extend({shuicheMouse:function(t){(new e).init(t)}});var e=(_createClass(t,[{key:"init",value:function(t){!function(){for(var a=0,t=["webkit","moz"],e=0;e<t.length&&!window.requestAnimationFrame;++e)window.requestAnimationFrame=window[t[e]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[t[e]+"CancelAnimationFrame"]||window[t[e]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(t,e){var i=(new Date).getTime(),n=Math.max(0,16.7-(i-a)),o=window.setTimeout(function(){t(i+n)},n);return a=i+n,o}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(t){clearTimeout(t)})}(),t&&P.extend(!0,this.defaluts,t);var e=P("<canvas id='shuicheCanvas' style='position: fixed; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></canvas>");P("body").append(e);var i=this.defaluts.type;1<=i&&i<11&&this.mouseType1(this.defaluts.type,this.defaluts.color),11==i&&this.mouseType2(),12==i&&this.mouseType3()}},{key:"mouseType1",value:function(t,e){var n,o,a,h,i=document.getElementById("shuicheCanvas"),s=i.getContext("2d"),r=P("#shuicheCanvas"),l=[],c={n:100,c:222,bc:"#fff",r:.9,o:.05,a:1,s:20},d=0,f=0,u=0,y=0,w=0,p=0,v=0;g();var m,x=360*Math.random();m=e||"hsl("+x+",100%,80%)",P(window).resize(function(){g()});var M=t;function g(){n=window.innerWidth,o=window.innerHeight,i.width=n,i.height=o,a=n/2,h=o/2}P(window).mousemove(function(t){a=t.pageX-r.offset().left,h=t.pageY-r.offset().top,4==M&&(Math.random()<=.5?(d=Math.random()<=.5?-10:n+10,f=Math.random()*o):(f=Math.random()<=.5?-10:o+10,d=Math.random()*n),u=8*(Math.random()-.5),y=8*(Math.random()-.5)),1==M||2==M||3==M?l.push({x:a,y:h,r:c.r,o:1,v:0}):4==M?l.push({x:a,y:h,r:c.r,o:1,v:0,wx:d,wy:f,vx2:u,vy2:y}):6==M&&l.push({x:a+30*(Math.random()-.5),y:h+30*(Math.random()-.5),o:1,wx:a,wy:h})}),function t(){if(1==M){s.clearRect(0,0,n,o);for(var e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),l[e].r+=c.r,l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--)}else if(2==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].r=10,s.shadowBlur=20,s.shadowColor=m,s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o-=c.o,l[e].v+=c.a,l[e].y+=l[e].v,(l[e].y>=o+l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(3==M)for(w+=5,s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].r=20*(1-l[e].y/o),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o=l[e].y/o,l[e].v+=c.a,l[e].y-=c.s,l[e].x+=10*Math.cos((l[e].y+w)/100),(l[e].y<=0-l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(4==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].vx2+=(a-l[e].wx)/1e3,l[e].vy2+=(h-l[e].wy)/1e3,l[e].wx+=l[e].vx2,l[e].wy+=l[e].vy2,l[e].o-=c.o/2,l[e].r=10,s.arc(l[e].wx,l[e].wy,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o<=0&&(l.splice(e,1),e--);else if(5==M)c.c||(m="hsl("+(x+=.1)+",100%,80%)"),s.clearRect(0,0,n,o),p+=10,s.globalAlpha=1,s.fillStyle=m,s.shadowBlur=20,s.shadowColor=m,s.beginPath(),s.arc(a+50*Math.cos(p*Math.PI/180),h+50*Math.sin(p*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+180)*Math.PI/180),h+50*Math.sin((p+180)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+90)*Math.PI/180),h+50*Math.sin((p+90)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+270)*Math.PI/180),h+50*Math.sin((p+270)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0;else if(6==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.strokeStyle=m,s.beginPath(),s.lineWidth=2,s.moveTo(l[e].x,l[e].y),s.lineTo((l[e].wx+l[e].x)/2+20*Math.random(),(l[e].wy+l[e].y)/2+20*Math.random()),s.lineTo(l[e].wx,l[e].wy),s.closePath(),s.stroke(),l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--);else if(7==M)for(s.clearRect(0,0,n,o),l.length<2*c.n&&(v=2*Math.random()*Math.PI,l.push({x:a+100*(Math.random()-.5)*Math.cos(v),y:h+100*(Math.random()-.5)*Math.cos(v),o:1,h:v})),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].x+=(a-l[e].x)/10,l[e].y+=(h-l[e].y)/10,s.arc(l[e].x,l[e].y,1,0,2*Math.PI),s.closePath(),s.fill(),l[e].o-=c.o,l[e].o<=0&&(l[e].h=2*Math.random()*Math.PI,l[e].x=a+100*(Math.random()-.5)*Math.cos(l[e].h),l[e].y=h+100*(Math.random()-.5)*Math.sin(l[e].h),l[e].o=1);else if(8==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),e=a-60;e<a+60;e+=4)for(var i=h-60;i<h+60;i+=4)Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))<=60&&(s.globalAlpha=1-Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))/60,Math.random()<.2&&s.fillRect(e,i,3,3));else if(9==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),l.length<c.n&&l.push({x:a,y:h,xv:0,yv:0,o:1}),e=0;e<l.length;e++)0==l[e].xv&&0==l[e].yv?Math.random()<.5?Math.random()<.5?l[e].xv=3:l[e].xv=-3:Math.random()<.5?l[e].yv=3:l[e].yv=-3:0==l[e].xv?Math.random()<.66&&(l[e].yv=0,Math.random()<.5?l[e].xv=3:l[e].xv=-3):0==l[e].yv&&Math.random()<.66&&(l[e].xv=0,Math.random()<.5?l[e].yv=3:l[e].yv=-3),l[e].o-=c.o/2,s.globalAlpha=l[e].o,l[e].x+=l[e].xv,l[e].y+=l[e].yv,s.fillRect(l[e].x,l[e].y,3,3),l[e].o<=0&&(l.splice(e,1),e--);else if(10==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,l.push({x:a,y:h,xv:2,yv:1,o:1}),e=0;e<l.length;e++)l[e].o-=c.o/10,s.globalAlpha=l[e].o,l[e].x+=4*(Math.random()-.5),--l[e].y,s.fillRect(l[e].x,l[e].y,2,2),l[e].o<=0&&(l.splice(e,1),e--);window.requestAnimationFrame(t)}()}},{key:"mouseType2",value:function(){var t,o,a,h=window.innerWidth,s=window.innerHeight,i=70,r=1,l=1,c=1.5,n=25,d=.5*h,f=.5*s,u=!1;function e(t){console.log("----------"),d=t.clientX-.5*(window.innerWidth-h),f=t.clientY-.5*(window.innerHeight-s)}function y(t){u=!0}function w(t){u=!1}function p(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function v(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function m(){h=window.innerWidth,s=window.innerHeight,t.width=h,t.height=s}function x(){u?r+=.02*(c-r):r-=.02*(r-l),r=Math.min(r,c),o.clearRect(0,0,o.canvas.width,o.canvas.height);for(var t=0,e=a.length;t<e;t++){var i=a[t],n={x:i.position.x,y:i.position.y};i.offset.x+=i.speed,i.offset.y+=i.speed,i.shift.x+=(d-i.shift.x)*i.speed,i.shift.y+=(f-i.shift.y)*i.speed,i.position.x=i.shift.x+Math.cos(t+i.offset.x)*(i.orbit*r),i.position.y=i.shift.y+Math.sin(t+i.offset.y)*(i.orbit*r),i.position.x=Math.max(Math.min(i.position.x,h),0),i.position.y=Math.max(Math.min(i.position.y,s),0),i.size+=.01*(i.targetSize-i.size),Math.round(i.size)==Math.round(i.targetSize)&&(i.targetSize=1+2*Math.random()),o.beginPath(),o.fillStyle=i.fillColor,o.strokeStyle=i.fillColor,o.lineWidth=i.size,o.moveTo(n.x,n.y),o.lineTo(i.position.x,i.position.y),o.stroke(),o.arc(i.position.x,i.position.y,i.size/2,0,2*Math.PI,!0),o.fill()}window.requestAnimationFrame(x)}(t=document.getElementById("shuicheCanvas"))&&t.getContext&&(o=t.getContext("2d"),window.addEventListener("mousemove",e,!1),window.addEventListener("mousedown",y,!1),window.addEventListener("mouseup",w,!1),document.addEventListener("touchstart",p,!1),document.addEventListener("touchmove",v,!1),window.addEventListener("resize",m,!1),function(){a=[];for(var t=0;t<n;t++){var e={size:1,position:{x:d,y:f},offset:{x:0,y:0},shift:{x:d,y:f},speed:.01+.04*Math.random(),targetSize:1,fillColor:"#"+(9453632*Math.random()+11184810|0).toString(16),orbit:.5*i+.5*i*Math.random()};a.push(e)}}(),m(),x())}},{key:"mouseType3",value:function(){var t=P("<div id='shuicheDiv' style='position: fixed;width: 100%;height: "+P(window).height()+"px; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></div>");P("body").append(t),new(function(){function i(t){return document.getElementById(t)}function t(t,e){this.config=e||{},this.obj=i(t),n=this.config.speed||4,o=this.config.animR||1,a={x:.5*i(t).offsetWidth,y:.5*i(t).offsetHeight},this.setXY(),this.start()}var n,o,a,r=[],l=0;t.prototype={setXY:function(){var t,e;this.obj,t="mousemove",e=function(t){t=t||window.event,console.log(t.clientX),a.x=t.clientX,a.y=t.clientY},window.addEventListener?window.addEventListener(t,e,!1):window.attachEvent("on"+t,function(){e.call(window)})},start:function(){Math.PI;var t,e,i=this.config.fn;r[l++]=t=new c(null,0,0);for(var n=0;n<360;n+=20)for(var o=t,a=10;a<35;a+=1){var h=i(n,a).x,s=i(n,a).y;r[l++]=e=new c(o,h,s),o=e}setInterval(function(){for(var t=0;t<l;t++)r[t].run()},16)}};var c=function(t,e,i){var n=document.createElement("span");this.css=n.style,this.css.backgroundColor="#2D8CF0",this.css.width="2px",this.css.height="2px",this.css.position="absolute",this.css.left="-1000px",this.css.zIndex=1e3-l,document.getElementById("shuicheDiv").appendChild(n),this.ddx=0,this.ddy=0,this.PX=0,this.PY=0,this.x=0,this.y=0,this.x0=0,this.y0=0,this.cx=e,this.cy=i,this.parent=t};return c.prototype.run=function(){this.parent?(this.x0=this.parent.x,this.y0=this.parent.y):(this.x0=a.x,this.y0=a.y),this.x=this.PX+=(this.ddx+=(this.x0-this.PX-this.ddx+this.cx)/o)/n,this.y=this.PY+=(this.ddy+=(this.y0-this.PY-this.ddy+this.cy)/o)/n,this.css.left=Math.round(this.x)+"px",this.css.top=Math.round(this.y)+"px"},t}())("shuicheDiv",{speed:4,animR:2,fn:function(t,e){return{x:e/4*Math.cos(t),y:e/4*Math.sin(t)}}})}},{key:"cnblogs",get:function(){return{canvase:"#shuicheCanvase"}}}]),t);function t(){_classCallCheck(this,t),this.defaluts={type:1,color:!1},this.version="0.0.1"}}(jQuery);
+</script>
+<script type="text/javascript">
+    $.shuicheMouse({
+        type:11,
+        color:false
+    })
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+
+
+
+
+
+</body>
+</html>
