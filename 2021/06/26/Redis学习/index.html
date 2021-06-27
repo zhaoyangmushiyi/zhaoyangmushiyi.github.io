@@ -40,8 +40,13 @@
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/List-%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.png">
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/List-%E5%91%BD%E4%BB%A4.png">
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/List-quicklist.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Set-%E5%91%BD%E4%BB%A4.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Hash-store1-1.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Hash-store1-2.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/Users/monochrome/project/blog/hexo-zhaoyangmushiyi/source/images/Redis%E5%AD%A6%E4%B9%A0/Hash-store2.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Hash-%E5%91%BD%E4%BB%A4.png">
 <meta property="article:published_time" content="2021-06-26T09:58:19.000Z">
-<meta property="article:modified_time" content="2021-06-27T03:24:07.622Z">
+<meta property="article:modified_time" content="2021-06-27T14:18:56.234Z">
 <meta property="article:author" content="朝阳暮逝忆">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -199,7 +204,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85Redis"><span class="nav-number">1.</span> <span class="nav-text">Docker安装Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E9%94%AE-key"><span class="nav-number">2.</span> <span class="nav-text">Redis键(key)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E4%BA%94%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">常用五大数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%AD%97%E7%AC%A6%E4%B8%B2-String"><span class="nav-number">3.1.</span> <span class="nav-text">Redis字符串(String)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%88%97%E8%A1%A8-List"><span class="nav-number">3.2.</span> <span class="nav-text">Redis列表(List)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">常用命令</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85Redis"><span class="nav-number">1.</span> <span class="nav-text">Docker安装Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E9%94%AE-key"><span class="nav-number">2.</span> <span class="nav-text">Redis键(key)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E4%BA%94%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">常用五大数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%AD%97%E7%AC%A6%E4%B8%B2-String"><span class="nav-number">3.1.</span> <span class="nav-text">Redis字符串(String)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%88%97%E8%A1%A8-List"><span class="nav-number">3.2.</span> <span class="nav-text">Redis列表(List)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E9%9B%86%E5%90%88-Set"><span class="nav-number">3.3.</span> <span class="nav-text">Redis集合(Set)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-2"><span class="nav-number">3.3.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-2"><span class="nav-number">3.3.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1"><span class="nav-number">3.3.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%93%88%E5%B8%8C-Hash"><span class="nav-number">3.4.</span> <span class="nav-text">Redis哈希(Hash)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-3"><span class="nav-number">3.4.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-3"><span class="nav-number">3.4.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-2"><span class="nav-number">3.4.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -306,7 +311,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-06-27 11:24:07" itemprop="dateModified" datetime="2021-06-27T11:24:07+08:00">2021-06-27</time>
+        <time title="修改时间：2021-06-27 22:18:56" itemprop="dateModified" datetime="2021-06-27T22:18:56+08:00">2021-06-27</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -330,14 +335,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.5k</span>
+      <span>4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -440,6 +445,54 @@
 <p>因为普通的链表需要的附加指针空间太大，会比较浪费空间。比如这个列表里存的只是int类型的数据，结构上还需要两个额外的指针prev和next。</p>
 <p><img src="/images/Redis%E5%AD%A6%E4%B9%A0/List-quicklist.png" alt="List-quicklist"></p>
 <p>Redis将链表和ziplist结合起来组成了quicklist。也就是将多个ziplist使用双向指针串起来使用。这样既满足了快速的插入删除性能，又不会出现太大的空间冗余。</p>
+<h2 id="Redis集合-Set"><a href="#Redis集合-Set" class="headerlink" title="Redis集合(Set)"></a><strong>Redis集合(Set)</strong></h2><h3 id="简介-2"><a href="#简介-2" class="headerlink" title="简介"></a><strong>简介</strong></h3><p>Redis set对外提供的功能与list类似是一个列表的功能，特殊之处在于set是可以<strong>自动排重</strong>的，当你需要存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择，并且set提供了判断某个成员是否在一个set集合内的重要接口，这个也是list所不能提供的。</p>
+<p>Redis的Set是string类型的无序集合。它底层其实是一个value为null的hash表，所以添加，删除，查找的<strong>复杂度都是**</strong>O(1)**。</p>
+<p>一个算法，随着数据的增加，执行时间的长短，如果是O(1)，数据增加，查找数据的时间不变</p>
+<h3 id="常用命令-2"><a href="#常用命令-2" class="headerlink" title="常用命令"></a><strong>常用命令</strong></h3><p>sadd key value1 value2  ….. </p>
+<p>将一个或多个 member 元素加入到集合 key 中，已经存在的 member 元素将被忽略</p>
+<p>smembers key 取出该集合的所有值。</p>
+<p>sismember key value 判断集合key 是否为含有该value 值，有1，没有0</p>
+<p>scard key 返回该集合的元素个数。</p>
+<p>srem key value1 value2  …. 删除集合中的某个元素。</p>
+<p>spop key <strong>随机从该集合中吐出一个值。</strong></p>
+<p>srandmember key n 随机从该集合中取出n个值。不会从集合中删除 。</p>
+<p>smove source destination value 把集合中一个值从一个集合移动到另一个集合</p>
+<p>sinter key1 key2 返回两个集合的交集元素。</p>
+<p>sunion key1 key2 返回两个集合的并集元素。</p>
+<p>sdiff key1 key2 返回两个集合的<strong>差集</strong>元素(key1中的，不包含key2中的)</p>
+<p><img src="/images/Redis%E5%AD%A6%E4%B9%A0/Set-%E5%91%BD%E4%BB%A4.png" alt="Set-命令"></p>
+<h3 id="数据结构-1"><a href="#数据结构-1" class="headerlink" title="数据结构"></a><strong>数据结构</strong></h3><p>Set数据结构是dict字典，字典是用哈希表实现的。</p>
+<p>Java中HashSet的内部实现使用的是HashMap，只不过所有的value都指向同一个对象。Redis的set结构也是一样，它的内部也使用hash结构，所有的value都指向同一个内部值。</p>
+<h2 id="Redis哈希-Hash"><a href="#Redis哈希-Hash" class="headerlink" title="Redis哈希(Hash)"></a><strong>Redis哈希(Hash)</strong></h2><h3 id="简介-3"><a href="#简介-3" class="headerlink" title="简介"></a><strong>简介</strong></h3><p>Redis hash 是一个键值对集合。</p>
+<p>Redis hash是一个string类型的field和value的映射表，hash特别适合用于存储对象。</p>
+<p>类似Java里面的Map&lt;String,Object&gt;</p>
+<p>用户ID为查找的key，存储的value用户对象包含姓名，年龄，生日等信息，如果用普通的key/value结构来存储</p>
+<p>主要有以下2种存储方，然后衍生出我们Hash的存储方式：</p>
+<ol>
+<li><p>第一种</p>
+<p><img src="/images/Redis%E5%AD%A6%E4%B9%A0/Hash-store1-1.png" alt="image-20210627211632603">  </p>
+<p>每次修改用户的某个属性需要，先反序列化改好后再序列化回去。开销较大。</p>
+</li>
+<li><p>第二种</p>
+<p><img src="/images/Redis%E5%AD%A6%E4%B9%A0/Hash-store1-2.png" alt="image-20210627211728406"></p>
+<p>用户ID数据冗余</p>
+</li>
+<li><p>第三种，Hash</p>
+<p><img src="/Users/monochrome/project/blog/hexo-zhaoyangmushiyi/source/images/Redis%E5%AD%A6%E4%B9%A0/Hash-store2.png" alt="image-20210627212109516"></p>
+<p>通过 <code>key(用户ID)</code> + <code>field(属性标签)</code>就可以操作对应属性数据了，既不需要重复存储数据，也不会带来序列化和并发修改控制的问题  </p>
+</li>
+</ol>
+<h3 id="常用命令-3"><a href="#常用命令-3" class="headerlink" title="常用命令"></a><strong>常用命令</strong></h3><p>hset key field value 给key 集合中的 field 键赋值value </p>
+<p>hget key field 从key集合field取出value </p>
+<p>hmset key field1 value1 field2 value2 … 批量设置hash的值</p>
+<p>hexists key field 查看哈希表 key 中，给定域 field 是否存在。 </p>
+<p>hkeys key 列出该hash集合的所有field</p>
+<p>hvals key 列出该hash集合的所有value</p>
+<p>hincrby key field increment 为哈希表 key 中的域 field 的值加上增量 1  -1</p>
+<p>hsetnx key field value 将哈希表 key 中的域 field 的值设置为 value ，当且仅当域 field 不存在 .</p>
+<p>hgetall key 获取该hash集合的所有field以及value</p>
+<p><img src="/images/Redis%E5%AD%A6%E4%B9%A0/Hash-%E5%91%BD%E4%BB%A4.png" alt="Hash-命令"></p>
+<h3 id="数据结构-2"><a href="#数据结构-2" class="headerlink" title="数据结构"></a><strong>数据结构</strong></h3><p>Hash类型对应的数据结构是两种：ziplist（压缩列表），hashtable（哈希表）。当field-value长度较短且个数较少时，使用ziplist，否则使用hashtable。</p>
 
     </div>
 
@@ -515,13 +568,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">220k</span>
+    <span title="站点总字数">221k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:20</span>
+    <span title="站点阅读时长">3:21</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
