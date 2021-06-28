@@ -45,8 +45,11 @@
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Hash-store1-2.png">
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Hash-store2.png">
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Hash-%E5%91%BD%E4%BB%A4.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Zset-%E5%91%BD%E4%BB%A4.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Zset-%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Redis%E5%AD%A6%E4%B9%A0/Zset-%E8%B7%B3%E8%B7%83%E8%A1%A8.png">
 <meta property="article:published_time" content="2021-06-26T09:58:19.000Z">
-<meta property="article:modified_time" content="2021-06-27T14:45:10.996Z">
+<meta property="article:modified_time" content="2021-06-28T09:13:11.744Z">
 <meta property="article:author" content="朝阳暮逝忆">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -204,7 +207,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85Redis"><span class="nav-number">1.</span> <span class="nav-text">Docker安装Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E9%94%AE-key"><span class="nav-number">2.</span> <span class="nav-text">Redis键(key)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E4%BA%94%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">常用五大数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%AD%97%E7%AC%A6%E4%B8%B2-String"><span class="nav-number">3.1.</span> <span class="nav-text">Redis字符串(String)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%88%97%E8%A1%A8-List"><span class="nav-number">3.2.</span> <span class="nav-text">Redis列表(List)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E9%9B%86%E5%90%88-Set"><span class="nav-number">3.3.</span> <span class="nav-text">Redis集合(Set)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-2"><span class="nav-number">3.3.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-2"><span class="nav-number">3.3.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1"><span class="nav-number">3.3.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%93%88%E5%B8%8C-Hash"><span class="nav-number">3.4.</span> <span class="nav-text">Redis哈希(Hash)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-3"><span class="nav-number">3.4.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-3"><span class="nav-number">3.4.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-2"><span class="nav-number">3.4.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85Redis"><span class="nav-number">1.</span> <span class="nav-text">Docker安装Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E9%94%AE-key"><span class="nav-number">2.</span> <span class="nav-text">Redis键(key)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E4%BA%94%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">常用五大数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%AD%97%E7%AC%A6%E4%B8%B2-String"><span class="nav-number">3.1.</span> <span class="nav-text">Redis字符串(String)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%88%97%E8%A1%A8-List"><span class="nav-number">3.2.</span> <span class="nav-text">Redis列表(List)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E9%9B%86%E5%90%88-Set"><span class="nav-number">3.3.</span> <span class="nav-text">Redis集合(Set)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-2"><span class="nav-number">3.3.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-2"><span class="nav-number">3.3.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1"><span class="nav-number">3.3.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%93%88%E5%B8%8C-Hash"><span class="nav-number">3.4.</span> <span class="nav-text">Redis哈希(Hash)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-3"><span class="nav-number">3.4.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-3"><span class="nav-number">3.4.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-2"><span class="nav-number">3.4.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88Zset-sorted-set"><span class="nav-number">3.5.</span> <span class="nav-text">Redis有序集合Zset(sorted set)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-4"><span class="nav-number">3.5.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-4"><span class="nav-number">3.5.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-3"><span class="nav-number">3.5.3.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%B3%E8%B7%83%E8%A1%A8%EF%BC%88%E8%B7%B3%E8%A1%A8%EF%BC%89"><span class="nav-number">3.5.4.</span> <span class="nav-text">跳跃表（跳表）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-5"><span class="nav-number">3.5.4.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.5.4.2.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -311,7 +314,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-06-27 22:45:10" itemprop="dateModified" datetime="2021-06-27T22:45:10+08:00">2021-06-27</time>
+        <time title="修改时间：2021-06-28 17:13:11" itemprop="dateModified" datetime="2021-06-28T17:13:11+08:00">2021-06-28</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -335,14 +338,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4k</span>
+      <span>5.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -493,6 +496,40 @@
 <p>hgetall key 获取该hash集合的所有field以及value</p>
 <p><img src="/images/Redis%E5%AD%A6%E4%B9%A0/Hash-%E5%91%BD%E4%BB%A4.png" alt="Hash-命令"></p>
 <h3 id="数据结构-2"><a href="#数据结构-2" class="headerlink" title="数据结构"></a><strong>数据结构</strong></h3><p>Hash类型对应的数据结构是两种：ziplist（压缩列表），hashtable（哈希表）。当field-value长度较短且个数较少时，使用ziplist，否则使用hashtable。</p>
+<h2 id="Redis有序集合Zset-sorted-set"><a href="#Redis有序集合Zset-sorted-set" class="headerlink" title="Redis有序集合Zset(sorted set)"></a><strong>Redis有序集合Zset(sorted set)</strong></h2><h3 id="简介-4"><a href="#简介-4" class="headerlink" title="简介"></a><strong>简介</strong></h3><p>Redis有序集合zset与普通集合set非常相似，是一个<strong>没有重复元素</strong>的字符串集合。</p>
+<p>不同之处是有序集合的每个成员都关联了一个<strong>评分（score）</strong>,这个评分（score）被用来按照从最低分到最高分的方式排序集合中的成员。<strong>集合的成员是唯一的，但是评分可以是重复了 。</strong></p>
+<p>因为元素是有序的, 所以你也可以很快的根据评分（score）或者次序（position）来获取一个范围的元素。</p>
+<p>访问有序集合的中间元素也是非常快的,因此你能够使用有序集合作为一个没有重复成员的智能列表。</p>
+<h3 id="常用命令-4"><a href="#常用命令-4" class="headerlink" title="常用命令"></a><strong>常用命令</strong></h3><p>zadd key score1 value1 score2 value2 …</p>
+<p>将一个或多个 member 元素及其 score 值加入到有序集 key 当中。</p>
+<p><strong>zrange key start stop  [WITHSCORES]</strong>  </p>
+<p>返回有序集 key 中，下标在start stop之间的元素，带WITHSCORES，可以让分数一起和值返回到结果集。</p>
+<p>zrangebyscore key minmax [withscores] [limit offset count]</p>
+<p>返回有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max )的成员。有序集成员按 score 值递增(从小到大)次序排列。 </p>
+<p>zrevrangebyscore key maxmin [withscores] [limit offset count]        </p>
+<p>同上，改为从大到小排列。 </p>
+<p>zincrby key increment value    为元素的score加上增量</p>
+<p>zrem key value 删除该集合下，指定值的元素</p>
+<p>zcount key min max 统计该集合，分数区间内的元素个数 </p>
+<p>zrank key value 返回该值在集合中的排名，从0开始。</p>
+<p><img src="/images/Redis%E5%AD%A6%E4%B9%A0/Zset-%E5%91%BD%E4%BB%A4.png" alt="截屏2021-06-28 15.23.53"></p>
+<p>案例：如何利用zset实现一个文章访问量的排行榜？</p>
+<h3 id="数据结构-3"><a href="#数据结构-3" class="headerlink" title="数据结构"></a><strong>数据结构</strong></h3><p>SortedSet(zset)是Redis提供的一个非常特别的数据结构，一方面它等价于Java的数据结构Map&lt;String, Double&gt;，可以给每一个元素value赋予一个权重score，另一方面它又类似于TreeSet，内部的元素会按照权重score进行排序，可以得到每个元素的名次，还可以通过score的范围来获取元素的列表。</p>
+<p>zset底层使用了两个数据结构</p>
+<p>（1）hash，hash的作用就是关联元素value和权重score，保障元素value的唯一性，可以通过元素value找到相应的score值。</p>
+<p>（2）跳跃表，跳跃表的目的在于给元素value排序，根据score的范围获取元素列表。</p>
+<h3 id="跳跃表（跳表）"><a href="#跳跃表（跳表）" class="headerlink" title="跳跃表（跳表）"></a><strong>跳跃表（跳表）</strong></h3><h4 id="简介-5"><a href="#简介-5" class="headerlink" title="简介"></a>简介</h4><p>  有序集合在生活中比较常见，例如根据成绩对学生排名，根据得分对玩家排名等。对于有序集合的底层实现，可以用数组、平衡树、链表等。数组不便元素的插入、删除；平衡树或红黑树虽然效率高但结构复杂；链表查询需要遍历所有效率低。Redis采用的是跳跃表。跳跃表效率堪比红黑树，实现远比红黑树简单。</p>
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><p>  对比有序链表和跳跃表，从链表中查询出51</p>
+<p>（1） 有序链表</p>
+<p><img src="/images/Redis%E5%AD%A6%E4%B9%A0/Zset-%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8.png" alt="Zset-有序链表">                               </p>
+<p>要查找值为51的元素，需要从第一个元素开始依次查找、比较才能找到。共需要6次比较。</p>
+<p>（2） 跳跃表</p>
+<p> <img src="/images/Redis%E5%AD%A6%E4%B9%A0/Zset-%E8%B7%B3%E8%B7%83%E8%A1%A8.png" alt="Zset-跳跃表"></p>
+<p>从第2层开始，1节点比51节点小，向后比较。</p>
+<p>21节点比51节点小，继续向后比较，后面就是NULL了，所以从21节点向下到第1层</p>
+<p>在第1层，41节点比51节点小，继续向后，61节点比51节点大，所以从41向下</p>
+<p>在第0层，51节点为要查找的节点，节点被找到，共查找4次。</p>
+<p>从此可以看出跳跃表比有序链表效率要高</p>
 
     </div>
 
@@ -568,13 +605,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">221k</span>
+    <span title="站点总字数">223k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:21</span>
+    <span title="站点阅读时长">3:22</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
