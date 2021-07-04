@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="消息中间件消息中间件的含义 利用可靠的消息传递机制进行系统和系统直接的通讯 通过提供消息传递和消息的派对机制，它可以在分布式系统环境下扩展进程间的通讯  消息中间件应用的场景 跨系统数据传递 高并发的流量削峰 数据的并发和异步处理 大数据分析与传递 分布式事务比如你有一个数据要进行迁移或者请求并发过多的时候，  常见的消息中间件ActiveMQ、RabbitMQ、Kafka、RocketMQ等 消">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息队列学习">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2021/07/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="朝阳暮逝忆">
+<meta property="og:description" content="消息中间件消息中间件的含义 利用可靠的消息传递机制进行系统和系统直接的通讯 通过提供消息传递和消息的派对机制，它可以在分布式系统环境下扩展进程间的通讯  消息中间件应用的场景 跨系统数据传递 高并发的流量削峰 数据的并发和异步处理 大数据分析与传递 分布式事务比如你有一个数据要进行迁移或者请求并发过多的时候，  常见的消息中间件ActiveMQ、RabbitMQ、Kafka、RocketMQ等 消">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/AMQP%E7%94%9F%E4%BA%A7%E8%80%85%E6%B5%81%E8%BD%AC%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/AMQP%E6%B6%88%E8%B4%B9%E8%80%85%E6%B5%81%E8%BD%AC%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/RabbitMQ%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/RabbitMQ%E6%94%AF%E6%8C%81%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B-1.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/RabbitMQ%E6%94%AF%E6%8C%81%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B-2.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/fanout%E6%A8%A1%E5%BC%8F.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/direct%E6%A8%A1%E5%BC%8F.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/topic%E6%A8%A1%E5%BC%8F.png">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/Headers%E6%A8%A1%E5%BC%8F.png">
+<meta property="article:published_time" content="2021-07-04T02:43:05.000Z">
+<meta property="article:modified_time" content="2021-07-04T14:39:20.957Z">
+<meta property="article:author" content="朝阳暮逝忆">
+<meta property="article:tag" content="消息队列">
+<meta property="article:tag" content="RabbitMQ">
+<meta property="article:tag" content="Kafka">
+<meta property="article:tag" content="RocketMQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zhaoyangmushiyi.github.io/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/AMQP%E7%94%9F%E4%BA%A7%E8%80%85%E6%B5%81%E8%BD%AC%E8%BF%87%E7%A8%8B.png">
+
+
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2021/07/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>消息队列学习 | 朝阳暮逝忆</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">朝阳暮逝忆</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">消息中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%90%AB%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">消息中间件的含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%BA%94%E7%94%A8%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="nav-number">1.2.</span> <span class="nav-text">消息中间件应用的场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">常见的消息中间件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8F%8A%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.4.</span> <span class="nav-text">消息中间件的本质及设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="nav-number">1.5.</span> <span class="nav-text">消息中间件的核心组成部分</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.</span> <span class="nav-text">消息队列协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AMQP%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.1.</span> <span class="nav-text">AMQP协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MQTT%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.2.</span> <span class="nav-text">MQTT协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenMessage%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.3.</span> <span class="nav-text">OpenMessage协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.4.</span> <span class="nav-text">Kafka协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">2.5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E7%9A%84%E5%88%86%E5%8F%91%E7%AD%96%E7%95%A5"><span class="nav-number">2.6.</span> <span class="nav-text">消息的分发策略</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ"><span class="nav-number">3.</span> <span class="nav-text">RabbitMQ</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85RabbitMQ"><span class="nav-number">3.1.</span> <span class="nav-text">Docker安装RabbitMQ</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96rabbit%E9%95%9C%E5%83%8F"><span class="nav-number">3.1.1.</span> <span class="nav-text">获取rabbit镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%B9%B6%E8%BF%90%E8%A1%8C%E5%AE%B9%E5%99%A8"><span class="nav-number">3.1.2.</span> <span class="nav-text">创建并运行容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%B9%B6%E6%8E%88%E6%9D%83%E6%9D%83%E9%99%90"><span class="nav-number">3.1.3.</span> <span class="nav-text">添加用户并授权权限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7"><span class="nav-number">3.1.3.1.</span> <span class="nav-text">新增用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%88%86%E9%85%8D%E6%93%8D%E4%BD%9C%E6%9D%83%E9%99%90"><span class="nav-number">3.1.3.2.</span> <span class="nav-text">设置用户分配操作权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E7%94%A8%E6%88%B7%E6%B7%BB%E5%8A%A0%E8%B5%84%E6%BA%90%E6%9D%83%E9%99%90"><span class="nav-number">3.1.3.3.</span> <span class="nav-text">为用户添加资源权限</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B-Simple-%E7%AE%80%E5%8D%95%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text">RabbitMQ入门案例 - Simple 简单模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="nav-number">3.2.1.</span> <span class="nav-text">导入依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="nav-number">3.2.2.</span> <span class="nav-text">生产者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-number">3.2.3.</span> <span class="nav-text">消费者</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AMQP"><span class="nav-number">3.3.</span> <span class="nav-text">AMQP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AMQP%E7%94%9F%E4%BA%A7%E8%80%85%E6%B5%81%E8%BD%AC%E8%BF%87%E7%A8%8B"><span class="nav-number">3.3.1.</span> <span class="nav-text">AMQP生产者流转过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AMQP%E6%B6%88%E8%B4%B9%E8%80%85%E6%B5%81%E8%BD%AC%E8%BF%87%E7%A8%8B"><span class="nav-number">3.3.2.</span> <span class="nav-text">AMQP消费者流转过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="nav-number">3.4.</span> <span class="nav-text">RabbitMQ的核心组成部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RabbitMQ%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86-1"><span class="nav-number">3.4.1.</span> <span class="nav-text">RabbitMQ的核心组成部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RabbitMQ%E7%9A%84%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.4.2.</span> <span class="nav-text">RabbitMQ的操作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RabbitMQ%E6%94%AF%E6%8C%81%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.4.3.</span> <span class="nav-text">RabbitMQ支持的消息模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ-fanout-%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.5.</span> <span class="nav-text">RabbitMQ - fanout 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85-1"><span class="nav-number">3.5.1.</span> <span class="nav-text">生产者</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ-direct-%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.6.</span> <span class="nav-text">RabbitMQ - direct 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ-topic-%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.7.</span> <span class="nav-text">RabbitMQ - topic 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%88%9B%E5%BB%BA%E5%8F%8A%E7%BB%91%E5%AE%9A"><span class="nav-number">3.7.1.</span> <span class="nav-text">代码创建及绑定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ-Header%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.8.</span> <span class="nav-text">RabbitMQ - Header模式</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
+      src="/images/next/Avatar.png">
+  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
+  <div class="site-description" itemprop="description">Monochrome</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2021/07/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/next/Avatar.png">
+      <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="description" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝阳暮逝忆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          消息队列学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-07-04 10:43:05 / 修改时间：22:39:20" itemprop="dateCreated datePublished" datetime="2021-07-04T10:43:05+08:00">2021-07-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ/" itemprop="url" rel="index"><span itemprop="name">RabbitMQ</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ/Kafka/" itemprop="url" rel="index"><span itemprop="name">Kafka</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ/Kafka/RocketMQ/" itemprop="url" rel="index"><span itemprop="name">RocketMQ</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="消息中间件"><a href="#消息中间件" class="headerlink" title="消息中间件"></a>消息中间件</h1><h2 id="消息中间件的含义"><a href="#消息中间件的含义" class="headerlink" title="消息中间件的含义"></a>消息中间件的含义</h2><ol>
+<li>利用可靠的消息传递机制进行系统和系统直接的通讯</li>
+<li>通过提供消息传递和消息的派对机制，它可以在分布式系统环境下扩展进程间的通讯</li>
+</ol>
+<h2 id="消息中间件应用的场景"><a href="#消息中间件应用的场景" class="headerlink" title="消息中间件应用的场景"></a>消息中间件应用的场景</h2><ol>
+<li>跨系统数据传递</li>
+<li>高并发的流量削峰</li>
+<li>数据的并发和异步处理</li>
+<li>大数据分析与传递</li>
+<li>分布式事务比如你有一个数据要进行迁移或者请求并发过多的时候，</li>
+</ol>
+<h2 id="常见的消息中间件"><a href="#常见的消息中间件" class="headerlink" title="常见的消息中间件"></a>常见的消息中间件</h2><p>ActiveMQ、RabbitMQ、Kafka、RocketMQ等</p>
+<h2 id="消息中间件的本质及设计"><a href="#消息中间件的本质及设计" class="headerlink" title="消息中间件的本质及设计"></a>消息中间件的本质及设计</h2><p>它是一种接受数据、接受请求、存储数据、发送数据等功能的技术服务</p>
+<p>MQ消息队列：负责数据的传接受，存储和传递，所以性能要高于普通服务和技术</p>
+<h2 id="消息中间件的核心组成部分"><a href="#消息中间件的核心组成部分" class="headerlink" title="消息中间件的核心组成部分"></a>消息中间件的核心组成部分</h2><p>消息的协议<br>消息的持久化机制<br>消息的分发策略<br>消息的高可用，高可靠<br>消息的容错机制</p>
+<span id="more"></span>
+
+<h1 id="消息队列协议"><a href="#消息队列协议" class="headerlink" title="消息队列协议"></a>消息队列协议</h1><h2 id="AMQP协议"><a href="#AMQP协议" class="headerlink" title="AMQP协议"></a>AMQP协议</h2><p>AMQP：（全称：Advanced Message Queuing Protocol）是高级消息队列协议。由摩根大通集团联合其他公司共同设计。是一个提供统一消息服务的应用层标准高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计。基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。Erlang中的实现由 RabbitMQ等</p>
+<p>特性：</p>
+<ol>
+<li>分布式事务支持</li>
+<li>消息的持久化支持</li>
+<li>高性能和高可靠的消息处理优势</li>
+</ol>
+<p>支持者：RabbitMQ，ActiveMQ</p>
+<h2 id="MQTT协议"><a href="#MQTT协议" class="headerlink" title="MQTT协议"></a>MQTT协议</h2><p>MQTT协议（Message Queueing Telemetry Transport）消息队列是 IBM开放的及时通讯协议，物联网系统架构中的重要组成部分</p>
+<p>特点：</p>
+<ol>
+<li>轻量</li>
+<li>结构简单</li>
+<li>传输快，不支持事务</li>
+<li>没有持久化设计</li>
+</ol>
+<p>应用场景：</p>
+<ol>
+<li>适用于计算能力有限</li>
+<li>低带宽</li>
+<li>网络不稳定的场景</li>
+</ol>
+<p>支持者：RabbitMQ，ActiveMQ</p>
+<h2 id="OpenMessage协议"><a href="#OpenMessage协议" class="headerlink" title="OpenMessage协议"></a>OpenMessage协议</h2><p>是近几年由阿里、雅虎和滴滴出行、Stremalio等公司共同参与创立的分布式信息中间件、流处理等领域的应用开发标准</p>
+<p>特点：</p>
+<ol>
+<li>结构简单</li>
+<li>解析速度快</li>
+<li>支持事务和持久化设计</li>
+</ol>
+<p>支持者：RocketMQ </p>
+<h2 id="Kafka协议"><a href="#Kafka协议" class="headerlink" title="Kafka协议"></a>Kafka协议</h2><p>Kafka协议是基于 TCP/IP的二进制协议。消息内部是 通过长度来分割，由一些基本数据类型组成</p>
+<p>特点：</p>
+<ol>
+<li>结构简单</li>
+<li>解析速度快</li>
+<li>无事务支持</li>
+<li>有持久化设计</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>协议：实在 tcp/ip协议基础之上构建的一种约定俗称的规范和机制、它的主要目的可以让客户端（应用程序 java，go）进行沟通和通讯。并且这种写一下规范必须具有持久性，高可用，高可靠的性能</p>
+<h2 id="消息的分发策略"><a href="#消息的分发策略" class="headerlink" title="消息的分发策略"></a>消息的分发策略</h2><table>
+<thead>
+<tr>
+<th></th>
+<th align="center">ActiveMQ</th>
+<th align="center">RabbitMQ</th>
+<th align="center">Kafka</th>
+<th align="center">RocketMQ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>发布订阅</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td>轮询分发</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">/</td>
+</tr>
+<tr>
+<td>公平分发</td>
+<td align="center">/</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">/</td>
+</tr>
+<tr>
+<td>重发</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">/</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td>消息拉取</td>
+<td align="center">/</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+</tbody></table>
+<h1 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h1><h2 id="Docker安装RabbitMQ"><a href="#Docker安装RabbitMQ" class="headerlink" title="Docker安装RabbitMQ"></a>Docker安装RabbitMQ</h2><h3 id="获取rabbit镜像"><a href="#获取rabbit镜像" class="headerlink" title="获取rabbit镜像"></a>获取rabbit镜像</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rabbitmq:management</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建并运行容器"><a href="#创建并运行容器" class="headerlink" title="创建并运行容器"></a>创建并运行容器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -id --name docker-rabbitmq-management -p 15672:15672 -p 5672:5672 rabbitmq:management</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加用户并授权权限"><a href="#添加用户并授权权限" class="headerlink" title="添加用户并授权权限"></a>添加用户并授权权限</h3><h4 id="新增用户"><a href="#新增用户" class="headerlink" title="新增用户"></a>新增用户</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user admin admin</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置用户分配操作权限"><a href="#设置用户分配操作权限" class="headerlink" title="设置用户分配操作权限"></a>设置用户分配操作权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
+
+<p>用户级别：</p>
+<ol>
+<li><p>administrator：可以登录控制台、查看所有信息、可以对 rabbitmq进行管理</p>
+<p>policymaker和monitoring可以做的任何事外加:<br>创建和删除virtual hosts<br>查看、创建和删除users<br>查看创建和删除permissions<br>关闭其他用户的connections</p>
+</li>
+<li><p>monitoring：监控者 登录控制台，查看所有信息</p>
+<p>management可以做的任何事外加：</p>
+<p>列出所有virtual hosts，包括他们不能登录的virtual hosts<br>查看其他用户的connections和channels<br>查看节点级别的数据如clustering和memory使用情况<br>查看真正的关于所有virtual hosts的全局的统计信息</p>
+</li>
+<li><p>policymaker：策略制定者 登录控制台，指定策略</p>
+<p>management可以做的任何事外加：</p>
+<p>查看、创建和删除自己的virtual hosts所属的policies和parameters</p>
+</li>
+<li><p>managment 普通管理员 登录控制台</p>
+<p>用户可以通过AMQP做的任何事外加：<br>列出自己可以通过AMQP登入的virtual hosts<br>查看自己的virtual hosts中的queues, exchanges 和 bindings<br>查看和关闭自己的channels 和 connections<br>查看有关自己的virtual hosts的“全局”的统计信息，包含其他用户在这些virtual hosts中的活动。</p>
+</li>
+</ol>
+<h4 id="为用户添加资源权限"><a href="#为用户添加资源权限" class="headerlink" title="为用户添加资源权限"></a>为用户添加资源权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_permissions -p / admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="RabbitMQ入门案例-Simple-简单模式"><a href="#RabbitMQ入门案例-Simple-简单模式" class="headerlink" title="RabbitMQ入门案例 - Simple 简单模式"></a>RabbitMQ入门案例 - Simple 简单模式</h2><h3 id="导入依赖"><a href="#导入依赖" class="headerlink" title="导入依赖"></a>导入依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.rabbitmq<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>amqp-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.12.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.rabbitmq.client.Channel;</span><br><span class="line"><span class="keyword">import</span> com.rabbitmq.client.Connection;</span><br><span class="line"><span class="keyword">import</span> com.rabbitmq.client.ConnectionFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeoutException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> monochrome</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2021/7/4</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1.创建连接工厂</span></span><br><span class="line">        ConnectionFactory connectionFactory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        connectionFactory.setHost(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        connectionFactory.setPort(<span class="number">5672</span>);</span><br><span class="line">        connectionFactory.setUsername(<span class="string">&quot;admin&quot;</span>);</span><br><span class="line">        connectionFactory.setPassword(<span class="string">&quot;monochrome&quot;</span>);</span><br><span class="line">        connectionFactory.setVirtualHost(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">        Connection connection = <span class="keyword">null</span>;</span><br><span class="line">        Channel channel = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            connection = connectionFactory.newConnection(<span class="string">&quot;生产者&quot;</span>);</span><br><span class="line">            <span class="comment">//2.创建通道</span></span><br><span class="line">            channel = connection.createChannel();</span><br><span class="line">            <span class="comment">//3.通过创建交换机，声明队列，绑定关系，路由key，发送消息和接受消息</span></span><br><span class="line">            <span class="comment">/*参数1:是否持久化，非持久化消息会存盘吗？会存盘，但是会随着重启服务器而丢失</span></span><br><span class="line"><span class="comment">              参数2:是否独占队列</span></span><br><span class="line"><span class="comment">              参数3:是否自动删除，随着最后一个消费者消息完毕消息以后是否把队列自动删除</span></span><br><span class="line"><span class="comment">              参数4:携带附属属性</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            String queueName = <span class="string">&quot;queue1&quot;</span>;</span><br><span class="line">            channel.queueDeclare(queueName, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//4.发送消息给队列queue</span></span><br><span class="line">            <span class="comment">/*参数1:交换机</span></span><br><span class="line"><span class="comment">              参数2:队列、路由key</span></span><br><span class="line"><span class="comment">              参数3:消息的状态控制</span></span><br><span class="line"><span class="comment">              参数4:消息主题</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="comment">//面试题：可以存在没有交换机的队列吗？不可能，虽然没有指定交换机但是一定会存在一个默认的交换机</span></span><br><span class="line">            String message = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">            channel.basicPublish(<span class="string">&quot;&quot;</span>, queueName, <span class="keyword">null</span>, message.getBytes());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException | TimeoutException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//5.关闭</span></span><br><span class="line">            <span class="keyword">if</span> (channel != <span class="keyword">null</span> &amp;&amp; channel.isOpen()) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    channel.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException | TimeoutException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (connection != <span class="keyword">null</span> &amp;&amp; connection.isOpen()) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    connection.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.rabbitmq.client.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.charset.StandardCharsets;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeoutException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> monochrome</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2021/7/4</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1.创建连接工厂</span></span><br><span class="line">        ConnectionFactory connectionFactory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        connectionFactory.setHost(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        connectionFactory.setPort(<span class="number">5672</span>);</span><br><span class="line">        connectionFactory.setUsername(<span class="string">&quot;admin&quot;</span>);</span><br><span class="line">        connectionFactory.setPassword(<span class="string">&quot;monochrome&quot;</span>);</span><br><span class="line">        connectionFactory.setVirtualHost(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">        Connection connection = <span class="keyword">null</span>;</span><br><span class="line">        Channel channel = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            connection = connectionFactory.newConnection(<span class="string">&quot;消费者&quot;</span>);</span><br><span class="line">            <span class="comment">//2.创建通道</span></span><br><span class="line">            channel = connection.createChannel();</span><br><span class="line"></span><br><span class="line">            String queueName = <span class="string">&quot;queue1&quot;</span>;</span><br><span class="line"></span><br><span class="line">            channel.basicConsume(queueName, <span class="keyword">true</span>, <span class="keyword">new</span> DeliverCallback() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(String s, Delivery delivery)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;收到消息：&quot;</span> + <span class="keyword">new</span> String(delivery.getBody(), StandardCharsets.UTF_8));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, <span class="keyword">new</span> CancelCallback() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(String s)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;接收消息失败！&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            System.out.println(<span class="string">&quot;开始接收消息&quot;</span>);</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException | TimeoutException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//5.关闭</span></span><br><span class="line">            <span class="keyword">if</span> (channel != <span class="keyword">null</span> &amp;&amp; channel.isOpen()) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    channel.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException | TimeoutException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (connection != <span class="keyword">null</span> &amp;&amp; connection.isOpen()) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    connection.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="AMQP"><a href="#AMQP" class="headerlink" title="AMQP"></a>AMQP</h2><p>AMQP全称：Advanced Message Queuing Protocol（高级消息队列协议）。是应用层协议的一个开发标准，为面向消息的中间件设计</p>
+<h3 id="AMQP生产者流转过程"><a href="#AMQP生产者流转过程" class="headerlink" title="AMQP生产者流转过程"></a>AMQP生产者流转过程</h3><p><img src="/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/AMQP%E7%94%9F%E4%BA%A7%E8%80%85%E6%B5%81%E8%BD%AC%E8%BF%87%E7%A8%8B.png" alt="AMQP生产者流转过程"></p>
+<h3 id="AMQP消费者流转过程"><a href="#AMQP消费者流转过程" class="headerlink" title="AMQP消费者流转过程"></a>AMQP消费者流转过程</h3><p><img src="/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/AMQP%E6%B6%88%E8%B4%B9%E8%80%85%E6%B5%81%E8%BD%AC%E8%BF%87%E7%A8%8B.png" alt="AMQP消费者流转过程"></p>
+<h2 id="RabbitMQ的核心组成部分"><a href="#RabbitMQ的核心组成部分" class="headerlink" title="RabbitMQ的核心组成部分"></a>RabbitMQ的核心组成部分</h2><h3 id="RabbitMQ的核心组成部分-1"><a href="#RabbitMQ的核心组成部分-1" class="headerlink" title="RabbitMQ的核心组成部分"></a>RabbitMQ的核心组成部分</h3><p><img src="/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/RabbitMQ%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86.png" alt="RabbitMQ的核心组成部分"></p>
+<p>Server：又被称为Broker,接受客户端的连接，实现AMQP服务。就是我们自己安装的rabbitmq-server<br>Connection：连接，应用程序与Broker的网络连接（使用的是TCP/IP连接）<br>Channel：网络信道，几乎所有的操作都在Channel中进行，Channel是进行消息读写的通道，每个通道Channel代表一个会话任务。<br>Message：消息，服务于应用程序之间传递的数据，由Properties和body组成，Properties可以对消息进行修饰，比如消息的优先级，延迟等高级特征，Body则是消息体的内容。<br>Virtual Host：虚拟地址，用于逻辑层隔离，最上层的消息路由，一个虚拟机理由可以有若干的Exchange和Queueu，同一个虚拟机里面不能有相同名字的Exchange。<br>Exchange：交换机，接收消息，根据路由键发送消息到绑定的队列（不具备储存消息的能力）<br>Bindings：Exchange和Queue之间的虚拟连接，Binding中可以保护多个routing key.<br>Routing key：是一个路由规则，虚拟机可以用它来确定如何路由一个特定消息。<br>Queue：队列，也是MessageQueue队列，保存消息转发给消费者</p>
+<h3 id="RabbitMQ的操作流程"><a href="#RabbitMQ的操作流程" class="headerlink" title="RabbitMQ的操作流程"></a>RabbitMQ的操作流程</h3><p>第一：获取Conection<br>第二：获取Channel<br>第三：定义Exchange，Queue<br>第四：使用一个RoutingKey将Queue Binding到一个Exchange上<br>第五：通过指定一个Exchange和一个RoutingKey来将消息发送到对应的Queue上，<br>第六：Consumer在接收时也是获取connection，接着获取channel，然后指定一个Queue，到Queue上取消息，它对Exchange，RoutingKey及如何Binding都不关心，到对应的Queue上去取消息就行了。</p>
+<p>注意：一个PublisherClient发送消息，哪些ConsumerClient可以收到消息，在于Exchange，RoutingKey，Queue的关系上</p>
+<h3 id="RabbitMQ支持的消息模型"><a href="#RabbitMQ支持的消息模型" class="headerlink" title="RabbitMQ支持的消息模型"></a>RabbitMQ支持的消息模型</h3><p><img src="/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/RabbitMQ%E6%94%AF%E6%8C%81%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B-1.png" alt="RabbitMQ支持的消息模型-1"></p>
+<p><img src="/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/RabbitMQ%E6%94%AF%E6%8C%81%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B-2.png" alt="RabbitMQ支持的消息模型-2"></p>
+<ol>
+<li>简单模式 Simple</li>
+<li>工作模式 Work</li>
+<li>发布订阅模式</li>
+<li>路由模式</li>
+<li>主题 Topic模式</li>
+<li>参数模式</li>
+</ol>
+<h2 id="RabbitMQ-fanout-模式"><a href="#RabbitMQ-fanout-模式" class="headerlink" title="RabbitMQ - fanout 模式"></a>RabbitMQ - fanout 模式</h2><p><img src="/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/fanout%E6%A8%A1%E5%BC%8F.png" alt="fanout模式"></p>
+<p><strong>发布订阅模式的具体实现</strong></p>
+<ol>
+<li>类型：fanout</li>
+<li>特点：Fanout - 发布与订阅模式，是一种广播机制，它是没有路由 key的模式</li>
+</ol>
+<h3 id="生产者-1"><a href="#生产者-1" class="headerlink" title="生产者"></a>生产者</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//简单模式</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span></span>&#123;</span><br><span class="line">    <span class="comment">//1.创建连接工厂</span></span><br><span class="line">    ConnectionFactory connectionFactory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">    connectionFactory.setHost(<span class="string">&quot;10.15.0.9&quot;</span>);</span><br><span class="line">    connectionFactory.setPort(<span class="number">5672</span>);</span><br><span class="line">    connectionFactory.setUsername(<span class="string">&quot;admin&quot;</span>);</span><br><span class="line">    connectionFactory.setPassword(<span class="string">&quot;admin&quot;</span>);</span><br><span class="line">    connectionFactory.setVirtualHost(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">    Connection connection = connectionFactory.newConnection(<span class="string">&quot;生产者&quot;</span>);</span><br><span class="line">    <span class="comment">//2.创建通道</span></span><br><span class="line">    Channel channel = connection.createChannel();</span><br><span class="line">    <span class="comment">//3.通过创建交换机，声明队列，绑定关系，路由key，发送消息和接受消息</span></span><br><span class="line">    <span class="comment">/*参数1: 是否持久化，非持久化消息会存盘吗？会存盘，但是会随着重启服务器而丢失</span></span><br><span class="line"><span class="comment">      参数2:是否独占队列 </span></span><br><span class="line"><span class="comment">      参数3:是否自动删除，随着最后一个消费者消息完毕消息以后是否把队列自动删除</span></span><br><span class="line"><span class="comment">  	  参数4:携带附属属性</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    String queueName = <span class="string">&quot;queue1&quot;</span>;</span><br><span class="line">    channel.queueDeclare(queueName,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line">    <span class="comment">//4.发送消息给队列queue</span></span><br><span class="line">    <span class="comment">/*参数1: 交换机</span></span><br><span class="line"><span class="comment">      参数2:队列、路由key</span></span><br><span class="line"><span class="comment">      参数3:消息的状态控制</span></span><br><span class="line"><span class="comment">  	  参数4:消息主题</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">//面试题：可以存在没有交换机的队列吗？不可能，虽然没有指定交换机但是一定会存在一个默认的交换机</span></span><br><span class="line">    String message = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">    <span class="comment">//5.准备交换机</span></span><br><span class="line">    String exchangeName = <span class="string">&quot;fanout-exchange&quot;</span>;</span><br><span class="line">    <span class="comment">//6.定义路由key</span></span><br><span class="line">    String routeKey = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="comment">//7.指定交换机的类型</span></span><br><span class="line">    String type = <span class="string">&quot;fanout&quot;</span>;</span><br><span class="line">    channel.basicPublish(exchangeName,routeKey, <span class="keyword">null</span>,message.getBytes());</span><br><span class="line">    <span class="comment">//8.关闭</span></span><br><span class="line">    channel.close();</span><br><span class="line">    connection.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="RabbitMQ-direct-模式"><a href="#RabbitMQ-direct-模式" class="headerlink" title="RabbitMQ - direct 模式"></a>RabbitMQ - direct 模式</h2><p><img src="/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/direct%E6%A8%A1%E5%BC%8F.png" alt="direct模式"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//6.定义路由key</span></span><br><span class="line">String routeKey = <span class="string">&quot;email&quot;</span>;</span><br><span class="line"><span class="comment">//7.指定交换机的类型</span></span><br><span class="line">String type = <span class="string">&quot;direct&quot;</span>;</span><br><span class="line">channel.basicPublish(exchangeName,routeKey, <span class="keyword">null</span>,message.getBytes());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="RabbitMQ-topic-模式"><a href="#RabbitMQ-topic-模式" class="headerlink" title="RabbitMQ - topic 模式"></a>RabbitMQ - topic 模式</h2><p><img src="/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/topic%E6%A8%A1%E5%BC%8F.png" alt="topic模式"></p>
+<p>#：匹配0、1或多个<br>*：匹配一个</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//6.定义路由key</span></span><br><span class="line">String routeKey = <span class="string">&quot;com.order.test.xxx&quot;</span>;</span><br><span class="line"><span class="comment">//7.指定交换机的类型</span></span><br><span class="line">String type = <span class="string">&quot;direct&quot;</span>;</span><br><span class="line">channel.basicPublish(exchangeName, routeKey, <span class="keyword">null</span>,message.getBytes());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="代码创建及绑定"><a href="#代码创建及绑定" class="headerlink" title="代码创建及绑定"></a>代码创建及绑定</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//5.准备交换机</span></span><br><span class="line">String exchangeName = <span class="string">&quot;direct_message_exchange&quot;</span>;</span><br><span class="line">String exchangeType = <span class="string">&quot;direct&quot;</span>;</span><br><span class="line"><span class="comment">//如果你用界面把queue和exchange的关系先绑定话，代码就不需要在编写这些声明代码可以让代码变得更简洁</span></span><br><span class="line"><span class="comment">//如果用代码的方式去声明，我们要学习一下</span></span><br><span class="line"><span class="comment">//6.声明交换机 所谓的持久化就是指，交换机会不会随着服务器重启造成丢失</span></span><br><span class="line">channel.exchangeDeclare(exchangeName,exchangeType,<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//7.声明队列</span></span><br><span class="line">channel.queueDeclare(<span class="string">&quot;queue5&quot;</span>,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line">channel.queueDeclare(<span class="string">&quot;queue6&quot;</span>,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line">channel.queueDeclare(<span class="string">&quot;queue7&quot;</span>,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//8.绑定队列和交换机的关系</span></span><br><span class="line">channel.queueBind(<span class="string">&quot;queue5&quot;</span>,exchangeName,<span class="string">&quot;order&quot;</span>);</span><br><span class="line">channel.queueBind(<span class="string">&quot;queue6&quot;</span>,exchangeName,<span class="string">&quot;order&quot;</span>);</span><br><span class="line">channel.queueBind(<span class="string">&quot;queue7&quot;</span>,exchangeName,<span class="string">&quot;course&quot;</span>);</span><br><span class="line"></span><br><span class="line">channel.basicPublish(exchangeName,course, <span class="keyword">null</span>,message.getBytes());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="RabbitMQ-Header模式"><a href="#RabbitMQ-Header模式" class="headerlink" title="RabbitMQ - Header模式"></a>RabbitMQ - Header模式</h2><p><img src="/images/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/RabbitMQ%E5%AD%A6%E4%B9%A0/Headers%E6%A8%A1%E5%BC%8F.png" alt="image-20210704223607461"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag"># 消息队列</a>
+              <a href="/tags/RabbitMQ/" rel="tag"># RabbitMQ</a>
+              <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+              <a href="/tags/RocketMQ/" rel="tag"># RocketMQ</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/01/Spring%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="prev" title="Spring知识点">
+                  <i class="fa fa-chevron-left"></i> Spring知识点
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">朝阳暮逝忆</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">274k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:09</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script type="text/javascript">
+!function(e,t,a){function n(){c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),o(),r()}function r(){for(var e=0;e<d.length;e++)d[e].alpha<=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText="left:"+d[e].x+"px;top:"+d[e].y+"px;opacity:"+d[e].alpha+";transform:scale("+d[e].scale+","+d[e].scale+") rotate(45deg);background:"+d[e].color+";z-index:99999");requestAnimationFrame(r)}function o(){var t="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){t&&t(),i(e)}}function i(e){var a=t.createElement("div");a.className="heart",d.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()}),t.body.appendChild(a)}function c(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}function s(){return"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}var d=[];e.requestAnimationFrame=function(){return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)}}(),n()}(window,document);
+</script>
+<script type="text/javascript">
+var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(t,e,i){return e&&n(t.prototype,e),i&&n(t,i),t}}();function _classCallCheck(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}!function(P){P.extend({shuicheMouse:function(t){(new e).init(t)}});var e=(_createClass(t,[{key:"init",value:function(t){!function(){for(var a=0,t=["webkit","moz"],e=0;e<t.length&&!window.requestAnimationFrame;++e)window.requestAnimationFrame=window[t[e]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[t[e]+"CancelAnimationFrame"]||window[t[e]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(t,e){var i=(new Date).getTime(),n=Math.max(0,16.7-(i-a)),o=window.setTimeout(function(){t(i+n)},n);return a=i+n,o}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(t){clearTimeout(t)})}(),t&&P.extend(!0,this.defaluts,t);var e=P("<canvas id='shuicheCanvas' style='position: fixed; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></canvas>");P("body").append(e);var i=this.defaluts.type;1<=i&&i<11&&this.mouseType1(this.defaluts.type,this.defaluts.color),11==i&&this.mouseType2(),12==i&&this.mouseType3()}},{key:"mouseType1",value:function(t,e){var n,o,a,h,i=document.getElementById("shuicheCanvas"),s=i.getContext("2d"),r=P("#shuicheCanvas"),l=[],c={n:100,c:222,bc:"#fff",r:.9,o:.05,a:1,s:20},d=0,f=0,u=0,y=0,w=0,p=0,v=0;g();var m,x=360*Math.random();m=e||"hsl("+x+",100%,80%)",P(window).resize(function(){g()});var M=t;function g(){n=window.innerWidth,o=window.innerHeight,i.width=n,i.height=o,a=n/2,h=o/2}P(window).mousemove(function(t){a=t.pageX-r.offset().left,h=t.pageY-r.offset().top,4==M&&(Math.random()<=.5?(d=Math.random()<=.5?-10:n+10,f=Math.random()*o):(f=Math.random()<=.5?-10:o+10,d=Math.random()*n),u=8*(Math.random()-.5),y=8*(Math.random()-.5)),1==M||2==M||3==M?l.push({x:a,y:h,r:c.r,o:1,v:0}):4==M?l.push({x:a,y:h,r:c.r,o:1,v:0,wx:d,wy:f,vx2:u,vy2:y}):6==M&&l.push({x:a+30*(Math.random()-.5),y:h+30*(Math.random()-.5),o:1,wx:a,wy:h})}),function t(){if(1==M){s.clearRect(0,0,n,o);for(var e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),l[e].r+=c.r,l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--)}else if(2==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].r=10,s.shadowBlur=20,s.shadowColor=m,s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o-=c.o,l[e].v+=c.a,l[e].y+=l[e].v,(l[e].y>=o+l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(3==M)for(w+=5,s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].r=20*(1-l[e].y/o),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o=l[e].y/o,l[e].v+=c.a,l[e].y-=c.s,l[e].x+=10*Math.cos((l[e].y+w)/100),(l[e].y<=0-l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(4==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].vx2+=(a-l[e].wx)/1e3,l[e].vy2+=(h-l[e].wy)/1e3,l[e].wx+=l[e].vx2,l[e].wy+=l[e].vy2,l[e].o-=c.o/2,l[e].r=10,s.arc(l[e].wx,l[e].wy,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o<=0&&(l.splice(e,1),e--);else if(5==M)c.c||(m="hsl("+(x+=.1)+",100%,80%)"),s.clearRect(0,0,n,o),p+=10,s.globalAlpha=1,s.fillStyle=m,s.shadowBlur=20,s.shadowColor=m,s.beginPath(),s.arc(a+50*Math.cos(p*Math.PI/180),h+50*Math.sin(p*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+180)*Math.PI/180),h+50*Math.sin((p+180)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+90)*Math.PI/180),h+50*Math.sin((p+90)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+270)*Math.PI/180),h+50*Math.sin((p+270)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0;else if(6==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.strokeStyle=m,s.beginPath(),s.lineWidth=2,s.moveTo(l[e].x,l[e].y),s.lineTo((l[e].wx+l[e].x)/2+20*Math.random(),(l[e].wy+l[e].y)/2+20*Math.random()),s.lineTo(l[e].wx,l[e].wy),s.closePath(),s.stroke(),l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--);else if(7==M)for(s.clearRect(0,0,n,o),l.length<2*c.n&&(v=2*Math.random()*Math.PI,l.push({x:a+100*(Math.random()-.5)*Math.cos(v),y:h+100*(Math.random()-.5)*Math.cos(v),o:1,h:v})),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].x+=(a-l[e].x)/10,l[e].y+=(h-l[e].y)/10,s.arc(l[e].x,l[e].y,1,0,2*Math.PI),s.closePath(),s.fill(),l[e].o-=c.o,l[e].o<=0&&(l[e].h=2*Math.random()*Math.PI,l[e].x=a+100*(Math.random()-.5)*Math.cos(l[e].h),l[e].y=h+100*(Math.random()-.5)*Math.sin(l[e].h),l[e].o=1);else if(8==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),e=a-60;e<a+60;e+=4)for(var i=h-60;i<h+60;i+=4)Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))<=60&&(s.globalAlpha=1-Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))/60,Math.random()<.2&&s.fillRect(e,i,3,3));else if(9==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),l.length<c.n&&l.push({x:a,y:h,xv:0,yv:0,o:1}),e=0;e<l.length;e++)0==l[e].xv&&0==l[e].yv?Math.random()<.5?Math.random()<.5?l[e].xv=3:l[e].xv=-3:Math.random()<.5?l[e].yv=3:l[e].yv=-3:0==l[e].xv?Math.random()<.66&&(l[e].yv=0,Math.random()<.5?l[e].xv=3:l[e].xv=-3):0==l[e].yv&&Math.random()<.66&&(l[e].xv=0,Math.random()<.5?l[e].yv=3:l[e].yv=-3),l[e].o-=c.o/2,s.globalAlpha=l[e].o,l[e].x+=l[e].xv,l[e].y+=l[e].yv,s.fillRect(l[e].x,l[e].y,3,3),l[e].o<=0&&(l.splice(e,1),e--);else if(10==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,l.push({x:a,y:h,xv:2,yv:1,o:1}),e=0;e<l.length;e++)l[e].o-=c.o/10,s.globalAlpha=l[e].o,l[e].x+=4*(Math.random()-.5),--l[e].y,s.fillRect(l[e].x,l[e].y,2,2),l[e].o<=0&&(l.splice(e,1),e--);window.requestAnimationFrame(t)}()}},{key:"mouseType2",value:function(){var t,o,a,h=window.innerWidth,s=window.innerHeight,i=70,r=1,l=1,c=1.5,n=25,d=.5*h,f=.5*s,u=!1;function e(t){console.log("----------"),d=t.clientX-.5*(window.innerWidth-h),f=t.clientY-.5*(window.innerHeight-s)}function y(t){u=!0}function w(t){u=!1}function p(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function v(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function m(){h=window.innerWidth,s=window.innerHeight,t.width=h,t.height=s}function x(){u?r+=.02*(c-r):r-=.02*(r-l),r=Math.min(r,c),o.clearRect(0,0,o.canvas.width,o.canvas.height);for(var t=0,e=a.length;t<e;t++){var i=a[t],n={x:i.position.x,y:i.position.y};i.offset.x+=i.speed,i.offset.y+=i.speed,i.shift.x+=(d-i.shift.x)*i.speed,i.shift.y+=(f-i.shift.y)*i.speed,i.position.x=i.shift.x+Math.cos(t+i.offset.x)*(i.orbit*r),i.position.y=i.shift.y+Math.sin(t+i.offset.y)*(i.orbit*r),i.position.x=Math.max(Math.min(i.position.x,h),0),i.position.y=Math.max(Math.min(i.position.y,s),0),i.size+=.01*(i.targetSize-i.size),Math.round(i.size)==Math.round(i.targetSize)&&(i.targetSize=1+2*Math.random()),o.beginPath(),o.fillStyle=i.fillColor,o.strokeStyle=i.fillColor,o.lineWidth=i.size,o.moveTo(n.x,n.y),o.lineTo(i.position.x,i.position.y),o.stroke(),o.arc(i.position.x,i.position.y,i.size/2,0,2*Math.PI,!0),o.fill()}window.requestAnimationFrame(x)}(t=document.getElementById("shuicheCanvas"))&&t.getContext&&(o=t.getContext("2d"),window.addEventListener("mousemove",e,!1),window.addEventListener("mousedown",y,!1),window.addEventListener("mouseup",w,!1),document.addEventListener("touchstart",p,!1),document.addEventListener("touchmove",v,!1),window.addEventListener("resize",m,!1),function(){a=[];for(var t=0;t<n;t++){var e={size:1,position:{x:d,y:f},offset:{x:0,y:0},shift:{x:d,y:f},speed:.01+.04*Math.random(),targetSize:1,fillColor:"#"+(9453632*Math.random()+11184810|0).toString(16),orbit:.5*i+.5*i*Math.random()};a.push(e)}}(),m(),x())}},{key:"mouseType3",value:function(){var t=P("<div id='shuicheDiv' style='position: fixed;width: 100%;height: "+P(window).height()+"px; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></div>");P("body").append(t),new(function(){function i(t){return document.getElementById(t)}function t(t,e){this.config=e||{},this.obj=i(t),n=this.config.speed||4,o=this.config.animR||1,a={x:.5*i(t).offsetWidth,y:.5*i(t).offsetHeight},this.setXY(),this.start()}var n,o,a,r=[],l=0;t.prototype={setXY:function(){var t,e;this.obj,t="mousemove",e=function(t){t=t||window.event,console.log(t.clientX),a.x=t.clientX,a.y=t.clientY},window.addEventListener?window.addEventListener(t,e,!1):window.attachEvent("on"+t,function(){e.call(window)})},start:function(){Math.PI;var t,e,i=this.config.fn;r[l++]=t=new c(null,0,0);for(var n=0;n<360;n+=20)for(var o=t,a=10;a<35;a+=1){var h=i(n,a).x,s=i(n,a).y;r[l++]=e=new c(o,h,s),o=e}setInterval(function(){for(var t=0;t<l;t++)r[t].run()},16)}};var c=function(t,e,i){var n=document.createElement("span");this.css=n.style,this.css.backgroundColor="#2D8CF0",this.css.width="2px",this.css.height="2px",this.css.position="absolute",this.css.left="-1000px",this.css.zIndex=1e3-l,document.getElementById("shuicheDiv").appendChild(n),this.ddx=0,this.ddy=0,this.PX=0,this.PY=0,this.x=0,this.y=0,this.x0=0,this.y0=0,this.cx=e,this.cy=i,this.parent=t};return c.prototype.run=function(){this.parent?(this.x0=this.parent.x,this.y0=this.parent.y):(this.x0=a.x,this.y0=a.y),this.x=this.PX+=(this.ddx+=(this.x0-this.PX-this.ddx+this.cx)/o)/n,this.y=this.PY+=(this.ddy+=(this.y0-this.PY-this.ddy+this.cy)/o)/n,this.css.left=Math.round(this.x)+"px",this.css.top=Math.round(this.y)+"px"},t}())("shuicheDiv",{speed:4,animR:2,fn:function(t,e){return{x:e/4*Math.cos(t),y:e/4*Math.sin(t)}}})}},{key:"cnblogs",get:function(){return{canvase:"#shuicheCanvase"}}}]),t);function t(){_classCallCheck(this,t),this.defaluts={type:1,color:!1},this.version="0.0.1"}}(jQuery);
+</script>
+<script type="text/javascript">
+    $.shuicheMouse({
+        type:11,
+        color:false
+    })
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+
+
+
+
+
+</body>
+</html>
