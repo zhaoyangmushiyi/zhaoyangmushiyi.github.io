@@ -291,7 +291,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-25 14:07:57" itemprop="dateModified" datetime="2021-07-25T14:07:57+08:00">2021-07-25</time>
+        <time title="修改时间：2021-07-25 14:11:21" itemprop="dateModified" datetime="2021-07-25T14:11:21+08:00">2021-07-25</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -334,73 +334,14 @@
 <p>而抽象类的设计目的，是代码复用。当不同的类具有某些相同的行为(记为行为集合A)，且其中一部分行 为的实现方式一致时(A的非真子集，记为B)，可以让这些类都派生于一个抽象类。在这个抽象类中实 现了B，避免让所有的子类来实现B，这就达到了代码复用的目的。而A减B的部分，留给各个子类自己 实现。正是因为A-B在这里没有实现，所以抽象类不允许实例化出来(否则当调用到A-B时，无法执 行)。</p>
 <p>抽象类是对类本质的抽象，表达的是 is a 的关系，比如: BMW is a Car 。抽象类包含并实现子类的通 用特性，将子类存在差异化的特性进行抽象，交由子类去实现。</p>
 <p>而接口是对行为的抽象，表达的是 like a 的关系。比如: Bird like a Aircraft (像飞行器一样可以 飞)，但其本质上 is a Bird 。接口的核心是定义行为，即实现类可以做什么，至于实现类主体是谁、 是如何实现的，接口并不关心。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">使用场景:当你关注一个事物的本质的时候，用抽象类;当你关注一个操作的时候，用接口。</span><br><span class="line">抽象类的功能要远超过接口，但是，定义抽象类的代价高。因为高级语言来说(从实际设计上来说也</span><br><span class="line">是)每个类只能继承一个类。在这个类中，你必须继承或编写出其所有子类的所有共性。虽然接口在功</span><br><span class="line">能上会弱化许多，但是它只是针对一个动作的描述。而且你可以在一个类中同时实现多个接口。在设计</span><br><span class="line">阶段会降低难度</span><br></pre></td></tr></table></figure>
-
-<h2 id="List和Set的区别"><a href="#List和Set的区别" class="headerlink" title="List和Set的区别"></a><strong>List和Set的区别</strong></h2><p>List:有序，按对象进入的顺序保存对象，可重复，允许多个Null元素对象，可以使用Iterator取出 所有元素，在逐一遍历，还可以使用get(int index)获取指定下标的元素</p>
-<p>Set:无序，不可重复，最多允许有一个Null元素对象，取元素时只能用Iterator接口取得所有元 素，在逐一遍历各个元素</p>
-<h2 id="ArrayList和LinkedList区别"><a href="#ArrayList和LinkedList区别" class="headerlink" title="ArrayList和LinkedList区别"></a><strong>ArrayList和LinkedList区别</strong></h2><p>ArrayList:基于动态数组，连续内存存储，适合下标访问(随机访问)，扩容机制:因为数组长度固定，超出长度存数据时需要新建数组，然后将老数组的数据拷贝到新数组，如果不是尾部插入数据还会 涉及到元素的移动(往后复制一份，插入新元素)，使用尾插法并指定初始容量可以极大提升性能、甚至超过linkedList(需要创建大量的node对象)</p>
-<p>LinkedList:基于链表，可以存储在分散的内存中，适合做数据插入及删除操作，不适合查询:需要逐 一遍历</p>
-<p>遍历LinkedList必须使用iterator不能使用for循环，因为每次for循环体内通过get(i)取得某一元素时都需 要对list重新进行遍历，性能消耗极大。 另外不要试图使用indexOf等返回元素索引，并利用其进行遍历，使用indexlOf对list进行了遍历，当结果为空时会遍历整个列表。</p>
-<h2 id="HashMap和HashTable有什么区别-其底层实现是什么"><a href="#HashMap和HashTable有什么区别-其底层实现是什么" class="headerlink" title="HashMap和HashTable有什么区别?其底层实现是什么?"></a><strong>HashMap和HashTable有什么区别?其底层实现是什么?</strong></h2><p>区别：</p>
-<ol>
-<li>HashMap方法没有synchronized修饰，线程非安全，HashTable线程安全; </li>
-<li>HashMap允许key和value为null，而HashTable不允许</li>
-</ol>
-<p>底层实现：</p>
-<p>数组+链表实现         jdk8开始链表高度到8、数组长度超过64，链表转变为红黑树，元素以内部类Node节点存在</p>
-<ul>
-<li>计算key的hash值，二次hash然后对数组长度取模，对应到数组下标</li>
-<li>如果没有产生hash冲突(下标位置没有元素)，则直接创建Node存入数组</li>
-<li>如果产生hash冲突，先进行equal比较，相同则取代该元素，不同，则判断链表高度插入链表，链表高度达到8，并且数组长度到64则转变为红黑树，长度低于6则将红黑树转回链表</li>
-<li>key为null，存在下标0的位置</li>
-</ul>
-<h2 id="ConcurrentHashMap原理，jdk7和jdk8版本的区别"><a href="#ConcurrentHashMap原理，jdk7和jdk8版本的区别" class="headerlink" title="ConcurrentHashMap原理，jdk7和jdk8版本的区别"></a><strong>ConcurrentHashMap原理，jdk7和jdk8版本的区别</strong></h2><h3 id="jdk7"><a href="#jdk7" class="headerlink" title="jdk7:"></a>jdk7:</h3><p>数据结构：ReentrantLock+Segment+HashEntry，一个Segment中包含一个HashEntry数组，每个 HashEntry又是一个链表结构</p>
-<p>元素查询：二次hash，第一次Hash定位到Segment，第二次Hash定位到元素所在的链表的头部 锁：Segment分段锁 Segment继承了ReentrantLock，锁定操作的Segment，其他的Segment不受影响，并发度为segment个数，可以通过构造函数指定，数组扩容不会影响其他的segment</p>
-<p>get方法无需加锁，volatile保证</p>
-<h3 id="jdk8："><a href="#jdk8：" class="headerlink" title="jdk8："></a>jdk8：</h3><p>数据结构：synchronized+CAS+Node+红黑树，Node的val和next都用volatile修饰，保证可见性</p>
-<p>查找，替换，赋值操作都使用CAS</p>
-<p>锁：锁链表的head节点，不影响其他元素的读写，锁粒度更细，效率更高，扩容时，阻塞所有的读写 操作、并发扩容</p>
-<p>读操作无锁： Node的val和next使用volatile修饰，读写线程对该变量互相可见 数组用volatile修饰，保证扩容时被读线程感知</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a><strong>引用</strong></h2><ul>
-<li>强引用是最传统的“引用”的定义，是指在程序代码之中普遍存在的引用赋值，即类似“Object obj=new Object()”这种引用关系。无论任何情况下，只要强引用关系还存在，垃圾收集器就永远不会回收掉被引用的对象。</li>
-<li>软引用是用来描述一些还有用，但非必须的对象。只被软引用关联着的对象，在系统将要发生内存溢出异常前，会把这些对象列进回收范围之中进行第二次回收，如果这次回收还没有足够的内存，才会抛出内存溢出异常。在JDK 1.2版之后提供了SoftReference类来实现软引用。</li>
-<li>弱引用也是用来描述那些非必须对象，但是它的强度比软引用更弱一些，被弱引用关联的对象只能生存到下一次垃圾收集发生为止。当垃圾收集器开始工作，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。在JDK 1.2版之后提供了WeakReference类来实现弱引用。</li>
-<li>虚引用也称为“幽灵引用”或者“幻影引用”，它是最弱的一种引用关系。一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。为一个对象设置虚引用关联的唯一目的只是为了能在这个对象被收集器回收时收到一个系统通知。在JDK 1.2版之后提供 了Phant omReference类来实现虚引用。</li>
-</ul>
-<h2 id="ThreadLocal的原理和使用场景"><a href="#ThreadLocal的原理和使用场景" class="headerlink" title="ThreadLocal的原理和使用场景"></a><strong>ThreadLocal的原理和使用场景</strong></h2><p>每一个<code>Thread</code>对象均含有一个<code>ThreadLocalMap</code>类型的成员变量<code>threadLocals</code>，它存储本线程中所有<code>ThreadLocal</code>对象及其对应的值</p>
-<p><code>ThreadLocalMap</code>由一个个<code>Entry</code>对象构成</p>
-<p><code>Entry</code>继承自<code>WeakReference&lt;ThreadLocal&lt;?&gt;&gt;</code>，一个<code>Entry</code>由<code>ThreadLocal</code>对象和<code>Object</code>构成。由此可见，<code>Entry</code>的<code>key</code>是<code>ThreadLocal</code>对象，并且是一个弱引用。当没指向<code>key</code>的强引用后，该<code>key</code>就会被垃圾收集器回收</p>
-<p>当执行<code>set</code>方法时，<code>ThreadLocal</code>首先会获取当前线程对象，然后获取当前线程的<code>ThreadLocalMap</code>对象。再以当前<code>ThreadLocal</code>对象为<code>key</code>，将值存储进<code>ThreadLocalMap</code>对象中。</p>
-<p><code>get</code>方法执行过程类似。<code>ThreadLocal</code>首先会获取当前线程对象，然后获取当前线程的<code>ThreadLocalMap</code>对象。再以当前<code>ThreadLocal</code>对象为<code>key</code>，获取对应的<code>value</code>。</p>
-<p>由于每一条线程均含有各自<strong>私有的</strong><code>ThreadLocalMap</code>容器，这些容器相互独立互不影响，因此不会存在线程安全性问题，从而也无需使用同步机制来保证多条线程访问容器的互斥性。</p>
-<p>使用场景:</p>
-<ol>
-<li>在进行对象跨层传递的时候，使用ThreadLocal可以避免多次传递，打破层次间的约束。</li>
-<li>线程间数据隔离</li>
-<li>进行事务操作，用于存储线程事务信息。</li>
-<li>数据库连接，Session会话管理。</li>
-</ol>
-<blockquote>
-<p>Spring框架在事务开始时会给当前线程绑定一个Jdbc Connection，在整个事务过程都是使用该线程绑定的connection来执行数据库操作，实现了事务的隔离性。Spring框架里面就是用的ThreadLocal来实现这种隔离</p>
-</blockquote>
-<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E5%B0%8F%E7%BB%93/ThreadLocal%E5%8E%9F%E7%90%86.png" alt="ThreadLocal原理"></p>
-<h2 id="ThreadLocal内存泄露原因，如何避免"><a href="#ThreadLocal内存泄露原因，如何避免" class="headerlink" title="ThreadLocal内存泄露原因，如何避免"></a><strong>ThreadLocal内存泄露原因，如何避免</strong></h2><p>内存泄露为程序在申请内存后，无法释放已申请的内存空间，一次内存泄露危害可以忽略，但内存泄露</p>
-<p>堆积后果很严重，无论多少内存，迟早会被占光，不再会被使用的对象或者变量占用的内存不能被回收，就是内存泄露。</p>
-<p>强引用:使用最普遍的引用(new)，一个对象具有强引用，不会被垃圾回收器回收。当内存空间不足， Java虚拟机宁愿抛出OutOfMemoryError错误，使程序异常终止，也不回收这种对象。</p>
-<p>如果想取消强引用和某个对象之间的关联，可以显式地将引用赋值为null，这样可以使JVM在合适的时 间就会回收该对象。</p>
-<p>弱引用:JVM进行垃圾回收时，无论内存是否充足，都会回收被弱引用关联的对象。在java中，用 java.lang.ref.WeakReference类来表示。可以在缓存中使用弱引用。</p>
-<p>ThreadLocal的实现原理，每一个Thread维护一个ThreadLocalMap，key为使用<strong>弱引用</strong>的ThreadLocal 实例，value为线程变量的副本</p>
-<p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E5%B0%8F%E7%BB%93/ThreadLocal%E5%8E%9F%E7%90%86.png" alt="ThreadLocal原理"></p>
-<p>hreadLocalMap使用ThreadLocal的弱引用作为key，如果一个ThreadLocal不存在外部<strong>强引用</strong>时， Key(ThreadLocal)势必会被GC回收，这样就会导致ThreadLocalMap中key为null， 而value还存在着强 引用，只有thead线程退出以后,value的强引用链条才会断掉，但如果当前线程再迟迟不结束的话，这 些key为null的Entry的value就会一直存在一条强引用链(红色链条)</p>
-<p>key 使用强引用 当hreadLocalMap的key为强引用回收ThreadLocal时，因为ThreadLocalMap还持有ThreadLocal的强引用，如果没有手动删除，ThreadLocal不会被回收，导致Entry内存泄漏。 key 使用弱引用</p>
-<p>当ThreadLocalMap的key为弱引用回收ThreadLocal时，由于ThreadLocalMap持有ThreadLocal的弱 引用，即使没有手动删除，ThreadLocal也会被回收。当key为null，在下一次ThreadLocalMap调用 set(),get()，remove()方法的时候会被清除value值。</p>
-<p>因此，ThreadLocal内存泄漏的根源是:由于ThreadLocalMap的生命周期跟Thread一样长，如果没有 手动删除对应key就会导致内存泄漏，而不是因为弱引用。</p>
-<p>ThreadLocal正确的使用方法：</p>
-<ol>
-<li>每次使用完ThreadLocal都调用它的remove()方法清除数据</li>
-<li>将ThreadLocal变量定义成private static，这样就一直存在ThreadLocal的强引用，也就能保证任 何时候都能通过ThreadLocal的弱引用访问到Entry的value值，进而清除掉 。</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/16/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E5%B0%8F%E7%BB%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

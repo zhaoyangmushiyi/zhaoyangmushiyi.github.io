@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E5%B0%8F%E7%BB%93/ThreadLocal%E5%8E%9F%E7%90%86.png">
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E5%B0%8F%E7%BB%93/ThreadLocal%E5%8E%9F%E7%90%86.png">
 <meta property="article:published_time" content="2021-07-16T03:05:35.000Z">
-<meta property="article:modified_time" content="2021-07-25T06:07:57.948Z">
+<meta property="article:modified_time" content="2021-07-25T06:11:21.014Z">
 <meta property="article:author" content="朝阳暮逝忆">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -299,7 +299,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-25 14:07:57" itemprop="dateModified" datetime="2021-07-25T14:07:57+08:00">2021-07-25</time>
+        <time title="修改时间：2021-07-25 14:11:21" itemprop="dateModified" datetime="2021-07-25T14:11:21+08:00">2021-07-25</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -342,6 +342,8 @@
 <p>而抽象类的设计目的，是代码复用。当不同的类具有某些相同的行为(记为行为集合A)，且其中一部分行 为的实现方式一致时(A的非真子集，记为B)，可以让这些类都派生于一个抽象类。在这个抽象类中实 现了B，避免让所有的子类来实现B，这就达到了代码复用的目的。而A减B的部分，留给各个子类自己 实现。正是因为A-B在这里没有实现，所以抽象类不允许实例化出来(否则当调用到A-B时，无法执 行)。</p>
 <p>抽象类是对类本质的抽象，表达的是 is a 的关系，比如: BMW is a Car 。抽象类包含并实现子类的通 用特性，将子类存在差异化的特性进行抽象，交由子类去实现。</p>
 <p>而接口是对行为的抽象，表达的是 like a 的关系。比如: Bird like a Aircraft (像飞行器一样可以 飞)，但其本质上 is a Bird 。接口的核心是定义行为，即实现类可以做什么，至于实现类主体是谁、 是如何实现的，接口并不关心。</p>
+<span id="more"></span>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">使用场景:当你关注一个事物的本质的时候，用抽象类;当你关注一个操作的时候，用接口。</span><br><span class="line">抽象类的功能要远超过接口，但是，定义抽象类的代价高。因为高级语言来说(从实际设计上来说也</span><br><span class="line">是)每个类只能继承一个类。在这个类中，你必须继承或编写出其所有子类的所有共性。虽然接口在功</span><br><span class="line">能上会弱化许多，但是它只是针对一个动作的描述。而且你可以在一个类中同时实现多个接口。在设计</span><br><span class="line">阶段会降低难度</span><br></pre></td></tr></table></figure>
 
 <h2 id="List和Set的区别"><a href="#List和Set的区别" class="headerlink" title="List和Set的区别"></a><strong>List和Set的区别</strong></h2><p>List:有序，按对象进入的顺序保存对象，可重复，允许多个Null元素对象，可以使用Iterator取出 所有元素，在逐一遍历，还可以使用get(int index)获取指定下标的元素</p>
