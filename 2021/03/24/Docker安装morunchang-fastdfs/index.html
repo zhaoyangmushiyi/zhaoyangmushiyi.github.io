@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
@@ -16,21 +15,17 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
-  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
-  </script>
-<meta name="description" content="Docker安装morunchang&#x2F;fastdfsFastDFS简介FastDFS是一款开源的分布式文件系统，功能主要包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了文件大容量存储和高性能访问的问题。FastDFS特别适合以文件为载体的在线服务，如图片、视频、文档等等。 FastDFS作为一款轻量级分布式文件系统，版本V6.01代码量6.3万行。FastDFS用C语言实现，支持">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Docker安装morunchang&#x2F;fastdfsFastDFS简介FastDFS是一款开源的分布式文件系统，功能主要包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了文件大容量存储和高性能访问的问题。FastDFS特别适合以文件为载体的在线服务，如图片、视频、文档等等。 FastDFS作为一款轻量级分布式文件系统，版本V6.01代码量6.3万行。FastDFS用C语言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker安装morunchang&#x2F;fastdfs">
 <meta property="og:url" content="http://zhaoyangmushiyi.github.io/2021/03/24/Docker%E5%AE%89%E8%A3%85morunchang-fastdfs/index.html">
 <meta property="og:site_name" content="朝阳暮逝忆">
-<meta property="og:description" content="Docker安装morunchang&#x2F;fastdfsFastDFS简介FastDFS是一款开源的分布式文件系统，功能主要包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了文件大容量存储和高性能访问的问题。FastDFS特别适合以文件为载体的在线服务，如图片、视频、文档等等。 FastDFS作为一款轻量级分布式文件系统，版本V6.01代码量6.3万行。FastDFS用C语言实现，支持">
+<meta property="og:description" content="Docker安装morunchang&#x2F;fastdfsFastDFS简介FastDFS是一款开源的分布式文件系统，功能主要包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了文件大容量存储和高性能访问的问题。FastDFS特别适合以文件为载体的在线服务，如图片、视频、文档等等。 FastDFS作为一款轻量级分布式文件系统，版本V6.01代码量6.3万行。FastDFS用C语言">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-24T09:38:47.000Z">
 <meta property="article:modified_time" content="2021-06-23T11:29:18.908Z">
@@ -43,56 +38,20 @@
 <link rel="canonical" href="http://zhaoyangmushiyi.github.io/2021/03/24/Docker%E5%AE%89%E8%A3%85morunchang-fastdfs/">
 
 
-<script class="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2021/03/24/Docker%E5%AE%89%E8%A3%85morunchang-fastdfs/","path":"2021/03/24/Docker安装morunchang-fastdfs/","title":"Docker安装morunchang/fastdfs"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Docker安装morunchang/fastdfs | 朝阳暮逝忆</title>
   
 
 
 
 
+
   <noscript>
-  <style>
-  body { margin-top: 2rem; }
-
-  .use-motion .menu-item,
-  .use-motion .sidebar,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header {
-    visibility: visible;
-  }
-
-  .use-motion .header,
-  .use-motion .site-brand-container .toggle,
-  .use-motion .footer { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle,
-  .use-motion .custom-logo-image {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line {
-    transform: scaleX(1);
-  }
-
-  .search-pop-overlay, .sidebar-nav { display: none; }
-  .sidebar-panel { display: block; }
-  </style>
-</noscript>
-
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -113,7 +72,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">朝阳暮逝忆</h1>
+      <p class="site-title">朝阳暮逝忆</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -128,12 +87,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu">
-        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -190,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85morunchang-fastdfs"><span class="nav-number">1.</span> <span class="nav-text">Docker安装morunchang&#x2F;fastdfs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">FastDFS简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS%E7%94%B1%E8%B7%9F%E8%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8-Tracker-Server-%E3%80%81%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%E5%99%A8-Storage-Server-%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF-Client-%E6%9E%84%E6%88%90%E3%80%82"><span class="nav-number">1.2.</span> <span class="nav-text">FastDFS由跟踪服务器(Tracker Server)、存储服务器(Storage Server)和客户端(Client)构成。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tracker-server-%E8%BF%BD%E8%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">Tracker server 追踪服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Storage-server-%E5%82%A8%E5%AD%98%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">Storage server 储存服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AFClient"><span class="nav-number">1.2.3.</span> <span class="nav-text">客户端Client</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS%E7%89%B9%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">FastDFS特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85FastDFS"><span class="nav-number">1.4.</span> <span class="nav-text">安装FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E9%95%9C%E5%83%8F"><span class="nav-number">1.4.1.</span> <span class="nav-text">获取镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AETracker"><span class="nav-number">1.4.2.</span> <span class="nav-text">设置Tracker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C-tracker"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">运行 tracker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5-tracker"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">进入 tracker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">修改端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEStorage"><span class="nav-number">1.4.3.</span> <span class="nav-text">设置Storage</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C-storage"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">*运行 storage *</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5-storage"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">进入 storage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%AB%AF%E5%8F%A3-1"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">修改端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.4.</span> <span class="nav-text">替换配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87Spring-Boot%E4%BD%BF%E7%94%A8FastDFS"><span class="nav-number">1.5.</span> <span class="nav-text">通过Spring Boot使用FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5Maven%E4%BE%9D%E8%B5%96"><span class="nav-number">1.5.1.</span> <span class="nav-text">导入Maven依赖</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85morunchang-x2F-fastdfs"><span class="nav-number">1.</span> <span class="nav-text">Docker安装morunchang&#x2F;fastdfs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">FastDFS简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS%E7%94%B1%E8%B7%9F%E8%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8-Tracker-Server-%E3%80%81%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%E5%99%A8-Storage-Server-%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF-Client-%E6%9E%84%E6%88%90%E3%80%82"><span class="nav-number">1.2.</span> <span class="nav-text">FastDFS由跟踪服务器(Tracker Server)、存储服务器(Storage Server)和客户端(Client)构成。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tracker-server-%E8%BF%BD%E8%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">Tracker server 追踪服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Storage-server-%E5%82%A8%E5%AD%98%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">Storage server 储存服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AFClient"><span class="nav-number">1.2.3.</span> <span class="nav-text">客户端Client</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS%E7%89%B9%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">FastDFS特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85FastDFS"><span class="nav-number">1.4.</span> <span class="nav-text">安装FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E9%95%9C%E5%83%8F"><span class="nav-number">1.4.1.</span> <span class="nav-text">获取镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AETracker"><span class="nav-number">1.4.2.</span> <span class="nav-text">设置Tracker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C-tracker"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">运行 tracker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5-tracker"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">进入 tracker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">修改端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEStorage"><span class="nav-number">1.4.3.</span> <span class="nav-text">设置Storage</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C-storage"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">**运行 storage **</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5-storage"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">进入 storage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%AB%AF%E5%8F%A3-1"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">修改端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.4.</span> <span class="nav-text">替换配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87Spring-Boot%E4%BD%BF%E7%94%A8FastDFS"><span class="nav-number">1.5.</span> <span class="nav-text">通过Spring Boot使用FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5Maven%E4%BE%9D%E8%B5%96"><span class="nav-number">1.5.1.</span> <span class="nav-text">导入Maven依赖</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -204,21 +158,18 @@
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
+        <a href="/archives/">
           <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
+          <a href="/categories/">
         <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
+          <a href="/tags/">
         <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
@@ -245,7 +196,7 @@
     </header>
 
     
-  <div class="back-to-top" role="button">
+  <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
@@ -271,11 +222,16 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/next/Avatar.png">
       <meta itemprop="name" content="朝阳暮逝忆">
-      <meta itemprop="description" content="Monochrome">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="description" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Docker安装morunchang/fastdfs | 朝阳暮逝忆">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -292,13 +248,13 @@
 
       <time title="创建时间：2021-03-24 17:38:47" itemprop="dateCreated datePublished" datetime="2021-03-24T17:38:47+08:00">2021-03-24</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-06-23 19:29:18" itemprop="dateModified" datetime="2021-06-23T19:29:18+08:00">2021-06-23</time>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
       </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-06-23 19:29:18" itemprop="dateModified" datetime="2021-06-23T19:29:18+08:00">2021-06-23</time>
+    </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -314,8 +270,7 @@
     </span>
 
   
-      </div>
-      <div class="post-meta">
+    <span class="post-meta-break"></span>
     <span class="post-meta-item" title="本文字数">
       <span class="post-meta-item-icon">
         <i class="far fa-file-word"></i>
@@ -339,7 +294,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="Docker安装morunchang-fastdfs"><a href="#Docker安装morunchang-fastdfs" class="headerlink" title="Docker安装morunchang/fastdfs"></a>Docker安装morunchang/fastdfs</h1><h2 id="FastDFS简介"><a href="#FastDFS简介" class="headerlink" title="FastDFS简介"></a>FastDFS简介</h2><p>FastDFS是一款开源的分布式文件系统，功能主要包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了文件大容量存储和高性能访问的问题。FastDFS特别适合以文件为载体的在线服务，如图片、视频、文档等等。</p>
+        <h1 id="Docker安装morunchang-x2F-fastdfs"><a href="#Docker安装morunchang-x2F-fastdfs" class="headerlink" title="Docker安装morunchang&#x2F;fastdfs"></a>Docker安装morunchang&#x2F;fastdfs</h1><h2 id="FastDFS简介"><a href="#FastDFS简介" class="headerlink" title="FastDFS简介"></a>FastDFS简介</h2><p>FastDFS是一款开源的分布式文件系统，功能主要包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了文件大容量存储和高性能访问的问题。FastDFS特别适合以文件为载体的在线服务，如图片、视频、文档等等。</p>
 <p>FastDFS作为一款轻量级分布式文件系统，版本V6.01代码量6.3万行。FastDFS用C语言实现，支持Linux、FreeBSD、MacOS等类UNIX系统。FastDFS类似google FS，属于应用级文件系统，不是通用的文件系统，只能通过专有API访问，目前提供了C和Java SDK，以及PHP扩展SDK。</p>
 <p>FastDFS为互联网应用量身定做，解决大容量文件存储问题，追求高性能和高扩展性。FastDFS可以看做是基于文件的key value存储系统，key为文件ID，value为文件内容，因此称作分布式文件存储服务更为合适。</p>
 <span id="more"></span>
@@ -366,30 +321,30 @@
 
 <h3 id="设置Tracker"><a href="#设置Tracker" class="headerlink" title="设置Tracker"></a>设置Tracker</h3><h4 id="运行-tracker"><a href="#运行-tracker" class="headerlink" title="运行 tracker"></a>运行 tracker</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name tracker --net=host morunchang/fastdfs sh tracker.sh</span><br></pre></td></tr></table></figure>
 
-<p>上面的启动命令是在Linux下，如果是Mac或Windows操作系统network=host（容器与主机享受相同的network namespace）会失效，此时需要指定对应的端口映射，-p 22122:22122 </p>
+<p>上面的启动命令是在Linux下，如果是Mac或Windows操作系统network&#x3D;host（容器与主机享受相同的network namespace）会失效，此时需要指定对应的端口映射，-p 22122:22122 </p>
 <h4 id="进入-tracker"><a href="#进入-tracker" class="headerlink" title="进入 tracker"></a>进入 tracker</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it tracker /bin/bash</span><br></pre></td></tr></table></figure>
 
 <h4 id="修改端口"><a href="#修改端口" class="headerlink" title="修改端口"></a>修改端口</h4><p><strong><code>/etc/nginx/conf/nginx.conf</code></strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       21000;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server <span class="punctuation">&#123;</span></span><br><span class="line">        listen       <span class="number">21000</span>;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p><strong><code>/etc/fdfs/client.conf</code></strong></p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">tracker_server</span>=<span class="string">127.0.0.1:22122</span></span><br><span class="line"><span class="attr">......</span></span><br><span class="line"><span class="meta">http.tracker_server_port</span>=<span class="string">21000</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">tracker_server</span>=<span class="string">127.0.0.1:22122</span></span><br><span class="line"><span class="attr">......</span></span><br><span class="line"><span class="attr">http.tracker_server_port</span>=<span class="string">21000</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong><code>/etc/fdfs/tracker.conf</code></strong></p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">port</span>=<span class="string">22122</span></span><br><span class="line"><span class="attr">......</span></span><br><span class="line"><span class="meta">http.server_port</span>=<span class="string">21000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">port</span>=<span class="string">22122</span></span><br><span class="line"><span class="attr">......</span></span><br><span class="line"><span class="attr">http.server_port</span>=<span class="string">21000</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="设置Storage"><a href="#设置Storage" class="headerlink" title="设置Storage"></a>设置Storage</h3><h4 id="运行-storage"><a href="#运行-storage" class="headerlink" title="*运行 storage *"></a>*<em>运行 storage *</em></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name storage --net=host -e TRACKER_IP=127.0.0.1:22122 -e GROUP_NAME=group1 morunchang/fastdfs sh storage.sh</span><br><span class="line"><span class="meta">#</span><span class="bash">共享卷</span></span><br><span class="line">docker run -d --name storage --net=host -e TRACKER_IP=127.0.0.1:22122 -v /home/monochrome/app/fastdfs/storage:/data/fast_data -e GROUP_NAME=group1 morunchang/fastdfs sh storage.sh</span><br><span class="line"></span><br><span class="line">docker run -d --name storage -p 22000:22000 -p 23000:23000 -e TRACKER_IP=127.0.0.1:22122 -e GROUP_NAME=group1 morunchang/fastdfs sh storage.sh</span><br><span class="line"><span class="meta">#</span><span class="bash">共享卷</span></span><br><span class="line">docker run -d --name storage -p 22000:22000 -p 23000:23000 -e TRACKER_IP=127.0.0.1:22122 -v /home/monochrome/app/fastdfs/storage:/data/fast_data -e GROUP_NAME=mono morunchang/fastdfs sh storage.sh</span><br></pre></td></tr></table></figure>
+<h3 id="设置Storage"><a href="#设置Storage" class="headerlink" title="设置Storage"></a>设置Storage</h3><h4 id="运行-storage"><a href="#运行-storage" class="headerlink" title="**运行 storage **"></a>**运行 storage **</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name storage --net=host -e TRACKER_IP=127.0.0.1:22122 -e GROUP_NAME=group1 morunchang/fastdfs sh storage.sh</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">共享卷</span></span><br><span class="line">docker run -d --name storage --net=host -e TRACKER_IP=127.0.0.1:22122 -v /home/monochrome/app/fastdfs/storage:/data/fast_data -e GROUP_NAME=group1 morunchang/fastdfs sh storage.sh</span><br><span class="line"></span><br><span class="line">docker run -d --name storage -p 22000:22000 -p 23000:23000 -e TRACKER_IP=127.0.0.1:22122 -e GROUP_NAME=group1 morunchang/fastdfs sh storage.sh</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">共享卷</span></span><br><span class="line">docker run -d --name storage -p 22000:22000 -p 23000:23000 -e TRACKER_IP=127.0.0.1:22122 -v /home/monochrome/app/fastdfs/storage:/data/fast_data -e GROUP_NAME=mono morunchang/fastdfs sh storage.sh</span><br></pre></td></tr></table></figure>
 
 <h4 id="进入-storage"><a href="#进入-storage" class="headerlink" title="进入 storage"></a><strong>进入 storage</strong></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it storage /bin/bash</span><br></pre></td></tr></table></figure>
 
 <h4 id="修改端口-1"><a href="#修改端口-1" class="headerlink" title="修改端口"></a>修改端口</h4><p><strong><code>/etc/nginx/conf/nginx.conf</code></strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       22000;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       22000;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong><code>/etc/fdfs/client.conf</code></strong></p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">tracker_server</span>=<span class="string">127.0.0.1:22122</span></span><br><span class="line"><span class="meta">http.tracker_server_port</span>=<span class="string">21000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">tracker_server</span>=<span class="string">127.0.0.1:22122</span></span><br><span class="line"><span class="attr">http.tracker_server_port</span>=<span class="string">21000</span></span><br></pre></td></tr></table></figure>
 
 <p><strong><code>/etc/fdfs/storage.conf</code></strong></p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">port</span>=<span class="string">23000</span></span><br><span class="line"><span class="attr">tracker_server</span>=<span class="string">127.0.0.1:22122</span></span><br><span class="line"><span class="meta">http.server_port</span>=<span class="string">22000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">port</span>=<span class="string">23000</span></span><br><span class="line"><span class="attr">tracker_server</span>=<span class="string">127.0.0.1:22122</span></span><br><span class="line"><span class="attr">http.server_port</span>=<span class="string">22000</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="替换配置文件"><a href="#替换配置文件" class="headerlink" title="替换配置文件"></a>替换配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker cp nginx.conf tracker:/etc/nginx/conf/nginx.conf</span><br><span class="line">docker cp client.conf tracker:/etc/fdfs/client.conf</span><br><span class="line">docker cp tracker.conf tracker:/etc/fdfs/tracker.conf</span><br><span class="line"></span><br><span class="line">docker cp nginx.conf storage:/etc/nginx/conf/nginx.conf</span><br><span class="line">docker cp client.conf storage:/etc/fdfs/client.conf</span><br><span class="line">docker cp storage.conf storage:/etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure>
 
@@ -432,28 +387,6 @@
 
 
 
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      const commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
 </div>
   </main>
 
@@ -463,7 +396,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -474,16 +407,16 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">288k</span>
+    <span title="站点总字数">295k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:22</span>
+    <span title="站点阅读时长">4:28</span>
   </span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
 <script type="text/javascript">
@@ -503,36 +436,16 @@ var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[
   </footer>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
-<script src="/js/local-search.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
 
 
 
 
-
-  <script>
-    NProgress.configure({
-      showSpinner: true
-    });
-    NProgress.start();
-    document.addEventListener('readystatechange', () => {
-      if (document.readyState === 'interactive') {
-        NProgress.inc(0.8);
-      }
-      if (document.readyState === 'complete') {
-        NProgress.done();
-      }
-    });
-    document.addEventListener('pjax:send', () => {
-      NProgress.start();
-    });
-    document.addEventListener('pjax:success', () => {
-      NProgress.done();
-    });
-  </script>
 
   
 

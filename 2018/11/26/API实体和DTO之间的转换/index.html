@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
@@ -16,16 +15,12 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
-  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
-  </script>
-<meta name="description" content="Spring REST API实体和DTO之间的转换1. 概览在本教程中，我们将处理在Spring应用程序的内部实体和被发送到客户端的外部DTO（数据传输对象）之间的转换。 2. ModelMapper首先，让我们看看用来执行实体-DTO转换的主要类库——ModelMapper。 我们需要在pom.xml中添加这个依赖： pom.xml12345&lt;dependency&gt;    &lt;">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Spring REST API实体和DTO之间的转换1. 概览在本教程中，我们将处理在Spring应用程序的内部实体和被发送到客户端的外部DTO（数据传输对象）之间的转换。 2. ModelMapper首先，让我们看看用来执行实体-DTO转换的主要类库——ModelMapper。 我们需要在pom.xml中添加这个依赖： pom.xml12345&lt;dependency&gt;    &lt;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring REST API实体和DTO之间的转换">
 <meta property="og:url" content="http://zhaoyangmushiyi.github.io/2018/11/26/API%E5%AE%9E%E4%BD%93%E5%92%8CDTO%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/index.html">
@@ -42,56 +37,20 @@
 <link rel="canonical" href="http://zhaoyangmushiyi.github.io/2018/11/26/API%E5%AE%9E%E4%BD%93%E5%92%8CDTO%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/">
 
 
-<script class="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2018/11/26/API%E5%AE%9E%E4%BD%93%E5%92%8CDTO%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/","path":"2018/11/26/API实体和DTO之间的转换/","title":"Spring REST API实体和DTO之间的转换"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Spring REST API实体和DTO之间的转换 | 朝阳暮逝忆</title>
   
 
 
 
 
+
   <noscript>
-  <style>
-  body { margin-top: 2rem; }
-
-  .use-motion .menu-item,
-  .use-motion .sidebar,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header {
-    visibility: visible;
-  }
-
-  .use-motion .header,
-  .use-motion .site-brand-container .toggle,
-  .use-motion .footer { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle,
-  .use-motion .custom-logo-image {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line {
-    transform: scaleX(1);
-  }
-
-  .search-pop-overlay, .sidebar-nav { display: none; }
-  .sidebar-panel { display: block; }
-  </style>
-</noscript>
-
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -112,7 +71,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">朝阳暮逝忆</h1>
+      <p class="site-title">朝阳暮逝忆</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -127,12 +86,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu">
-        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -203,21 +157,18 @@
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
+        <a href="/archives/">
           <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
+          <a href="/categories/">
         <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
+          <a href="/tags/">
         <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
@@ -244,7 +195,7 @@
     </header>
 
     
-  <div class="back-to-top" role="button">
+  <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
@@ -270,11 +221,16 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/next/Avatar.png">
       <meta itemprop="name" content="朝阳暮逝忆">
-      <meta itemprop="description" content="Monochrome">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="description" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Spring REST API实体和DTO之间的转换 | 朝阳暮逝忆">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -291,13 +247,13 @@
 
       <time title="创建时间：2018-11-26 11:00:30" itemprop="dateCreated datePublished" datetime="2018-11-26T11:00:30+08:00">2018-11-26</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-06-23 19:29:18" itemprop="dateModified" datetime="2021-06-23T19:29:18+08:00">2021-06-23</time>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
       </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-06-23 19:29:18" itemprop="dateModified" datetime="2021-06-23T19:29:18+08:00">2021-06-23</time>
+    </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -309,14 +265,13 @@
     </span>
 
   
-      </div>
-      <div class="post-meta">
+    <span class="post-meta-break"></span>
     <span class="post-meta-item" title="本文字数">
       <span class="post-meta-item-icon">
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.8k</span>
+      <span>4.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -337,31 +292,31 @@
         <h1 id="Spring-REST-API实体和DTO之间的转换"><a href="#Spring-REST-API实体和DTO之间的转换" class="headerlink" title="Spring REST API实体和DTO之间的转换"></a>Spring REST API实体和DTO之间的转换</h1><h2 id="1-概览"><a href="#1-概览" class="headerlink" title="1. 概览"></a>1. 概览</h2><p>在本教程中，我们将处理在Spring应用程序的内部实体和被发送到客户端的外部DTO（数据传输对象）之间的转换。</p>
 <h2 id="2-ModelMapper"><a href="#2-ModelMapper" class="headerlink" title="2. ModelMapper"></a>2. ModelMapper</h2><p>首先，让我们看看用来执行实体-DTO转换的主要类库——ModelMapper。</p>
 <p>我们需要在pom.xml中添加这个依赖：</p>
-<figure class="highlight plain"><figcaption><span>pom.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.modelmapper&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;modelmapper&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.3.1&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><figcaption><span>pom.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.modelmapper&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;modelmapper&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.3.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 <span id="more"></span>
 <p>如果需要检查这个库是否有更新的版本， 请<a target="_blank" rel="noopener" href="https://search.maven.org/classic/#search|gav|1|g%3A%22org.modelmapper%22%20AND%20a%3A%22modelmapper%22">点击这里</a>。</p>
 <p>然后，我们将在Spring配置中定义ModelMapperbean：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ModelMapper <span class="title">modelMapper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ModelMapper();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> ModelMapper <span class="title function_">modelMapper</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ModelMapper</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="3-DTO"><a href="#3-DTO" class="headerlink" title="3. DTO"></a>3. DTO</h2><p>话分两头，接下来让我们来看看本例使用的DTO——PostDto。</p>
-<figure class="highlight java"><figcaption><span>PostDto.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PostDto</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd HH:mm&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String title;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String url;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String date;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> UserDto user;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getSubmissionDateConverted</span><span class="params">(String timezone)</span> <span class="keyword">throws</span> ParseException </span>&#123;</span><br><span class="line">        dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));</span><br><span class="line">        <span class="keyword">return</span> dateFormat.parse(<span class="keyword">this</span>.date);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSubmissionDate</span><span class="params">(Date date, String timezone)</span> </span>&#123;</span><br><span class="line">        dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));</span><br><span class="line">        <span class="keyword">this</span>.date = dateFormat.format(date);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// standard getters and setters</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>PostDto.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PostDto</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">SimpleDateFormat</span> <span class="variable">dateFormat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleDateFormat</span>(<span class="string">&quot;yyyy-MM-dd HH:mm&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String title;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String url;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String date;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> UserDto user;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Date <span class="title function_">getSubmissionDateConverted</span><span class="params">(String timezone)</span> <span class="keyword">throws</span> ParseException &#123;</span><br><span class="line">        dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));</span><br><span class="line">        <span class="keyword">return</span> dateFormat.parse(<span class="built_in">this</span>.date);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setSubmissionDate</span><span class="params">(Date date, String timezone)</span> &#123;</span><br><span class="line">        dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));</span><br><span class="line">        <span class="built_in">this</span>.date = dateFormat.format(date);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// standard getters and setters</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>请注意，上面与日期相关的两个方法，它们是用来处理客户端和服务器之间日期数据转换的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getSubmissionDateConverted()方法将日期字符串转换为服务器所在时区中的日期，以便将其用于持久化Post实体</span><br><span class="line">setSubmissionDate()方法是将DTO的日期设置为当前用户所在时区的Post日期</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getSubmissionDateConverted()方法将日期字符串转换为服务器所在时区中的日期，以便将其用于持久化Post实体</span><br><span class="line">setSubmissionDate()方法是将DTO的日期设置为当前用户所在时区的Post日期</span><br></pre></td></tr></table></figure>
 
 <h2 id="4-服务层"><a href="#4-服务层" class="headerlink" title="4. 服务层"></a>4. 服务层</h2><p>现在让我们看一下服务层的操作——它显然是与实体（而不是DTO）一起工作：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Post&gt; <span class="title">getPostsList</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span> page, <span class="keyword">int</span> size, String sortDir, String sort)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    PageRequest pageReq</span><br><span class="line">     = <span class="keyword">new</span> PageRequest(page, size, Sort.Direction.fromString(sortDir), sort);</span><br><span class="line"></span><br><span class="line">    Page&lt;Post&gt; posts = postRepository</span><br><span class="line">      .findByUser(userService.getCurrentUser(), pageReq);</span><br><span class="line">    <span class="keyword">return</span> posts.getContent();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;Post&gt; <span class="title function_">getPostsList</span><span class="params">(</span></span><br><span class="line"><span class="params">  <span class="type">int</span> page, <span class="type">int</span> size, String sortDir, String sort)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">PageRequest</span> <span class="variable">pageReq</span></span><br><span class="line">     <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PageRequest</span>(page, size, Sort.Direction.fromString(sortDir), sort);</span><br><span class="line"></span><br><span class="line">    Page&lt;Post&gt; posts = postRepository</span><br><span class="line">      .findByUser(userService.getCurrentUser(), pageReq);</span><br><span class="line">    <span class="keyword">return</span> posts.getContent();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="5-控制器层"><a href="#5-控制器层" class="headerlink" title="5. 控制器层"></a>5. 控制器层</h2><p>下面让我们来看看服务层上面的控制器层，这才是转换操作实际触发的地方。<br>现在，让我们来看一个标准的控制器，一个暴露Post资源的REST API。  </p>
 <p>我们将在这里展示一些简单的CRUD操作：创建、更新、获取一条和全部记录。考虑到操作非常简单，并且我们特别感兴趣的是实体-DTO转换方面：  </p>
-<figure class="highlight java"><figcaption><span>PostRestController.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostRestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> IPostService postService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> IUserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ModelMapper modelMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(method = RequestMethod.GET)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;PostDto&gt; <span class="title">getPosts</span><span class="params">(...)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">        List&lt;Post&gt; posts = postService.getPostsList(page, size, sortDir, sort);</span><br><span class="line">        <span class="keyword">return</span> posts.stream()</span><br><span class="line">          .map(post -&gt; convertToDto(post))</span><br><span class="line">          .collect(Collectors.toList());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(method = RequestMethod.POST)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.CREATED)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PostDto <span class="title">createPost</span><span class="params">(<span class="meta">@RequestBody</span> PostDto postDto)</span> </span>&#123;</span><br><span class="line">        Post post = convertToEntity(postDto);</span><br><span class="line">        Post postCreated = postService.createPost(post));</span><br><span class="line">        <span class="keyword">return</span> convertToDto(postCreated);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/&#123;id&#125;&quot;, method = RequestMethod.GET)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PostDto <span class="title">getPost</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> convertToDto(postService.getPostById(id));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/&#123;id&#125;&quot;, method = RequestMethod.PUT)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.OK)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updatePost</span><span class="params">(<span class="meta">@RequestBody</span> PostDto postDto)</span> </span>&#123;</span><br><span class="line">        Post post = convertToEntity(postDto);</span><br><span class="line">        postService.updatePost(post);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>PostRestController.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PostRestController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> IPostService postService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> IUserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ModelMapper modelMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(method = RequestMethod.GET)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;PostDto&gt; <span class="title function_">getPosts</span><span class="params">(...)</span> &#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">        List&lt;Post&gt; posts = postService.getPostsList(page, size, sortDir, sort);</span><br><span class="line">        <span class="keyword">return</span> posts.stream()</span><br><span class="line">          .map(post -&gt; convertToDto(post))</span><br><span class="line">          .collect(Collectors.toList());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(method = RequestMethod.POST)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.CREATED)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> PostDto <span class="title function_">createPost</span><span class="params">(<span class="meta">@RequestBody</span> PostDto postDto)</span> &#123;</span><br><span class="line">        <span class="type">Post</span> <span class="variable">post</span> <span class="operator">=</span> convertToEntity(postDto);</span><br><span class="line">        <span class="type">Post</span> <span class="variable">postCreated</span> <span class="operator">=</span> postService.createPost(post));</span><br><span class="line">        <span class="keyword">return</span> convertToDto(postCreated);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/&#123;id&#125;&quot;, method = RequestMethod.GET)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> PostDto <span class="title function_">getPost</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> convertToDto(postService.getPostById(id));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/&#123;id&#125;&quot;, method = RequestMethod.PUT)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.OK)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">updatePost</span><span class="params">(<span class="meta">@RequestBody</span> PostDto postDto)</span> &#123;</span><br><span class="line">        <span class="type">Post</span> <span class="variable">post</span> <span class="operator">=</span> convertToEntity(postDto);</span><br><span class="line">        postService.updatePost(post);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这是我们从Post实体到PostDto的转换：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> PostDto <span class="title">convertToDto</span><span class="params">(Post post)</span> </span>&#123;</span><br><span class="line">    PostDto postDto = modelMapper.map(post, PostDto.class);</span><br><span class="line">    postDto.setSubmissionDate(post.getSubmissionDate(), </span><br><span class="line">        userService.getCurrentUser().getPreference().getTimezone());</span><br><span class="line">    <span class="keyword">return</span> postDto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> PostDto <span class="title function_">convertToDto</span><span class="params">(Post post)</span> &#123;</span><br><span class="line">    <span class="type">PostDto</span> <span class="variable">postDto</span> <span class="operator">=</span> modelMapper.map(post, PostDto.class);</span><br><span class="line">    postDto.setSubmissionDate(post.getSubmissionDate(), </span><br><span class="line">        userService.getCurrentUser().getPreference().getTimezone());</span><br><span class="line">    <span class="keyword">return</span> postDto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这是从DTO到实体的转换：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Post <span class="title">convertToEntity</span><span class="params">(PostDto postDto)</span> <span class="keyword">throws</span> ParseException </span>&#123;</span><br><span class="line">    Post post = modelMapper.map(postDto, Post.class);</span><br><span class="line">    post.setSubmissionDate(postDto.getSubmissionDateConverted(</span><br><span class="line">      userService.getCurrentUser().getPreference().getTimezone()));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (postDto.getId() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        Post oldPost = postService.getPostById(postDto.getId());</span><br><span class="line">        post.setRedditID(oldPost.getRedditID());</span><br><span class="line">        post.setSent(oldPost.isSent());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> post;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Post <span class="title function_">convertToEntity</span><span class="params">(PostDto postDto)</span> <span class="keyword">throws</span> ParseException &#123;</span><br><span class="line">    <span class="type">Post</span> <span class="variable">post</span> <span class="operator">=</span> modelMapper.map(postDto, Post.class);</span><br><span class="line">    post.setSubmissionDate(postDto.getSubmissionDateConverted(</span><br><span class="line">      userService.getCurrentUser().getPreference().getTimezone()));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (postDto.getId() != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="type">Post</span> <span class="variable">oldPost</span> <span class="operator">=</span> postService.getPostById(postDto.getId());</span><br><span class="line">        post.setRedditID(oldPost.getRedditID());</span><br><span class="line">        post.setSent(oldPost.isSent());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> post;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>因此，正如您所看到的，在modelmapper库的帮助下，转换逻辑是快速且简单的——我们使用了modelMapper的map API，并且在不编写任何转换逻辑的情况下完成了数据转换。</p>
 <h2 id="6-单元测试"><a href="#6-单元测试" class="headerlink" title="6. 单元测试"></a>6. 单元测试</h2><p>最后，让我们做一个非常简单的测试，以确保实体和DTO之间的转换可以很好地工作：</p>
-<figure class="highlight java"><figcaption><span>PostDtoUnitTest.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PostDtoUnitTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ModelMapper modelMapper = <span class="keyword">new</span> ModelMapper();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">whenConvertPostEntityToPostDto_thenCorrect</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Post post = <span class="keyword">new</span> Post();</span><br><span class="line">        post.setId(Long.valueOf(<span class="number">1</span>));</span><br><span class="line">        post.setTitle(randomAlphabetic(<span class="number">6</span>));</span><br><span class="line">        post.setUrl(<span class="string">&quot;www.test.com&quot;</span>);</span><br><span class="line"></span><br><span class="line">        PostDto postDto = modelMapper.map(post, PostDto.class);</span><br><span class="line">        assertEquals(post.getId(), postDto.getId());</span><br><span class="line">        assertEquals(post.getTitle(), postDto.getTitle());</span><br><span class="line">        assertEquals(post.getUrl(), postDto.getUrl());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">whenConvertPostDtoToPostEntity_thenCorrect</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        PostDto postDto = <span class="keyword">new</span> PostDto();</span><br><span class="line">        postDto.setId(Long.valueOf(<span class="number">1</span>));</span><br><span class="line">        postDto.setTitle(randomAlphabetic(<span class="number">6</span>));</span><br><span class="line">        postDto.setUrl(<span class="string">&quot;www.test.com&quot;</span>);</span><br><span class="line"></span><br><span class="line">        Post post = modelMapper.map(postDto, Post.class);</span><br><span class="line">        assertEquals(postDto.getId(), post.getId());</span><br><span class="line">        assertEquals(postDto.getTitle(), post.getTitle());</span><br><span class="line">        assertEquals(postDto.getUrl(), post.getUrl());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>PostDtoUnitTest.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PostDtoUnitTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">ModelMapper</span> <span class="variable">modelMapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ModelMapper</span>();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">whenConvertPostEntityToPostDto_thenCorrect</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Post</span> <span class="variable">post</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Post</span>();</span><br><span class="line">        post.setId(Long.valueOf(<span class="number">1</span>));</span><br><span class="line">        post.setTitle(randomAlphabetic(<span class="number">6</span>));</span><br><span class="line">        post.setUrl(<span class="string">&quot;www.test.com&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">PostDto</span> <span class="variable">postDto</span> <span class="operator">=</span> modelMapper.map(post, PostDto.class);</span><br><span class="line">        assertEquals(post.getId(), postDto.getId());</span><br><span class="line">        assertEquals(post.getTitle(), postDto.getTitle());</span><br><span class="line">        assertEquals(post.getUrl(), postDto.getUrl());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">whenConvertPostDtoToPostEntity_thenCorrect</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">PostDto</span> <span class="variable">postDto</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PostDto</span>();</span><br><span class="line">        postDto.setId(Long.valueOf(<span class="number">1</span>));</span><br><span class="line">        postDto.setTitle(randomAlphabetic(<span class="number">6</span>));</span><br><span class="line">        postDto.setUrl(<span class="string">&quot;www.test.com&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">Post</span> <span class="variable">post</span> <span class="operator">=</span> modelMapper.map(postDto, Post.class);</span><br><span class="line">        assertEquals(postDto.getId(), post.getId());</span><br><span class="line">        assertEquals(postDto.getTitle(), post.getTitle());</span><br><span class="line">        assertEquals(postDto.getUrl(), post.getUrl());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -397,28 +352,6 @@
 
 
 
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      const commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
 </div>
   </main>
 
@@ -428,7 +361,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -439,16 +372,16 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">288k</span>
+    <span title="站点总字数">295k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:22</span>
+    <span title="站点阅读时长">4:28</span>
   </span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
 <script type="text/javascript">
@@ -468,36 +401,16 @@ var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[
   </footer>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
-<script src="/js/local-search.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
 
 
 
 
-
-  <script>
-    NProgress.configure({
-      showSpinner: true
-    });
-    NProgress.start();
-    document.addEventListener('readystatechange', () => {
-      if (document.readyState === 'interactive') {
-        NProgress.inc(0.8);
-      }
-      if (document.readyState === 'complete') {
-        NProgress.done();
-      }
-    });
-    document.addEventListener('pjax:send', () => {
-      NProgress.start();
-    });
-    document.addEventListener('pjax:success', () => {
-      NProgress.done();
-    });
-  </script>
 
   
 

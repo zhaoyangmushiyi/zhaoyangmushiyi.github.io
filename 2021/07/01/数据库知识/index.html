@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
@@ -16,16 +15,12 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
-  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
-  </script>
-<meta name="description" content="数据库范式目前关系数据库有六种范式：第一范式（1NF）、第二范式（2NF）、第三范式（3NF）、巴斯-科德范式（BCNF）、第四范式（4NF）和第五范式（5NF，又称完美范式）。满足最低要求的范式是第一范式（1NF）。在第一范式的基础上进一步满足更多规范要求的称为第二范式（2NF），其余范式以次类推。一般来说，数据库只需满足第三范式(3NF）就行了。">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="数据库范式目前关系数据库有六种范式：第一范式（1NF）、第二范式（2NF）、第三范式（3NF）、巴斯-科德范式（BCNF）、第四范式（4NF）和第五范式（5NF，又称完美范式）。满足最低要求的范式是第一范式（1NF）。在第一范式的基础上进一步满足更多规范要求的称为第二范式（2NF），其余范式以次类推。一般来说，数据库只需满足第三范式(3NF）就行了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库知识">
 <meta property="og:url" content="http://zhaoyangmushiyi.github.io/2021/07/01/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86/index.html">
@@ -50,56 +45,20 @@
 <link rel="canonical" href="http://zhaoyangmushiyi.github.io/2021/07/01/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86/">
 
 
-<script class="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2021/07/01/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86/","path":"2021/07/01/数据库知识/","title":"数据库知识"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>数据库知识 | 朝阳暮逝忆</title>
   
 
 
 
 
+
   <noscript>
-  <style>
-  body { margin-top: 2rem; }
-
-  .use-motion .menu-item,
-  .use-motion .sidebar,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header {
-    visibility: visible;
-  }
-
-  .use-motion .header,
-  .use-motion .site-brand-container .toggle,
-  .use-motion .footer { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle,
-  .use-motion .custom-logo-image {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line {
-    transform: scaleX(1);
-  }
-
-  .search-pop-overlay, .sidebar-nav { display: none; }
-  .sidebar-panel { display: block; }
-  </style>
-</noscript>
-
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -120,7 +79,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">朝阳暮逝忆</h1>
+      <p class="site-title">朝阳暮逝忆</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -135,12 +94,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu">
-        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -211,21 +165,18 @@
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
+        <a href="/archives/">
           <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
+          <a href="/categories/">
         <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
+          <a href="/tags/">
         <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
@@ -252,7 +203,7 @@
     </header>
 
     
-  <div class="back-to-top" role="button">
+  <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
@@ -278,11 +229,16 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/next/Avatar.png">
       <meta itemprop="name" content="朝阳暮逝忆">
-      <meta itemprop="description" content="Monochrome">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="description" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="数据库知识 | 朝阳暮逝忆">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -299,13 +255,13 @@
 
       <time title="创建时间：2021-07-01 10:32:13" itemprop="dateCreated datePublished" datetime="2021-07-01T10:32:13+08:00">2021-07-01</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-03 16:40:32" itemprop="dateModified" datetime="2021-07-03T16:40:32+08:00">2021-07-03</time>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
       </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-07-03 16:40:32" itemprop="dateModified" datetime="2021-07-03T16:40:32+08:00">2021-07-03</time>
+    </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -325,8 +281,7 @@
     </span>
 
   
-      </div>
-      <div class="post-meta">
+    <span class="post-meta-break"></span>
     <span class="post-meta-item" title="本文字数">
       <span class="post-meta-item-icon">
         <i class="far fa-file-word"></i>
@@ -386,7 +341,7 @@
 <ol>
 <li>INSERT、UPDATE、DELETE、SELECT … FOR UPDATE [OF columns] [WAIT n | NOWAIT];</li>
 <li>SELECT … FOR UPDATE 语句允许用户一次锁定多条记录进行更新</li>
-<li>使用 COMMIT 或 ROLLBACK 语句释放锁。 </li>
+<li>使用 COMMIT 或 ROLLBACK 语句释放锁。</li>
 </ol>
 <h2 id="表级锁"><a href="#表级锁" class="headerlink" title="表级锁"></a>表级锁</h2><p>表示对当前操作的整张表加锁，它实现简单，资源消耗较少，被大部分 MySQL 引擎支持。最常使 用的 MYISAM 与 INNODB 都支持表级锁定。表级锁定分为表共享读锁(共享锁)与表独占写锁 (排他锁)。</p>
 <h2 id="页级锁"><a href="#页级锁" class="headerlink" title="页级锁"></a>页级锁</h2><p>页级锁是 MySQL 中锁定粒度介于行级锁和表级锁中间的一种锁。表级锁速度快，但冲突多，行级冲突少，但速度慢。所以取了折衷的页级，一次锁定相邻的一组记录。BDB 支持页级锁</p>
@@ -395,7 +350,7 @@
 <li>获取锁的时候调用 setnx，如果返回 0，则该锁正在被别人使用，返回 1 则成功获取 锁。 还设置一个获取的超时时间，若超过这个时间则放弃获取锁。</li>
 <li>释放锁的时候，通过 UUID 判断是不是该锁，若是该锁，则执行 delete 进行锁释放。</li>
 </ol>
-<h1 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h1><h2 id="MySQL-有哪些数据类型？"><a href="#MySQL-有哪些数据类型？" class="headerlink" title="MySQL 有哪些数据类型？"></a>MySQL 有哪些数据类型？</h2><p>MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。具体可以看看 <a target="_blank" rel="noopener" href="http://www.runoob.com/mysql/mysql-data-types.html">《MySQL 数据类型》</a> 文档。</p>
+<h1 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h1><h2 id="MySQL-有哪些数据类型？"><a href="#MySQL-有哪些数据类型？" class="headerlink" title="MySQL 有哪些数据类型？"></a>MySQL 有哪些数据类型？</h2><p>MySQL 支持多种类型，大致可以分为三类：数值、日期&#x2F;时间和字符串(字符)类型。具体可以看看 <a target="_blank" rel="noopener" href="http://www.runoob.com/mysql/mysql-data-types.html">《MySQL 数据类型》</a> 文档。</p>
 <ul>
 <li>正确的使用数据类型，对数据库的优化是非常重要的。</li>
 </ul>
@@ -446,7 +401,7 @@
 <li>…</li>
 </ul>
 <p>具体每种存储引擎的介绍，可以看看 <a target="_blank" rel="noopener" href="https://github.com/jaywcjlove/mysql-tutorial/blob/master/chapter3/3.5.md">《数据库存储引擎》</a> 。</p>
-<h3 id="如何选择合适的存储引擎？"><a href="#如何选择合适的存储引擎？" class="headerlink" title="如何选择合适的存储引擎？"></a><strong>如何选择合适的存储引擎？</strong></h3><p>提供几个选择标准，然后按照标准，选择对应的存储引擎即可，也可以根据 <a target="_blank" rel="noopener" href="https://github.com/jaywcjlove/mysql-tutorial/blob/master/chapter3/3.5.md#常用引擎对比">常用引擎对比</a> 来选择你使用的存储引擎。使用哪种引擎需要根据需求灵活选择，一个数据库中多个表可以使用不同的引擎以满足各种性能和实际需求。使用合适的存储引擎，将会提高整个数据库的性能。</p>
+<h3 id="如何选择合适的存储引擎？"><a href="#如何选择合适的存储引擎？" class="headerlink" title="如何选择合适的存储引擎？"></a><strong>如何选择合适的存储引擎？</strong></h3><p>提供几个选择标准，然后按照标准，选择对应的存储引擎即可，也可以根据 <a target="_blank" rel="noopener" href="https://github.com/jaywcjlove/mysql-tutorial/blob/master/chapter3/3.5.md#%E5%B8%B8%E7%94%A8%E5%BC%95%E6%93%8E%E5%AF%B9%E6%AF%94">常用引擎对比</a> 来选择你使用的存储引擎。使用哪种引擎需要根据需求灵活选择，一个数据库中多个表可以使用不同的引擎以满足各种性能和实际需求。使用合适的存储引擎，将会提高整个数据库的性能。</p>
 <ol>
 <li><p>是否需要支持事务。</p>
 </li>
@@ -527,7 +482,7 @@
 <ol>
 <li>online DDL</li>
 <li>memcached NoSQL 接口</li>
-<li>transportable tablespace（ alter table discard/import tablespace）</li>
+<li>transportable tablespace（ alter table discard&#x2F;import tablespace）</li>
 <li>MySQL 正常关闭时，可以 dump 出 buffer pool 的（ space， page_no），重启时 reload，加快预热速度</li>
 <li>索引和表的统计信息持久化到 mysql.innodb_table_stats 和 mysql.innodb_index_stats，可提供稳定的执行计划</li>
 <li>Compressed row format 支持压缩表</li>
@@ -639,14 +594,14 @@
 </li>
 </ul>
 <p>关于这块，可以看看 <a target="_blank" rel="noopener" href="http://blog.720ui.com/2017/mysql_core_04_index_item/">《服务端指南 数据存储篇 | MySQL（04） 索引使用的注意事项》</a> 文章，写的更加细致。</p>
-<h3 id="以下三条-SQL-如何建索引，只建一条怎么建？"><a href="#以下三条-SQL-如何建索引，只建一条怎么建？" class="headerlink" title="以下三条 SQL 如何建索引，只建一条怎么建？"></a><strong>以下三条 SQL 如何建索引，只建一条怎么建？</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WHERE a &#x3D; 1 AND b &#x3D; 1</span><br><span class="line">WHERE b &#x3D; 1</span><br><span class="line">WHERE b &#x3D; 1 ORDER BY time DESC</span><br></pre></td></tr></table></figure>
+<h3 id="以下三条-SQL-如何建索引，只建一条怎么建？"><a href="#以下三条-SQL-如何建索引，只建一条怎么建？" class="headerlink" title="以下三条 SQL 如何建索引，只建一条怎么建？"></a><strong>以下三条 SQL 如何建索引，只建一条怎么建？</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WHERE a = 1 AND b = 1</span><br><span class="line">WHERE b = 1</span><br><span class="line">WHERE b = 1 ORDER BY time DESC</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>以顺序 b , a, time 建立复合索引，<code>CREATE INDEX table1_b_a_time ON index_test01(b, a, time)</code>。</li>
 <li>对于第一条 SQL ，因为最新 MySQL 版本会优化 <code>WHERE</code> 子句后面的列顺序，以匹配复合索引顺序。</li>
 </ul>
 <h3 id="想知道一个查询用到了哪个索引，如何查看"><a href="#想知道一个查询用到了哪个索引，如何查看" class="headerlink" title="想知道一个查询用到了哪个索引，如何查看?"></a><strong>想知道一个查询用到了哪个索引，如何查看?</strong></h3><p><code>EXPLAIN</code> 显示了 MYSQL 如何使用索引来处理 SELECT 语句以及连接表,可以帮助选择更好的索引和写出更优化的查询语句。</p>
-<p>使用方法，在 <code>SELECT</code> 语句前加上 <code>EXPLAIN</code> 就可以了。感兴趣的胖友，可以详细看看 <a target="_blank" rel="noopener" href="http://www.jfox.info/2017/mysql-explain执行计划详细解释.html">《MySQL explain 执行计划详细解释》</a> 。</p>
+<p>使用方法，在 <code>SELECT</code> 语句前加上 <code>EXPLAIN</code> 就可以了。感兴趣的胖友，可以详细看看 <a target="_blank" rel="noopener" href="http://www.jfox.info/2017/mysql-explain%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E7%BB%86%E8%A7%A3%E9%87%8A.html">《MySQL explain 执行计划详细解释》</a> 。</p>
 <h2 id="【重点】MySQL-索引的原理？"><a href="#【重点】MySQL-索引的原理？" class="headerlink" title="【重点】MySQL 索引的原理？"></a>【重点】MySQL 索引的原理？</h2><p>解释 MySQL 索引的原理，篇幅会比较长，并且网络上已经有靠谱的资料可以看，所以艿艿这里整理了几篇，胖友可以对照着看。</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html">《MySQL索引背后的数据结构及算法原理》</a></li>
@@ -669,24 +624,24 @@
 <li><p>系统从磁盘读取数据到内存时是以磁盘块（block）为基本单位的，位于同一个磁盘块中的数据会被一次性读取出来，而不是需要什么取什么。</p>
 </li>
 <li><p>InnoDB存储引擎中有页（Page）的概念，页是其磁盘管理的最小单位。InnoDB 存储引擎中默认每个页的大小为 16 KB，可通过参数 innodb_page_size 将页的大小设置为 4K、8K、16K ，在 MySQL 中可通过如下命令查看页的大小：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#39;innodb_page_size&#39;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;innodb_page_size&#x27;;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>而系统一个磁盘块的存储空间往往没有这么大，因此 InnoDB 每次申请磁盘空间时都会是若干地址连续磁盘块来达到页的大小 16KB 。InnoDB 在把磁盘数据读入到磁盘时会以页为基本单位，在查询数据时如果一个页中的每条数据都能有助于定位数据记录的位置，这将会减少磁盘 I/O 次数，提高查询效率。</p>
+<li><p>而系统一个磁盘块的存储空间往往没有这么大，因此 InnoDB 每次申请磁盘空间时都会是若干地址连续磁盘块来达到页的大小 16KB 。InnoDB 在把磁盘数据读入到磁盘时会以页为基本单位，在查询数据时如果一个页中的每条数据都能有助于定位数据记录的位置，这将会减少磁盘 I&#x2F;O 次数，提高查询效率。</p>
 </li>
 </ul>
 <p>B-Tree 结构的数据可以让系统高效的找到数据所在的磁盘块。为了描述B-Tree，首先定义一条记录为一个二元组 [key, data] ，key 为记录的键值，对应表中的主键值，data 为一行记录中除主键外的数据。对于不同的记录，key值互不相同。</p>
 <p>一棵 m 阶的 B-Tree 有如下特性：</p>
 <ol>
 <li>每个节点最多有 m 个孩子。<ul>
-<li>除了根节点和叶子节点外，其它每个节点至少有 Ceil(m/2) 个孩子。</li>
+<li>除了根节点和叶子节点外，其它每个节点至少有 Ceil(m&#x2F;2) 个孩子。</li>
 <li>若根节点不是叶子节点，则至少有 2 个孩子。</li>
 </ul>
 </li>
 <li>所有叶子节点都在同一层，且不包含其它关键字信息。</li>
 <li>每个非叶子节点包含 n 个关键字信息（P0,P1,…Pn, k1,…kn）<ul>
-<li>关键字的个数 n 满足：ceil(m/2)-1 &lt;= n &lt;= m-1</li>
-<li>ki(i=1,…n) 为关键字，且关键字升序排序。</li>
-<li>Pi(i=0,…n) 为指向子树根节点的指针。P(i-1) 指向的子树的所有节点关键字均小于 ki ，但都大于 k(i-1) 。</li>
+<li>关键字的个数 n 满足：ceil(m&#x2F;2)-1 &lt;&#x3D; n &lt;&#x3D; m-1</li>
+<li>ki(i&#x3D;1,…n) 为关键字，且关键字升序排序。</li>
+<li>Pi(i&#x3D;0,…n) 为指向子树根节点的指针。P(i-1) 指向的子树的所有节点关键字均小于 ki ，但都大于 k(i-1) 。</li>
 </ul>
 </li>
 </ol>
@@ -698,19 +653,19 @@
 </ul>
 <p>模拟查找 key 为 29 的过程：</p>
 <ul>
-<li>1、根据根节点找到磁盘块 1 ，读入内存。【磁盘I/O操作第1次】</li>
+<li>1、根据根节点找到磁盘块 1 ，读入内存。【磁盘I&#x2F;O操作第1次】</li>
 <li>2、比较 key 29 在区间（17,35），找到磁盘块 1 的指针 P2 。</li>
-<li>3、根据 P2 指针找到磁盘块 3 ，读入内存。【磁盘I/O操作第2次】</li>
+<li>3、根据 P2 指针找到磁盘块 3 ，读入内存。【磁盘I&#x2F;O操作第2次】</li>
 <li>4、比较 key 29 在区间（26,30），找到磁盘块3的指针P2。</li>
-<li>5、根据 P2 指针找到磁盘块 8 ，读入内存。【磁盘I/O操作第3次】</li>
+<li>5、根据 P2 指针找到磁盘块 8 ，读入内存。【磁盘I&#x2F;O操作第3次】</li>
 <li>6、在磁盘块 8 中的 key 列表中找到 key 29 。</li>
 </ul>
-<p>分析上面过程，发现需要 3 次磁盘 I/O 操作，和 3 次内存查找操作。由于内存中的 key 是一个有序表结构，可以利用二分法查找提高效率。而 3 次磁盘 I/O 操作是影响整个 B-Tree 查找效率的决定因素。B-Tree 相对于 AVLTree 缩减了节点个数，使每次磁盘 I/O 取到内存的数据都发挥了作用，从而提高了查询效率。</p>
+<p>分析上面过程，发现需要 3 次磁盘 I&#x2F;O 操作，和 3 次内存查找操作。由于内存中的 key 是一个有序表结构，可以利用二分法查找提高效率。而 3 次磁盘 I&#x2F;O 操作是影响整个 B-Tree 查找效率的决定因素。B-Tree 相对于 AVLTree 缩减了节点个数，使每次磁盘 I&#x2F;O 取到内存的数据都发挥了作用，从而提高了查询效率。</p>
 <h3 id="什么是-B-Tree-索引？"><a href="#什么是-B-Tree-索引？" class="headerlink" title="什么是 B+Tree 索引？"></a><strong>什么是 B+Tree 索引？</strong></h3><p>B+Tree 是在 B-Tree 基础上的一种优化，使其更适合实现外存储索引结构，InnoDB存储引擎就是用 B+Tree 实现其索引结构。</p>
 <blockquote>
 <p>下面这一段，面试非常关键。</p>
 </blockquote>
-<p>从上一节中的 B-Tree 结构图中可以看到，每个节点中不仅包含数据的 key 值，还有 data 值。而每一个页的存储空间是有限的，如果 data 数据较大时将会导致每个节点（即一个页）能存储的 key 的数量很小，当存储的数据量很大时同样会导致 B-Tree 的深度较大，增大查询时的磁盘 I/O 次数，进而影响查询效率。在 B+Tree 中，所有数据记录节点都是按照键值大小顺序存放在同一层的叶子节点上，而非叶子节点上只存储 key 值信息，这样可以大大加大每个节点存储的 key 值数量，降低 B+Tree 的高度。</p>
+<p>从上一节中的 B-Tree 结构图中可以看到，每个节点中不仅包含数据的 key 值，还有 data 值。而每一个页的存储空间是有限的，如果 data 数据较大时将会导致每个节点（即一个页）能存储的 key 的数量很小，当存储的数据量很大时同样会导致 B-Tree 的深度较大，增大查询时的磁盘 I&#x2F;O 次数，进而影响查询效率。在 B+Tree 中，所有数据记录节点都是按照键值大小顺序存放在同一层的叶子节点上，而非叶子节点上只存储 key 值信息，这样可以大大加大每个节点存储的 key 值数量，降低 B+Tree 的高度。</p>
 <p>B+Tree 相对于 B-Tree 有几点不同：</p>
 <ul>
 <li>非叶子节点只存储键值信息。</li>
@@ -724,8 +679,8 @@
 </ul>
 <p>可能上面例子中只有 22 条数据记录，看不出 B+Tree 的优点，下面做一个推算：</p>
 <ul>
-<li>InnoDB 存储引擎中页的大小为 16KB，一般表的主键类型为 INT（占用4个字节） 或 BIGINT（占用8个字节），指针类型也一般为 4 或 8 个字节，也就是说一个页（B+Tree 中的一个节点）中大概存储 16KB/(8B+8B)=1K 个键值（因为是估值，为方便计算，这里的 K 取值为〖10〗^3）。也就是说一个深度为 3 的 B+Tree 索引可以维护10^3 <em>10^3</em> 10^3 = 10亿 条记录。</li>
-<li>实际情况中每个节点可能不能填充满，因此在数据库中，B+Tree 的高度一般都在 2<del>4 层。MySQL 的 InnoDB 存储引擎在设计时是将根节点常驻内存的，也就是说查找某一键值的行记录时最多只需要 1</del>3 次磁盘 I/O 操作。</li>
+<li>InnoDB 存储引擎中页的大小为 16KB，一般表的主键类型为 INT（占用4个字节） 或 BIGINT（占用8个字节），指针类型也一般为 4 或 8 个字节，也就是说一个页（B+Tree 中的一个节点）中大概存储 16KB&#x2F;(8B+8B)&#x3D;1K 个键值（因为是估值，为方便计算，这里的 K 取值为〖10〗^3）。也就是说一个深度为 3 的 B+Tree 索引可以维护10^3 <em>10^3</em> 10^3 &#x3D; 10亿 条记录。</li>
+<li>实际情况中每个节点可能不能填充满，因此在数据库中，B+Tree 的高度一般都在 2<del>4 层。MySQL 的 InnoDB 存储引擎在设计时是将根节点常驻内存的，也就是说查找某一键值的行记录时最多只需要 1</del>3 次磁盘 I&#x2F;O 操作。</li>
 </ul>
 <h3 id="B-Tree-有哪些索引类型？"><a href="#B-Tree-有哪些索引类型？" class="headerlink" title="B-Tree 有哪些索引类型？"></a><strong>B-Tree 有哪些索引类型？</strong></h3><p>在 B+Tree 中，根据叶子节点的内容，索引类型分为<strong>主键索引</strong>和<strong>非主键索引</strong>。</p>
 <blockquote>
@@ -749,7 +704,7 @@
 </ul>
 <p>另外，InnoDB 通过主键聚簇数据，如果没有定义主键，会选择一个唯一的非空索引代替，如果没有这样的索引，会隐式定义个主键作为聚簇索引。</p>
 <p>再另外，可能有胖友有和艿艿的一样疑惑，在<strong>辅助索引</strong>如果相同的索引怎么存储？最终存储到 B+Tree 非子节点中时，它们对应的主键 ID 是不同的，所以妥妥的。</p>
-<h3 id="聚簇索引的注意点有哪些？"><a href="#聚簇索引的注意点有哪些？" class="headerlink" title="聚簇索引的注意点有哪些？"></a><strong>聚簇索引的注意点有哪些？</strong></h3><p>聚簇索引表最大限度地提高了 I/O 密集型应用的性能，但它也有以下几个限制：</p>
+<h3 id="聚簇索引的注意点有哪些？"><a href="#聚簇索引的注意点有哪些？" class="headerlink" title="聚簇索引的注意点有哪些？"></a><strong>聚簇索引的注意点有哪些？</strong></h3><p>聚簇索引表最大限度地提高了 I&#x2F;O 密集型应用的性能，但它也有以下几个限制：</p>
 <ul>
 <li><p>1、插入速度严重依赖于插入顺序，按照主键的顺序插入是最快的方式，否则将会出现页分裂，严重影响性能。因此，对于 InnoDB 表，我们一般都会定义一个自增的 ID 列为主键。</p>
 <blockquote>
@@ -780,7 +735,7 @@
 <p>这样可以防止出现脏数据，防止数据库数据出现问题。</p>
 <h3 id="事务的特性指的是？"><a href="#事务的特性指的是？" class="headerlink" title="事务的特性指的是？"></a><strong>事务的特性指的是？</strong></h3><ol>
 <li><strong>原子性</strong> Atomicity ：一个事务（transaction）中的所有操作，或者全部完成，或者全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被恢复（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。即，事务不可分割、不可约简。</li>
-<li><strong>一致性</strong> Consistency ：在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/数据完整性">约束</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/触发器_(数据库)">触发器</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=级联回滚&action=edit&redlink=1">级联回滚</a>等。</li>
+<li><strong>一致性</strong> Consistency ：在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7">约束</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%A7%A6%E5%8F%91%E5%99%A8_(%E6%95%B0%E6%8D%AE%E5%BA%93)">触发器</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E7%BA%A7%E8%81%94%E5%9B%9E%E6%BB%9A&action=edit&redlink=1">级联回滚</a>等。</li>
 <li><strong>隔离性</strong> Isolation ：数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。</li>
 <li><strong>持久性</strong> Durability ：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。</li>
 </ol>
@@ -793,7 +748,7 @@
 <p>小结：不可重复读的和幻读很容易混淆，不可重复读侧重于修改，幻读侧重于新增或删除。解决不可重复读的问题只需锁住满足条件的行，解决幻读需要锁表。</p>
 <h3 id="MySQL-事务隔离级别会产生的并发问题？"><a href="#MySQL-事务隔离级别会产生的并发问题？" class="headerlink" title="MySQL 事务隔离级别会产生的并发问题？"></a><strong>MySQL 事务隔离级别会产生的并发问题？</strong></h3><p>事务定义了四种事务隔离级别，不同数据库在实现时，产生的并发问题是不同的。</p>
 <blockquote>
-<p>不同的隔离级别有不同的现象，并有不同的锁定/并发机制，隔离级别越高，数据库的并发性就越差。</p>
+<p>不同的隔离级别有不同的现象，并有不同的锁定&#x2F;并发机制，隔离级别越高，数据库的并发性就越差。</p>
 </blockquote>
 <ul>
 <li><p>READ UNCOMMITTED（未提交读）：事务中的修改，即使没有提交，对其他事务也都是可见的。</p>
@@ -858,7 +813,7 @@
 </li>
 <li><p>上图的 <code>&lt;X&gt;</code> 处，<strong>MySQL 通过 MVCC + 事务第一次调用 <code>SELECT</code> 语句才生成快照，实现其在可重复读（repeatable-read）的隔离级别下，不存在幻读问题。</strong>也就是说，上图 <code>&lt;X&gt;</code> 处，需要改成“否”！！！！想要进一步了解的，可以看看 <a target="_blank" rel="noopener" href="https://blog.csdn.net/cxm19881208/article/details/79415726">《MySQL InnoDB 事务 —— 一致性读(快照读)》</a>、<a target="_blank" rel="noopener" href="https://blog.csdn.net/z69183787/article/details/81709743">《MYSQL 当前读和快照读》</a>、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wwcom123/p/10727194.html">《【MySQL】当前读、快照读、MVCC》</a> 文章。</p>
 <blockquote>
-<p>艿艿：实际上，艿艿在看完上述几篇文章，仿佛理解了，仿佛又有一点懵逼。后来在看完丁奇老师的 <a target="_blank" rel="noopener" href="http://www.iocoder.cn/images/jikeshijian/MySQL实战45讲.jpg">《MySQL 实战 45 讲》</a> 的「08 | 事务到底是隔离的还是不隔离的？」后，稳了，通透了。</p>
+<p>艿艿：实际上，艿艿在看完上述几篇文章，仿佛理解了，仿佛又有一点懵逼。后来在看完丁奇老师的 <a target="_blank" rel="noopener" href="http://www.iocoder.cn/images/jikeshijian/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2.jpg">《MySQL 实战 45 讲》</a> 的「08 | 事务到底是隔离的还是不隔离的？」后，稳了，通透了。</p>
 </blockquote>
 </li>
 <li><p>😈 记住这个表的方式，我们会发现它是自左上向右下是一个对角线。当然，最好是去理解。</p>
@@ -869,7 +824,7 @@
 <ul>
 <li><p>必读 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000016566788">《MySQL 幻读的详解、实例及解决办法》</a> 案例性更强，易懂。</p>
 <blockquote>
-<p>其实 RR 也是可以避免幻读的，通过对 select 操作手动加 行X锁（SELECT … FOR UPDATE 这也正是 SERIALIZABLE 隔离级别下会隐式为你做的事情），同时还需要知道，即便当前记录不存在，比如 id = 1 是不存在的，当前事务也会获得一把记录锁（因为InnoDB的行锁锁定的是索引，故记录实体存在与否没关系，存在就加 行X锁，不存在就加 next-key lock间隙X锁），其他事务则无法插入此索引的记录，故杜绝了幻读。</p>
+<p>其实 RR 也是可以避免幻读的，通过对 select 操作手动加 行X锁（SELECT … FOR UPDATE 这也正是 SERIALIZABLE 隔离级别下会隐式为你做的事情），同时还需要知道，即便当前记录不存在，比如 id &#x3D; 1 是不存在的，当前事务也会获得一把记录锁（因为InnoDB的行锁锁定的是索引，故记录实体存在与否没关系，存在就加 行X锁，不存在就加 next-key lock间隙X锁），其他事务则无法插入此索引的记录，故杜绝了幻读。</p>
 </blockquote>
 </li>
 <li><p>选读 <a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_499740cb0100ugs7.html">《MySQL 的 InnoDB 的幻读问题》</a> 原理性更强，读懂会很爽。</p>
@@ -934,9 +889,9 @@
 <li><code>FOR UPDATE</code> 可以根据条件来完成<strong>行锁</strong>锁定，并且 id 是有索引键的列,如果 id 不是索引键那么 InnoDB 将完成<strong>表锁</strong>，并发将无从谈起。</li>
 </ul>
 <h2 id="【重要】MySQL-查询执行顺序？"><a href="#【重要】MySQL-查询执行顺序？" class="headerlink" title="【重要】MySQL 查询执行顺序？"></a>【重要】MySQL 查询执行顺序？</h2><p>MySQL 查询执行的顺序是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(1)     SELECT</span><br><span class="line">(2)     DISTINCT &lt;select_list&gt;</span><br><span class="line">(3)     FROM &lt;left_table&gt;</span><br><span class="line">(4)     &lt;join_type&gt; JOIN &lt;right_table&gt;</span><br><span class="line">(5)     ON &lt;join_condition&gt;</span><br><span class="line">(6)     WHERE &lt;where_condition&gt;</span><br><span class="line">(7)     GROUP BY &lt;group_by_list&gt;</span><br><span class="line">(8)     HAVING &lt;having_condition&gt;</span><br><span class="line">(9)     ORDER BY &lt;order_by_condition&gt;</span><br><span class="line">(10)    LIMIT &lt;limit_number&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(1)     SELECT</span><br><span class="line">(2)     DISTINCT &lt;select_list&gt;</span><br><span class="line">(3)     FROM &lt;left_table&gt;</span><br><span class="line">(4)     &lt;join_type&gt; JOIN &lt;right_table&gt;</span><br><span class="line">(5)     ON &lt;join_condition&gt;</span><br><span class="line">(6)     WHERE &lt;where_condition&gt;</span><br><span class="line">(7)     GROUP BY &lt;group_by_list&gt;</span><br><span class="line">(8)     HAVING &lt;having_condition&gt;</span><br><span class="line">(9)     ORDER BY &lt;order_by_condition&gt;</span><br><span class="line">(10)    LIMIT &lt;limit_number&gt;</span><br></pre></td></tr></table></figure>
 
-<p>具体的，可以看看 <a target="_blank" rel="noopener" href="http://zouzls.github.io/2017/03/23/SQL查询之执行顺序解析/">《SQL 查询之执行顺序解析》</a> 文章。</p>
+<p>具体的，可以看看 <a target="_blank" rel="noopener" href="http://zouzls.github.io/2017/03/23/SQL%E6%9F%A5%E8%AF%A2%E4%B9%8B%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E8%A7%A3%E6%9E%90/">《SQL 查询之执行顺序解析》</a> 文章。</p>
 <h2 id="【重要】聊聊-MySQL-SQL-优化？"><a href="#【重要】聊聊-MySQL-SQL-优化？" class="headerlink" title="【重要】聊聊 MySQL SQL 优化？"></a>【重要】聊聊 MySQL SQL 优化？</h2><p>可以看看如下几篇文章：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ab958a4823d1">《PHP 面试之 MySQL 查询优化》</a></li>
@@ -1001,28 +956,6 @@
 
 
 
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      const commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
 </div>
   </main>
 
@@ -1032,7 +965,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1043,16 +976,16 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">288k</span>
+    <span title="站点总字数">295k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:22</span>
+    <span title="站点阅读时长">4:28</span>
   </span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
 <script type="text/javascript">
@@ -1072,36 +1005,16 @@ var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[
   </footer>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
-<script src="/js/local-search.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
 
 
 
 
-
-  <script>
-    NProgress.configure({
-      showSpinner: true
-    });
-    NProgress.start();
-    document.addEventListener('readystatechange', () => {
-      if (document.readyState === 'interactive') {
-        NProgress.inc(0.8);
-      }
-      if (document.readyState === 'complete') {
-        NProgress.done();
-      }
-    });
-    document.addEventListener('pjax:send', () => {
-      NProgress.start();
-    });
-    document.addEventListener('pjax:success', () => {
-      NProgress.done();
-    });
-  </script>
 
   
 
