@@ -24,12 +24,12 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式-代理、桥接、装饰器、适配器模式的区别">
 <meta property="og:url" content="http://zhaoyangmushiyi.github.io/2022/08/04/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86%E3%80%81%E6%A1%A5%E6%8E%A5%E3%80%81%E8%A3%85%E9%A5%B0%E5%99%A8%E3%80%81%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
-<meta property="og:site_name" content="朝阳暮逝忆">
+<meta property="og:site_name" content="Monochrome">
 <meta property="og:description" content="代理、桥接、装饰器、适配器，这 4 种模式是比较常用的结构型设计模式。它们的代码结构非常相似。笼统来说，它们都可以称为 Wrapper(包装) 模式，也就是通过 Wrapper 类二次封装原始类。 尽管代码结构相似，但这 4 种设计模式的用意完全不同，也就是说要解决的问题、应用场景不同，这也是它们的主要区别。  代理模式：代理模式在不改变原始类接口的条件下，为原始类定义一个代理类，主要目的是控制访">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-04T12:25:41.000Z">
 <meta property="article:modified_time" content="2022-08-24T10:57:21.756Z">
-<meta property="article:author" content="朝阳暮逝忆">
+<meta property="article:author" content="Monochrome">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
 
@@ -41,7 +41,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2022/08/04/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86%E3%80%81%E6%A1%A5%E6%8E%A5%E3%80%81%E8%A3%85%E9%A5%B0%E5%99%A8%E3%80%81%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB/","path":"2022/08/04/设计模式-代理、桥接、装饰器、适配器模式的区别/","title":"设计模式-代理、桥接、装饰器、适配器模式的区别"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>设计模式-代理、桥接、装饰器、适配器模式的区别 | 朝阳暮逝忆</title>
+<title>设计模式-代理、桥接、装饰器、适配器模式的区别 | Monochrome</title>
   
 
 
@@ -71,7 +71,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">朝阳暮逝忆</p>
+      <p class="site-title">Monochrome</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -148,10 +148,10 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
+    <img class="site-author-image" itemprop="image" alt="Monochrome"
       src="/images/next/Avatar.png">
-  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
-  <div class="site-description" itemprop="description">Monochrome</div>
+  <p class="site-author-name" itemprop="name">Monochrome</p>
+  <div class="site-description" itemprop="description">Some of us get dipped in flat, some in satin, some in gloss. But every once in a while you find someone who's iridescent, and when you do, nothing will ever compare.</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -219,16 +219,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/next/Avatar.png">
-      <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="name" content="Monochrome">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="朝阳暮逝忆">
-      <meta itemprop="description" content="Monochrome">
+      <meta itemprop="name" content="Monochrome">
+      <meta itemprop="description" content="Some of us get dipped in flat, some in satin, some in gloss. But every once in a while you find someone who's iridescent, and when you do, nothing will ever compare.">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="设计模式-代理、桥接、装饰器、适配器模式的区别 | 朝阳暮逝忆">
+      <meta itemprop="name" content="设计模式-代理、桥接、装饰器、适配器模式的区别 | Monochrome">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -344,7 +344,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">朝阳暮逝忆</span>
+  <span class="author" itemprop="copyrightHolder">Monochrome</span>
 </div>
 <div class="wordcount">
   <span class="post-meta-item">

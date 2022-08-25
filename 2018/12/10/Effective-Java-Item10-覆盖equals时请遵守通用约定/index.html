@@ -24,12 +24,12 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Effective Java Item10 覆盖equals时请遵守通用约定">
 <meta property="og:url" content="http://zhaoyangmushiyi.github.io/2018/12/10/Effective-Java-Item10-%E8%A6%86%E7%9B%96equals%E6%97%B6%E8%AF%B7%E9%81%B5%E5%AE%88%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A/index.html">
-<meta property="og:site_name" content="朝阳暮逝忆">
+<meta property="og:site_name" content="Monochrome">
 <meta property="og:description" content="对于所有对象都通用的方法　　尽管Object是一个具体类，但是设计它主要是为了扩展。它所有的非final方法(equals、hashCode、toString、clone和finalize)都有明确的通用约定（**general contract**）,因为它们被设计成是要被覆盖（override）的。任何一个类，它在覆盖这些方法的时候，都有责任遵守这些通用约定；如果不能做到这一点，其他依赖于这些">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-12-10T10:53:00.000Z">
 <meta property="article:modified_time" content="2022-08-24T10:49:26.632Z">
-<meta property="article:author" content="朝阳暮逝忆">
+<meta property="article:author" content="Monochrome">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Effective Java">
 <meta name="twitter:card" content="summary">
@@ -42,7 +42,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2018/12/10/Effective-Java-Item10-%E8%A6%86%E7%9B%96equals%E6%97%B6%E8%AF%B7%E9%81%B5%E5%AE%88%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A/","path":"2018/12/10/Effective-Java-Item10-覆盖equals时请遵守通用约定/","title":"Effective Java Item10 覆盖equals时请遵守通用约定"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Effective Java Item10 覆盖equals时请遵守通用约定 | 朝阳暮逝忆</title>
+<title>Effective Java Item10 覆盖equals时请遵守通用约定 | Monochrome</title>
   
 
 
@@ -72,7 +72,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">朝阳暮逝忆</p>
+      <p class="site-title">Monochrome</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -150,10 +150,10 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
+    <img class="site-author-image" itemprop="image" alt="Monochrome"
       src="/images/next/Avatar.png">
-  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
-  <div class="site-description" itemprop="description">Monochrome</div>
+  <p class="site-author-name" itemprop="name">Monochrome</p>
+  <div class="site-description" itemprop="description">Some of us get dipped in flat, some in satin, some in gloss. But every once in a while you find someone who's iridescent, and when you do, nothing will ever compare.</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -221,16 +221,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/next/Avatar.png">
-      <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="name" content="Monochrome">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="朝阳暮逝忆">
-      <meta itemprop="description" content="Monochrome">
+      <meta itemprop="name" content="Monochrome">
+      <meta itemprop="description" content="Some of us get dipped in flat, some in satin, some in gloss. But every once in a while you find someone who's iridescent, and when you do, nothing will ever compare.">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Effective Java Item10 覆盖equals时请遵守通用约定 | 朝阳暮逝忆">
+      <meta itemprop="name" content="Effective Java Item10 覆盖equals时请遵守通用约定 | Monochrome">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -421,7 +421,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">朝阳暮逝忆</span>
+  <span class="author" itemprop="copyrightHolder">Monochrome</span>
 </div>
 <div class="wordcount">
   <span class="post-meta-item">

@@ -24,12 +24,12 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Effective Java Item1 考虑静态工厂方法代替构造方法">
 <meta property="og:url" content="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item1-%E8%80%83%E8%99%91%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E4%BB%A3%E6%9B%BF%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95/index.html">
-<meta property="og:site_name" content="朝阳暮逝忆">
+<meta property="og:site_name" content="Monochrome">
 <meta property="og:description" content="一个类允许客户端获取他的一个实例的传统方法是提供一个公有的构造函数。除此之外，还有一个技术，每个程序员都应该掌握。就是一个类提供一个公有的静态工厂方法，这个方法就是一个简单的返回当前类一个实例的静态方法。这里有个来自于Boolean（对原生类型boolean的装箱）类内部实现的简单的例。下面的方法可以将一个原生boolean类型的值转变成一个对Boolean对象的引用： 123public sta">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-12-06T09:09:47.000Z">
 <meta property="article:modified_time" content="2022-08-24T10:49:04.907Z">
-<meta property="article:author" content="朝阳暮逝忆">
+<meta property="article:author" content="Monochrome">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Effective Java">
 <meta name="twitter:card" content="summary">
@@ -42,7 +42,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item1-%E8%80%83%E8%99%91%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E4%BB%A3%E6%9B%BF%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95/","path":"2018/12/06/Effective-Java-Item1-考虑静态工厂方法代替构造方法/","title":"Effective Java Item1 考虑静态工厂方法代替构造方法"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Effective Java Item1 考虑静态工厂方法代替构造方法 | 朝阳暮逝忆</title>
+<title>Effective Java Item1 考虑静态工厂方法代替构造方法 | Monochrome</title>
   
 
 
@@ -72,7 +72,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">朝阳暮逝忆</p>
+      <p class="site-title">Monochrome</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -149,10 +149,10 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="朝阳暮逝忆"
+    <img class="site-author-image" itemprop="image" alt="Monochrome"
       src="/images/next/Avatar.png">
-  <p class="site-author-name" itemprop="name">朝阳暮逝忆</p>
-  <div class="site-description" itemprop="description">Monochrome</div>
+  <p class="site-author-name" itemprop="name">Monochrome</p>
+  <div class="site-description" itemprop="description">Some of us get dipped in flat, some in satin, some in gloss. But every once in a while you find someone who's iridescent, and when you do, nothing will ever compare.</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -220,16 +220,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/next/Avatar.png">
-      <meta itemprop="name" content="朝阳暮逝忆">
+      <meta itemprop="name" content="Monochrome">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="朝阳暮逝忆">
-      <meta itemprop="description" content="Monochrome">
+      <meta itemprop="name" content="Monochrome">
+      <meta itemprop="description" content="Some of us get dipped in flat, some in satin, some in gloss. But every once in a while you find someone who's iridescent, and when you do, nothing will ever compare.">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Effective Java Item1 考虑静态工厂方法代替构造方法 | 朝阳暮逝忆">
+      <meta itemprop="name" content="Effective Java Item1 考虑静态工厂方法代替构造方法 | Monochrome">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -384,7 +384,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">朝阳暮逝忆</span>
+  <span class="author" itemprop="copyrightHolder">Monochrome</span>
 </div>
 <div class="wordcount">
   <span class="post-meta-item">
