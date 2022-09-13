@@ -20,29 +20,25 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="单例对象是一个仅仅只会实例化一次的类。单例对象通常表示一个无状态对象，例如一个函数(Item 24)或一个本质上惟一的系统组件。使类成为单例会使测试它的客户端变得困难，因为不可能用模拟实现代替单例，除非它实现一个接口作为它的类型。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Effective Java Item3 通过私有的构造方法或者一个枚举类型来使用单例属性">
-<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item3-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%88%96%E8%80%85%E4%B8%80%E4%B8%AA%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E6%9D%A5%E4%BD%BF%E7%94%A8%E5%8D%95%E4%BE%8B%E5%B1%9E%E6%80%A7/index.html">
+    <meta name="description" content="有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Monochrome">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/archives/2022/09/index.html">
 <meta property="og:site_name" content="Monochrome">
-<meta property="og:description" content="单例对象是一个仅仅只会实例化一次的类。单例对象通常表示一个无状态对象，例如一个函数(Item 24)或一个本质上惟一的系统组件。使类成为单例会使测试它的客户端变得困难，因为不可能用模拟实现代替单例，除非它实现一个接口作为它的类型。">
+<meta property="og:description" content="有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-12-06T09:48:36.000Z">
-<meta property="article:modified_time" content="2022-08-24T10:49:04.915Z">
 <meta property="article:author" content="Monochrome">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="Effective Java">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item3-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%88%96%E8%80%85%E4%B8%80%E4%B8%AA%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E6%9D%A5%E4%BD%BF%E7%94%A8%E5%8D%95%E4%BE%8B%E5%B1%9E%E6%80%A7/">
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/archives/2022/09/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item3-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%88%96%E8%80%85%E4%B8%80%E4%B8%AA%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E6%9D%A5%E4%BD%BF%E7%94%A8%E5%8D%95%E4%BE%8B%E5%B1%9E%E6%80%A7/","path":"2018/12/06/Effective-Java-Item3-通过私有的构造方法或者一个枚举类型来使用单例属性/","title":"Effective Java Item3 通过私有的构造方法或者一个枚举类型来使用单例属性"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"archives/2022/09/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Effective Java Item3 通过私有的构造方法或者一个枚举类型来使用单例属性 | Monochrome</title>
+<title>归档 | Monochrome</title>
   
 
 
@@ -72,7 +68,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">Monochrome</p>
+      <h1 class="site-title">Monochrome</h1>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -205,147 +201,50 @@
 </noscript>
 
 
-    <div class="main-inner post posts-expand">
+    <div class="main-inner archive posts-collapse">
 
 
   
-
-
-<div class="post-block">
   
   
+  <div class="post-block">
+    <div class="post-content">
+      <div class="collection-title">
+        
+        <span class="collection-header">不错! 目前共计 52 篇日志。 继续努力。</span>
+      </div>
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item3-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%88%96%E8%80%85%E4%B8%80%E4%B8%AA%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E6%9D%A5%E4%BD%BF%E7%94%A8%E5%8D%95%E4%BE%8B%E5%B1%9E%E6%80%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/next/Avatar.png">
-      <meta itemprop="name" content="Monochrome">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monochrome">
-      <meta itemprop="description" content="有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Effective Java Item3 通过私有的构造方法或者一个枚举类型来使用单例属性 | Monochrome">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Effective Java Item3 通过私有的构造方法或者一个枚举类型来使用单例属性
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-12-06 17:48:36" itemprop="dateCreated datePublished" datetime="2018-12-06T17:48:36+08:00">2018-12-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-08-24 18:49:04" itemprop="dateModified" datetime="2022-08-24T18:49:04+08:00">2022-08-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/Effective-Java/" itemprop="url" rel="index"><span itemprop="name">Effective Java</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-        <p><strong>单例</strong>对象是一个仅仅只会实例化一次的类。单例对象通常表示一个无状态对象，例如一个函数(Item 24)或一个本质上惟一的系统组件。<strong>使类成为单例会使测试它的客户端变得困难</strong>，因为不可能用模拟实现代替单例，除非它实现一个接口作为它的类型。</p>
-<span id="more"></span>
-<p>实现单例有两种常见的方法。两者都基于保持构造函数为私有，并对外提供公共静态成员以提供对唯一实例的访问。在第一种方式中，成员是个<code>final</code>字段:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Singleton with public final field</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Elvis</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Elvis</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Elvis</span>();</span><br><span class="line">	<span class="keyword">private</span> <span class="title function_">Elvis</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">leaveTheBuilding</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>**只调用私有构造函数一次，以初始化公共静态<code>final</code>字段<code>Elvi.instance</code>**。不提供公有的或者受保护的构造函数保证了全局“唯一性”：当Elvis类初始化的时候，仅仅只会有一个<code>Elvis</code>实例存在——不多也不少 。无论客户端怎么做都无法改变这一点，只不过我还是要警告一下 ：授权的客户端可以通过反射来调用私有构造方法（Item 65），借助于<code>AccessibleObject.setAccessible</code>方法即可做到 。如果需要防范这种攻击，请修改构造函数，使其在被要求创建第二个实例时抛出异常。</p>
-<p><strong>第二种实现单例模式的方法是，提供一个公有的静态工厂方法：</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Singleton with static factory</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Elvis</span> &#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Elvis</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Elvis</span>();</span><br><span class="line">	<span class="keyword">private</span> <span class="title function_">Elvis</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> Elvis <span class="title function_">getInstance</span><span class="params">()</span> &#123; <span class="keyword">return</span> INSTANCE; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">leaveTheBuilding</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>所有调用<code>Elvis</code>类的<code>getInstance</code>方法，返回相同的对象引用，并且不会有其它的<code>Elvis</code>对象被创建。（但同样有上面提到的警告）</p>
-<p>公共字段方法的主要优点是，通过API我们就可以很清晰地看到类是个单例 ：<code>public static</code>字段是<code>final</code>的，所以它将始终包含相同的对象引用。 第二个优点是它更简单。静态工厂方法的一个优点是它可以让你灵活地改变你的想法，即当你想要改变类的单例特性时，你无需修改其API 。工厂方法返回唯一的实例，但可以修改它，使得每个线程调用它时都返回一个单独的实例。所以，如果你的项目需要，你可以定义一个通用的单例工厂。使用静态工厂方法最后一个好处就是，方法引用可以当做一个提供者，例如，<code>Elvis::instance</code>就是一个<code>Supplier&lt;Elvis&gt;</code>的实例。除非上述这些好处存在一定程度的相关性 ，不然提供公有字段的方法更适合。</p>
-<p>要想让上述两种方式实现的单例类能够序列化（Chapter 12），仅仅在声明中添加实现Serializable接口是不够的。为了保证单例，将所有实例字段声明为<code>transient</code>，并提供一个<code>readResolve</code>方法(Item 89)。否则，每次反序列化一个序列化的实例时，都会创建一个新的实例，在我们的示例中，就会出现另一个<code>Elvise</code>。为了阻止这样的事发生，给<code>Elvis</code>类添加一个<code>readResolve</code>方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// readResolve method to preserve singleton property</span></span><br><span class="line"><span class="keyword">private</span> Object <span class="title function_">readResolve</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// Return the one true Elvis and let the garbage collector</span></span><br><span class="line">    <span class="comment">// take care of the Elvis impersonator.</span></span><br><span class="line">    <span class="keyword">return</span> INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>第三种实现单例的方式是，声明一个单元素的枚举类：</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Enum singleton - the preferred approach</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Elvis</span> &#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">leaveTheBuilding</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个方法跟提供公有的字段方法很类似，但它更简洁，提供天然的可序列化机制和能够强有力地保证不会出现多次实例化的情况 ，甚至面对复杂的序列化和反射的攻击下。这种方法可能看起来不太自然，但是<strong>拥有单元素的枚举类型可能是实现单例模式的最佳实践</strong>。注意，如果单例必须要继承一个父类而非枚举的情况下是无法使用该方式的（不过可以声明一个实现了接口的枚举）。</p>
-
+      
+    <div class="collection-year">
+      <span class="collection-header">2022</span>
     </div>
 
-    
-    
-    
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+      <div class="post-meta-container">
+        <time itemprop="dateCreated"
+              datetime="2022-09-10T20:16:31+08:00"
+              content="2022-09-10">
+          09-10
+        </time>
+      </div>
 
-    <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Java/" rel="tag"># Java</a>
-              <a href="/tags/Effective-Java/" rel="tag"># Effective Java</a>
-          </div>
+      <div class="post-title">
+          <a class="post-title-link" href="/2022/09/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/" itemprop="url">
+            <span itemprop="name">设计模式-职责链模式</span>
+          </a>
+      </div>
 
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2018/12/06/Effective-Java-Item2-%E5%BD%93%E9%81%87%E5%88%B0%E8%AE%B8%E5%A4%9A%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E6%97%B6%EF%BC%8C%E8%80%83%E8%99%91%E6%9E%84%E5%BB%BA%E5%99%A8/" rel="prev" title="Effective Java Item2 当遇到许多构造方法参数时，考虑构建器">
-                  <i class="fa fa-chevron-left"></i> Effective Java Item2 当遇到许多构造方法参数时，考虑构建器
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2018/12/06/Effective-Java-Item4-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%9D%A5%E9%98%BB%E6%AD%A2%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/" rel="next" title="Effective Java Item4 通过私有的构造方法来阻止类的实例化">
-                  Effective Java Item4 通过私有的构造方法来阻止类的实例化 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
+      
+    </header>
   </article>
-</div>
 
 
-
-
-
+    </div>
+  </div>
+  
+  
+  
 
 </div>
   </main>
