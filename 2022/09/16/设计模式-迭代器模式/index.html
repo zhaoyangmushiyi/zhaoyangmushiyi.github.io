@@ -20,29 +20,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="有时，你想要编写一个只包含一组静态方法和静态字段的类。这种类有一个不太好的名声，因为有些人会滥用他们，不从对象的角度来思考，而是坚信他们的想法是正确无误的 。他们可以把原生类型的值或数组相关的方法分一组，就像java.lang.Math或java.util.Arrays的方式。还可以将静态方法划分到一起，包括工厂（Item 1），用于实现了某个接口的对象，就想java.util.Collectio">
+    <meta name="description" content="迭代器模式的原理和实现迭代器模式（Iterator Design Pattern），也叫作游标模式（Cursor Design Pattern）。在开篇中我们讲到，它用来遍历集合对象。这里说的“集合对象”也可以叫“容器”“聚合对象”，实际上就是包含一组对象的对象，比如数组、链表、树、图、跳表。迭代器模式将集合对象的遍历操作从集合类中拆分出来，放到迭代器类中，让两者的职责更加单一。 迭代器是用来遍历">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Effective Java Item4 通过私有的构造方法来阻止类的实例化">
-<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item4-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%9D%A5%E9%98%BB%E6%AD%A2%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/index.html">
+<meta property="og:title" content="设计模式-迭代器模式">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2022/09/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Monochrome">
-<meta property="og:description" content="有时，你想要编写一个只包含一组静态方法和静态字段的类。这种类有一个不太好的名声，因为有些人会滥用他们，不从对象的角度来思考，而是坚信他们的想法是正确无误的 。他们可以把原生类型的值或数组相关的方法分一组，就像java.lang.Math或java.util.Arrays的方式。还可以将静态方法划分到一起，包括工厂（Item 1），用于实现了某个接口的对象，就想java.util.Collectio">
+<meta property="og:description" content="迭代器模式的原理和实现迭代器模式（Iterator Design Pattern），也叫作游标模式（Cursor Design Pattern）。在开篇中我们讲到，它用来遍历集合对象。这里说的“集合对象”也可以叫“容器”“聚合对象”，实际上就是包含一组对象的对象，比如数组、链表、树、图、跳表。迭代器模式将集合对象的遍历操作从集合类中拆分出来，放到迭代器类中，让两者的职责更加单一。 迭代器是用来遍历">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-12-06T11:19:37.000Z">
-<meta property="article:modified_time" content="2022-08-24T10:49:04.913Z">
+<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9B%BE.png">
+<meta property="article:published_time" content="2022-09-16T13:24:12.000Z">
+<meta property="article:modified_time" content="2022-09-19T12:29:24.776Z">
 <meta property="article:author" content="Monochrome">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="Effective Java">
+<meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zhaoyangmushiyi.github.io/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9B%BE.png">
 
 
-<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item4-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%9D%A5%E9%98%BB%E6%AD%A2%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/">
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2022/09/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item4-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%9D%A5%E9%98%BB%E6%AD%A2%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/","path":"2018/12/06/Effective-Java-Item4-通过私有的构造方法来阻止类的实例化/","title":"Effective Java Item4 通过私有的构造方法来阻止类的实例化"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2022/09/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/","path":"2022/09/16/设计模式-迭代器模式/","title":"设计模式-迭代器模式"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Effective Java Item4 通过私有的构造方法来阻止类的实例化 | Monochrome</title>
+<title>设计模式-迭代器模式 | Monochrome</title>
   
 
 
@@ -131,7 +132,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -144,6 +145,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">迭代器模式的原理和实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">2.</span> <span class="nav-text">迭代器模式的优势</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -216,7 +218,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2018/12/06/Effective-Java-Item4-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%9D%A5%E9%98%BB%E6%AD%A2%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2022/09/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/next/Avatar.png">
@@ -229,12 +231,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Effective Java Item4 通过私有的构造方法来阻止类的实例化 | Monochrome">
+      <meta itemprop="name" content="设计模式-迭代器模式 | Monochrome">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Effective Java Item4 通过私有的构造方法来阻止类的实例化
+          设计模式-迭代器模式
         </h1>
 
         <div class="post-meta-container">
@@ -245,14 +247,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-12-06 19:19:37" itemprop="dateCreated datePublished" datetime="2018-12-06T19:19:37+08:00">2018-12-06</time>
+      <time title="创建时间：2022-09-16 21:24:12" itemprop="dateCreated datePublished" datetime="2022-09-16T21:24:12+08:00">2022-09-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-08-24 18:49:04" itemprop="dateModified" datetime="2022-08-24T18:49:04+08:00">2022-08-24</time>
+      <time title="修改时间：2022-09-19 20:29:24" itemprop="dateModified" datetime="2022-09-19T20:29:24+08:00">2022-09-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -260,11 +262,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/Effective-Java/" itemprop="url" rel="index"><span itemprop="name">Effective Java</span></a>
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
         </span>
     </span>
 
@@ -275,14 +273,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>977</span>
+      <span>4.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -293,15 +291,33 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>有时，你想要编写一个只包含一组静态方法和静态字段的类。这种类有一个不太好的名声，因为有些人会滥用他们，不从对象的角度来思考，而是坚信他们的想法是正确无误的 。他们可以把原生类型的值或数组相关的方法分一组，就像<code>java.lang.Math</code>或<code>java.util.Arrays</code>的方式。还可以将静态方法划分到一起，包括工厂（Item 1），用于实现了某个接口的对象，就想<code>java.util.Collections</code>一样。（从Java 8开始，如果想要自己修改，那么你还可以将这类方法放到接口中）最后，还可以将针对终态类的方法划分到一起，因为你无法再将他们放到子类中了 。</p>
-<span id="more"></span>
+        <h1 id="迭代器模式的原理和实现"><a href="#迭代器模式的原理和实现" class="headerlink" title="迭代器模式的原理和实现"></a>迭代器模式的原理和实现</h1><p>迭代器模式（Iterator Design Pattern），也叫作游标模式（Cursor Design Pattern）。在开篇中我们讲到，它用来遍历集合对象。这里说的“集合对象”也可以叫“容器”“聚合对象”，实际上就是包含一组对象的对象，比如数组、链表、树、图、跳表。迭代器模式将集合对象的遍历操作从集合类中拆分出来，放到迭代器类中，让两者的职责更加单一。</p>
+<p>迭代器是用来遍历容器的，所以，一个完整的迭代器模式一般会涉及容器和容器迭代器两部分内容。为了达到基于接口而非实现编程的目的，容器又包含容器接口、容器实现类，迭代器又包含迭代器接口、迭代器实现类。对于迭代器模式，我画了一张简单的类图，你可以看一看，先有个大致的印象。</p>
+<p><img src="/../images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9B%BE.png" alt="迭代模式类图"></p>
+<p>线性数据结构包括数组和链表，在大部分编程语言中都有对应的类来封装这两种数据结构，在开发中直接拿来用就可以了。假设在这种新的编程语言中，这两个数据结构分别对应 ArrayList 和 LinkedList 两个类。除此之外，我们从两个类中抽象出公共的接口，定义为 List 接口，以方便开发者基于接口而非实现编程，编写的代码能在两种数据存储结构之间灵活切换。</p>
+<p>现在，我们针对 ArrayList 和 LinkedList 两个线性容器，设计实现对应的迭代器。按照之前给出的迭代器模式的类图，我们定义一个迭代器接口 Iterator，以及针对两种容器的具体的迭代器实现类 ArrayIterator 和 ListIterator。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 接口定义方式一</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Iterator</span>&lt;E&gt; &#123;</span><br><span class="line">  <span class="type">boolean</span> <span class="title function_">hasNext</span><span class="params">()</span>;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">next</span><span class="params">()</span>;</span><br><span class="line">  E <span class="title function_">currentItem</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接口定义方式二</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Iterator</span>&lt;E&gt; &#123;</span><br><span class="line">  <span class="type">boolean</span> <span class="title function_">hasNext</span><span class="params">()</span>;</span><br><span class="line">  E <span class="title function_">next</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>把这样的公共类设计成不可实例化，是因为它的实例化是没有意义地。然而，在没有显式构造函数的情况下，编译器提供一个公共的、无参数的默认构造函数。对使用者来说，这个构造函数跟其它的没什么区别。我们常常会在已发布的APIs中看到无意中被实例化的类 。</p>
-<p><strong>通过将一个类设置为抽象类来强制禁止类的实例化是行不通的</strong>。这个抽象类可以有子类，然后子类可以实例化。而且这会误导使用者去想要去设计一个类，然后继承这个抽象类（Item 19）。然后这里有一个简单的做法来保证非实例化。只有在类不包含显示构造函数时候，默认的构造函数才会生成。所以，一个类可以通过提供私有的构造函数来做到非实例化。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Noninstantiable utility class</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UtilityClass</span> &#123;</span><br><span class="line">    <span class="comment">// Suppress default constructor for noninstantiability</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">UtilityClass</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">AssertionError</span>();</span><br><span class="line">    &#125;</span><br><span class="line">... <span class="comment">// Remainder omitted</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>terator 接口有两种定义方式。在第一种定义中，next() 函数用来将游标后移一位元素，currentItem() 函数用来返回当前游标指向的元素。在第二种定义中，返回当前元素与后移一位这两个操作，要放到同一个函数 next() 中完成。第一种定义方式更加灵活一些，比如我们可以多次调用 currentItem() 查询当前元素，而不移动游标。所以，在接下来的实现中，我们选择第一种接口定义方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ArrayIterator</span>&lt;E&gt; <span class="keyword">implements</span> <span class="title class_">Iterator</span>&lt;E&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="type">int</span> cursor;</span><br><span class="line">  <span class="keyword">private</span> ArrayList&lt;E&gt; arrayList;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">ArrayIterator</span><span class="params">(ArrayList&lt;E&gt; arrayList)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.cursor = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">this</span>.arrayList = arrayList;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasNext</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> cursor != arrayList.size(); <span class="comment">//注意这里，cursor在指向最后一个元素的时候，hasNext()仍旧返回true。</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">next</span><span class="params">()</span> &#123;</span><br><span class="line">    cursor++;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> E <span class="title function_">currentItem</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (cursor &gt;= arrayList.size()) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NoSuchElementException</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arrayList.get(cursor);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    ArrayList&lt;String&gt; names = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    names.add(<span class="string">&quot;xzg&quot;</span>);</span><br><span class="line">    names.add(<span class="string">&quot;wang&quot;</span>);</span><br><span class="line">    names.add(<span class="string">&quot;zheng&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    Iterator&lt;String&gt; iterator = <span class="keyword">new</span> <span class="title class_">ArrayIterator</span>(names);</span><br><span class="line">    <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">      System.out.println(iterator.currentItem());</span><br><span class="line">      iterator.next();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>因为显示指定构造函数是私有的，所有无法在类外面访问到。<code>AssertionError</code>不是必须的，但它提供了一个保障，防止构造函数在类的内部被意外调用。它保证了类在任何情况都不会被实例化。这种做法有点反常识，因为提供构造方法的目的仅仅是为了自己不能被调用 。所以，更好的做法则是加上一些注释说明，正如上述代码所做的那样。</p>
-<p>这样做的副作用是，阻止了类被子类化。所有构造函数都必须显式或隐式地调用父类构造函数，但是子类将没有可访问的父类构造函数来调用。</p>
+<p>在上面的代码实现中，我们需要将待遍历的容器对象，通过构造函数传递给迭代器类。实际上，为了封装迭代器的创建细节，我们可以在容器中定义一个 iterator() 方法，来创建对应的迭代器。为了能实现基于接口而非实现编程，我们还需要将这个方法定义在 List 接口中。具体的代码实现和使用示例如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">List</span>&lt;E&gt; &#123;</span><br><span class="line">  Iterator <span class="title function_">iterator</span><span class="params">()</span>;</span><br><span class="line">  <span class="comment">//...省略其他接口函数...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ArrayList</span>&lt;E&gt; <span class="keyword">implements</span> <span class="title class_">List</span>&lt;E&gt; &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">public</span> Iterator <span class="title function_">iterator</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayIterator</span>(<span class="built_in">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...省略其他代码</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    List&lt;String&gt; names = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    names.add(<span class="string">&quot;xzg&quot;</span>);</span><br><span class="line">    names.add(<span class="string">&quot;wang&quot;</span>);</span><br><span class="line">    names.add(<span class="string">&quot;zheng&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    Iterator&lt;String&gt; iterator = names.iterator();</span><br><span class="line">    <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">      System.out.println(iterator.currentItem());</span><br><span class="line">      iterator.next();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="迭代器模式的优势"><a href="#迭代器模式的优势" class="headerlink" title="迭代器模式的优势"></a>迭代器模式的优势</h1><p>一般来讲，遍历集合数据有三种方法：for 循环、foreach 循环、iterator 迭代器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; names = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">names.add(<span class="string">&quot;xzg&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;wang&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;zheng&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第一种遍历方式：for循环</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; names.size(); i++) &#123;</span><br><span class="line">  System.out.print(names.get(i) + <span class="string">&quot;,&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二种遍历方式：foreach循环</span></span><br><span class="line"><span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">  System.out.print(name + <span class="string">&quot;,&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三种遍历方式：迭代器遍历</span></span><br><span class="line">Iterator&lt;String&gt; iterator = names.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">  System.out.print(iterator.next() + <span class="string">&quot;,&quot;</span>);<span class="comment">//Java中的迭代器接口是第二种定义方式，next()既移动游标又返回数据</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际上，foreach 循环只是一个语法糖而已，底层是基于迭代器来实现的。也就是说，上面代码中的第二种遍历方式（foreach 循环代码）的底层实现，就是第三种遍历方式（迭代器遍历代码）。这两种遍历方式可以看作同一种遍历方式，也就是迭代器遍历方式。</p>
+<p>从上面的代码来看，for 循环遍历方式比起迭代器遍历方式，代码看起来更加简洁。那我们为什么还要用迭代器来遍历容器呢？为什么还要给容器设计对应的迭代器呢？原因有以下三个。</p>
+<p>首先，对于类似数组和链表这样的数据结构，遍历方式比较简单，直接使用 for 循环来遍历就足够了。但是，对于复杂的数据结构（比如树、图）来说，有各种复杂的遍历方式。比如，树有前中后序、按层遍历，图有深度优先、广度优先遍历等等。如果由客户端代码来实现这些遍历算法，势必增加开发成本，而且容易写错。如果将这部分遍历的逻辑写到容器类中，也会导致容器类代码的复杂性。</p>
+<p>前面也多次提到，应对复杂性的方法就是拆分。我们可以将遍历操作拆分到迭代器类中。比如，针对图的遍历，我们就可以定义 DFSIterator、BFSIterator 两个迭代器类，让它们分别来实现深度优先遍历和广度优先遍历。其次，将游标指向的当前位置等信息，存储在迭代器类中，每个迭代器独享游标信息。这样，我们就可以创建多个不同的迭代器，同时对同一个容器进行遍历而互不影响。</p>
+<p>最后，容器和迭代器都提供了抽象的接口，方便我们在开发的时候，基于接口而非具体的实现编程。当需要切换新的遍历算法的时候，比如，从前往后遍历链表切换成从后往前遍历链表，客户端代码只需要将迭代器类从 LinkedIterator 切换为 ReversedLinkedIterator 即可，其他代码都不需要修改。除此之外，添加新的遍历算法，我们只需要扩展新的迭代器类，也更符合开闭原则。</p>
+<p>简单总结一下优势：</p>
+<ul>
+<li>迭代器模式封装集合内部的复杂数据结构，开发者不需要了解如何遍历，直接使用容器提供的迭代器即可；</li>
+<li>迭代器模式将集合对象的遍历操作从集合类中拆分出来，放到迭代器类中，让两者的职责更加单一；</li>
+<li>迭代器模式让添加新的遍历算法更加容易，更符合开闭原则。除此之外，因为迭代器都实现自相同的接口，在开发中，基于接口而非实现编程，替换迭代器也变得更加容易。</li>
+</ul>
 
     </div>
 
@@ -311,22 +327,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Java/" rel="tag"># Java</a>
-              <a href="/tags/Effective-Java/" rel="tag"># Effective Java</a>
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag"># 设计模式</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2018/12/06/Effective-Java-Item3-%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%88%96%E8%80%85%E4%B8%80%E4%B8%AA%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E6%9D%A5%E4%BD%BF%E7%94%A8%E5%8D%95%E4%BE%8B%E5%B1%9E%E6%80%A7/" rel="prev" title="Effective Java Item3 通过私有的构造方法或者一个枚举类型来使用单例属性">
-                  <i class="fa fa-chevron-left"></i> Effective Java Item3 通过私有的构造方法或者一个枚举类型来使用单例属性
+                <a href="/2022/09/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" rel="prev" title="设计模式-状态模式">
+                  <i class="fa fa-chevron-left"></i> 设计模式-状态模式
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2018/12/07/Effective-Java-Item5-%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E8%80%8C%E9%9D%9E%E7%A1%AC%E7%BC%96%E7%A0%81%E8%B5%84%E6%BA%90%E7%9A%84%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB/" rel="next" title="Effective Java Item5 优先使用依赖注入而非硬编码资源的关联关系">
-                  Effective Java Item5 优先使用依赖注入而非硬编码资源的关联关系 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
