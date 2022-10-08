@@ -28,7 +28,7 @@
 <meta property="og:description" content="准备环境pom.xml依赖用户信息存储在MySQL中，dao层使用Spring Data JPA，因此需要引入相关的依赖 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566&lt;?xml version">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-10-07T09:47:16.000Z">
-<meta property="article:modified_time" content="2022-10-07T10:34:07.518Z">
+<meta property="article:modified_time" content="2022-10-08T13:29:12.990Z">
 <meta property="article:author" content="Monochrome">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Shiro">
@@ -146,7 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">准备环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pom-xml%E4%BE%9D%E8%B5%96"><span class="nav-number">1.1.</span> <span class="nav-text">pom.xml依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#application-yml%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">application.yml配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.</span> <span class="nav-text">数据库表信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">登录认证实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%8F%A3%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.</span> <span class="nav-text">后端接口服务实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BD%93"><span class="nav-number">2.1.1.</span> <span class="nav-text">创建实体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BArepository"><span class="nav-number">2.1.2.</span> <span class="nav-text">创建repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-service"><span class="nav-number">2.1.3.</span> <span class="nav-text">创建 service</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%B1%BB"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">实现类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89realm"><span class="nav-number">2.1.4.</span> <span class="nav-text">自定义realm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shiro%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="nav-number">2.1.5.</span> <span class="nav-text">Shiro配置类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0controller"><span class="nav-number">2.1.6.</span> <span class="nav-text">实现controller</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">2.2.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2"><span class="nav-number">2.3.</span> <span class="nav-text">实现前端页面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="nav-number">2.3.0.1.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-login-%E9%A1%B5%E9%9D%A2"><span class="nav-number">2.3.0.2.</span> <span class="nav-text">添加 login 页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-main-%E9%A1%B5%E9%9D%A2"><span class="nav-number">2.3.0.3.</span> <span class="nav-text">添加 main 页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-controller-%E6%96%B9%E6%B3%95%EF%BC%8C%E6%94%B9%E9%80%A0%E8%AE%A4%E8%AF%81%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.0.4.</span> <span class="nav-text">添加 controller 方法，改造认证方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shiro%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="nav-number">2.3.0.5.</span> <span class="nav-text">shiro相关配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-1"><span class="nav-number">2.3.0.6.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">准备环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pom-xml%E4%BE%9D%E8%B5%96"><span class="nav-number">1.1.</span> <span class="nav-text">pom.xml依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#application-yml%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">application.yml配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.</span> <span class="nav-text">数据库表信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">登录认证实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%8F%A3%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.</span> <span class="nav-text">后端接口服务实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BD%93"><span class="nav-number">2.1.1.</span> <span class="nav-text">创建实体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BArepository"><span class="nav-number">2.1.2.</span> <span class="nav-text">创建repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-service"><span class="nav-number">2.1.3.</span> <span class="nav-text">创建 service</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%B1%BB"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">实现类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89realm"><span class="nav-number">2.1.4.</span> <span class="nav-text">自定义realm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shiro%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="nav-number">2.1.5.</span> <span class="nav-text">Shiro配置类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0controller"><span class="nav-number">2.1.6.</span> <span class="nav-text">实现controller</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">2.2.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2"><span class="nav-number">2.3.</span> <span class="nav-text">实现前端页面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="nav-number">2.3.0.1.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-login-%E9%A1%B5%E9%9D%A2"><span class="nav-number">2.3.0.2.</span> <span class="nav-text">添加 login 页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-main-%E9%A1%B5%E9%9D%A2"><span class="nav-number">2.3.0.3.</span> <span class="nav-text">添加 main 页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-controller-%E6%96%B9%E6%B3%95%EF%BC%8C%E6%94%B9%E9%80%A0%E8%AE%A4%E8%AF%81%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.0.4.</span> <span class="nav-text">添加 controller 方法，改造认证方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shiro%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="nav-number">2.3.0.5.</span> <span class="nav-text">shiro相关配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-1"><span class="nav-number">2.3.0.6.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA-realm-%E7%9A%84%E8%AE%A4%E8%AF%81%E7%AD%96%E7%95%A5%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.4.</span> <span class="nav-text">多个 realm 的认证策略设置</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -247,9 +247,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-10-07 17:47:16 / 修改时间：18:34:07" itemprop="dateCreated datePublished" datetime="2022-10-07T17:47:16+08:00">2022-10-07</time>
+      <time title="创建时间：2022-10-07 17:47:16" itemprop="dateCreated datePublished" datetime="2022-10-07T17:47:16+08:00">2022-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-10-08 21:29:12" itemprop="dateModified" datetime="2022-10-08T21:29:12+08:00">2022-10-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -280,14 +286,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>12k</span>
+      <span>14k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>11 分钟</span>
+      <span>13 分钟</span>
     </span>
 </div>
 
@@ -340,6 +346,38 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置不认证可以访问的资源</span></span><br><span class="line">definition.addPathDefinition(<span class="string">&quot;/user/login&quot;</span>, <span class="string">&quot;anon&quot;</span>);</span><br><span class="line">definition.addPathDefinition(<span class="string">&quot;/user/userLogin&quot;</span>, <span class="string">&quot;anon&quot;</span>);</span><br><span class="line"><span class="comment">//设置需要进行登录认证的拦截范围</span></span><br><span class="line">definition.addPathDefinition(<span class="string">&quot;/**&quot;</span>, <span class="string">&quot;authc&quot;</span>);</span><br></pre></td></tr></table></figure>
 
 <h4 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h4><p>启动项目，访问登录页面：<a target="_blank" rel="noopener" href="http://localhost:8080/user/login%EF%BC%8C%E8%BE%93%E5%85%A5%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81%E5%90%8E%E8%B7%B3%E8%BD%AC%E5%88%B0%E4%B8%BB%E9%A1%B5%E9%9D%A2">http://localhost:8080/user/login，输入用户名和密码后跳转到主页面</a></p>
+<h2 id="多个-realm-的认证策略设置"><a href="#多个-realm-的认证策略设置" class="headerlink" title="多个 realm 的认证策略设置"></a>多个 realm 的认证策略设置</h2><p>当应用程序配置多个 Realm 时，例如：用户名密码校验、手机号验证码校验等等。 Shiro 的 ModularRealmAuthenticator 会使用内部的 AuthenticationStrategy 组件判断认 证是成功还是失败。</p>
+<p>AuthenticationStrategy 是一个无状态的组件，它在身份验证尝试中被询问 4 次(这 4 次交互所需的任何必要的状态将被作为方法参数):</p>
+<ol>
+<li>在所有 Realm 被调用之前</li>
+<li>在调用 Realm 的 getAuthenticationInfo 方法之前</li>
+<li>在调用 Realm 的 getAuthenticationInfo 方法之后</li>
+<li>在所有 Realm 被调用之后</li>
+</ol>
+<p>认证策略的另外一项工作就是聚合所有 Realm 的结果信息封装至一个 AuthenticationInfo 实例中，并将此信息返回，以此作为 Subject 的身份信息。</p>
+<p>Shiro 中定义了 3 种认证策略的实现:</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>AuthenticationStrategy class</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">AtLeastOneSuccessfulStrategy</td>
+<td>只要有一个(或更多)的 Realm 验证成功，那么认证将视为成功</td>
+</tr>
+<tr>
+<td align="left">FirstSuccessfulStrategy</td>
+<td>第一个 Realm 验证成功，整体认证将视为成功，且后续 Realm 将被忽略</td>
+</tr>
+<tr>
+<td align="left">AllSuccessfulStrategy</td>
+<td>所有 Realm 成功，认证才视为成功</td>
+</tr>
+</tbody></table>
+<p>ModularRealmAuthenticator 内置的认证策略默认实现是 AtLeastOneSuccessfulStrategy 方式。可以通过配置修改策略</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> DefaultWebSecurityManager <span class="title function_">defaultWebSecurityManager</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">//1 创建 defaultWebSecurityManager 对象</span></span><br><span class="line">    <span class="type">DefaultWebSecurityManager</span> <span class="variable">defaultWebSecurityManager</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultWebSecurityManager</span>();</span><br><span class="line">    <span class="comment">//2 创建认证对象，并设置认证策略</span></span><br><span class="line">    <span class="type">ModularRealmAuthenticator</span> <span class="variable">modularRealmAuthenticator</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ModularRealmAuthenticator</span>();</span><br><span class="line">    <span class="comment">//有多种认证策略，AtLeastOneSuccessfulStrategy，FirstSuccessfulStrategy，AllSuccessfulStrategy</span></span><br><span class="line">    modularRealmAuthenticator.setAuthenticationStrategy(<span class="keyword">new</span> <span class="title class_">AtLeastOneSuccessfulStrategy</span>());</span><br><span class="line">    defaultWebSecurityManager.setAuthenticator(modularRealmAuthenticator);</span><br><span class="line">    <span class="comment">//3 封装Realm集合</span></span><br><span class="line">    List&lt;Realm&gt; realms = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//3.1 创建加密对象，并设置相关属性</span></span><br><span class="line">    <span class="type">HashedCredentialsMatcher</span> <span class="variable">matcher</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HashedCredentialsMatcher</span>();</span><br><span class="line">    <span class="comment">//3.1.1 采用 md5 加密</span></span><br><span class="line">    matcher.setHashAlgorithmName(<span class="string">&quot;md5&quot;</span>);</span><br><span class="line">    <span class="comment">//3.1.2 迭代加密次数</span></span><br><span class="line">    matcher.setHashIterations(<span class="number">3</span>);</span><br><span class="line">    <span class="comment">//3.1.2 将加密对象存储到 myRealm 中</span></span><br><span class="line">    realm.setCredentialsMatcher(matcher);</span><br><span class="line">    realms.add(realm);</span><br><span class="line">    <span class="comment">//4 将 realms 集合存入 defaultWebSecurityManager 对象</span></span><br><span class="line">    defaultWebSecurityManager.setRealms(realms);</span><br><span class="line">    <span class="comment">//5 返回</span></span><br><span class="line">    <span class="keyword">return</span> defaultWebSecurityManager;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -394,13 +432,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">435k</span>
+    <span title="站点总字数">436k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:35</span>
+    <span title="站点阅读时长">6:37</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
