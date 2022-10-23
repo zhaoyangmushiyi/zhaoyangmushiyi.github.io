@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="分析项目背景公司成立初期，团队人少。公司集中精力开发一个金融理财产品（我们把这个项目叫做 X 项目）。整个项目只做了简单的前后端分离，后端的所有代码都在一个 GitHub 仓库中，整个后端作为一个应用来部署，没有划分微服务。 遇到了行业风口，公司发展得不错，公司开始招更多人，开发更多的金融产品，比如专注房贷的理财产品、专注供应链的产品、专注消费贷的借款端产品等等。在产品形态上，每个金融产品都做成了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式-设计实现一个支持各种算法的限流框架">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2022/10/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95%E7%9A%84%E9%99%90%E6%B5%81%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="Monochrome">
+<meta property="og:description" content="分析项目背景公司成立初期，团队人少。公司集中精力开发一个金融理财产品（我们把这个项目叫做 X 项目）。整个项目只做了简单的前后端分离，后端的所有代码都在一个 GitHub 仓库中，整个后端作为一个应用来部署，没有划分微服务。 遇到了行业风口，公司发展得不错，公司开始招更多人，开发更多的金融产品，比如专注房贷的理财产品、专注供应链的产品、专注消费贷的借款端产品等等。在产品形态上，每个金融产品都做成了">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-18T13:23:53.000Z">
+<meta property="article:modified_time" content="2022-10-23T14:33:12.824Z">
+<meta property="article:author" content="Monochrome">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="设计模式">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2022/10/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95%E7%9A%84%E9%99%90%E6%B5%81%E6%A1%86%E6%9E%B6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2022/10/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95%E7%9A%84%E9%99%90%E6%B5%81%E6%A1%86%E6%9E%B6/","path":"2022/10/18/设计模式-设计实现一个支持各种算法的限流框架/","title":"设计模式-设计实现一个支持各种算法的限流框架"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>设计模式-设计实现一个支持各种算法的限流框架 | Monochrome</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Monochrome</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">项目背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="nav-number">1.2.</span> <span class="nav-text">需求背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="nav-number">1.3.</span> <span class="nav-text">需求分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%90%E6%B5%81%E8%A7%84%E5%88%99"><span class="nav-number">2.1.</span> <span class="nav-text">限流规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">限流算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%90%E6%B5%81%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">限流模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E6%88%90%E4%BD%BF%E7%94%A8"><span class="nav-number">2.4.</span> <span class="nav-text">集成使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#V1-%E7%89%88%E6%9C%AC%E5%8A%9F%E8%83%BD%E9%9C%80%E6%B1%82"><span class="nav-number">3.1.</span> <span class="nav-text">V1 版本功能需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E5%8E%9F%E5%9E%8B%E4%BB%A3%E7%A0%81"><span class="nav-number">3.2.</span> <span class="nav-text">最小原型代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Review-%E6%9C%80%E5%B0%8F%E5%8E%9F%E5%9E%8B%E4%BB%A3%E7%A0%81"><span class="nav-number">3.3.</span> <span class="nav-text">Review 最小原型代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%9A%84%E5%8F%AF%E8%AF%BB%E6%80%A7"><span class="nav-number">3.3.1.</span> <span class="nav-text">代码的可读性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A9%E5%B1%95%E6%80%A7"><span class="nav-number">3.3.2.</span> <span class="nav-text">代码的扩展性</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Monochrome"
+      src="/images/next/Avatar.png">
+  <p class="site-author-name" itemprop="name">Monochrome</p>
+  <div class="site-description" itemprop="description">有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2022/10/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95%E7%9A%84%E9%99%90%E6%B5%81%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/next/Avatar.png">
+      <meta itemprop="name" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monochrome">
+      <meta itemprop="description" content="有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="设计模式-设计实现一个支持各种算法的限流框架 | Monochrome">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          设计模式-设计实现一个支持各种算法的限流框架
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-10-18 21:23:53" itemprop="dateCreated datePublished" datetime="2022-10-18T21:23:53+08:00">2022-10-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-10-23 22:33:12" itemprop="dateModified" datetime="2022-10-23T22:33:12+08:00">2022-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>14k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>13 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><h2 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h2><p>公司成立初期，团队人少。公司集中精力开发一个金融理财产品（我们把这个项目叫做 X 项目）。整个项目只做了简单的前后端分离，后端的所有代码都在一个 GitHub 仓库中，整个后端作为一个应用来部署，没有划分微服务。</p>
+<p>遇到了行业风口，公司发展得不错，公司开始招更多人，开发更多的金融产品，比如专注房贷的理财产品、专注供应链的产品、专注消费贷的借款端产品等等。在产品形态上，每个金融产品都做成了独立的 App。</p>
+<p>对于不同的金融产品，尽管移动端长得不一样，但是后端的很多功能、代码都是可以复用的。为了快速上线，针对每个应用，公司都成立一个新的团队，然后拷贝 X 项目的代码，在此基础之上修改、添加新的功能。</p>
+<p>这样成立新团队，拷贝老代码，改改就能上线一个新产品的开发模式，在一开始很受欢迎。产品上线快，也给公司赢得了竞争上的优势。但时间一长，这样的开发模式暴露出来的问题就越来越多了。而且随着公司的发展，公司也过了急速扩张期，人招得太多，公司开始考虑研发效率问题了。</p>
+<p>因为所有的项目的代码都是从 X 项目拷贝来的，多个团队同时维护相似的代码，显然是重复劳动，协作起来也非常麻烦。任何团队发现代码的 bug，都要同步到其他团队做相同的修改。而且，各个团队对代码独立迭代，改得面目全非，即便要添加一个通用的功能，每个团队也都要基于自己的代码再重复开发。</p>
+<p>除此之外，公司成立初期，各个方面条件有限，只能招到开发水平一般的员工，而且追求快速上线，所以，X 项目的代码质量很差，结构混乱、命名不规范、到处是临时解决方案、埋了很多坑，在烂代码之上不停地堆砌烂代码，时间长了，代码的可读性越来越差、维护成本越来越高，甚至高过了重新开发的成本。</p>
+<span id="more"></span>
+
+<p>我们可以把公共的功能、代码抽离出来，形成一个独立的项目，部署成一个公共服务平台。所有金融产品的后端还是参照 MVC 三层架构独立开发，不过，它们只实现自己特有的功能，对于一些公共的功能，通过远程调用公共服务平台提供的接口来实现。</p>
+<p>这里提到的公共服务平台，有点类似现在比较火的“中台”或“微服务”。不过，为了减少部署、维护多个微服务的成本，我们把所有公共的功能，放到一个项目中开发，放到一个应用中部署。只不过，我们要未雨绸缪，事先按照领域模型，将代码的模块化做好，等到真的有哪个模块的接口调用过于集中，性能出现瓶颈的时候，我们再把它拆分出来，设计成独立的微服务来开发和部署。</p>
+<p>经过这样的拆分之后，我们可以指派一个团队，集中维护公共服务平台的代码。开发一个新的金融产品，也只需要更少的人员来参与，因为他们只需要开发、维护产品特有的功能和代码就可以了。整体上，维护成本降低了。除此之外，公共服务平台的代码集中到了一个团队手里，重构起来不需要协调其他团队和项目，也便于我们重构、改善代码质量。</p>
+<h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>对于公共服务平台来说，接口请求来自很多不同的系统（后面统称为调用方），比如各种金融产品的后端系统。在系统上线一段时间里，我们遇到了很多问题。比如，因为调用方代码 bug 、不正确地使用服务（比如启动 Job 来调用接口获取数据）、业务上面的突发流量（比如促销活动），导致来自某个调用方的接口请求数突增，过度争用服务的线程资源，而来自其他调用方的接口请求，因此来不及响应而排队等待，导致接口请求的响应时间大幅增加，甚至出现超时。</p>
+<p>我们可以开发接口限流功能，限制每个调用方对接口请求的频率。当超过预先设定的访问频率后，我们就触发限流熔断，比如，限制调用方 app-1 对公共服务平台总的接口请求频率不超过 1000 次 &#x2F; 秒，超过之后的接口请求都会被拒绝。除此之外，为了更加精细化地限流，除了限制每个调用方对公共服务平台总的接口请求频率之外，我们还希望能对单独某个接口的访问频率进行限制，比如，限制 app-1 对接口 &#x2F;user&#x2F;query 的访问频率为每秒钟不超过 100 次。</p>
+<p>我们希望开发出来的东西有一定的影响力，即便做不到在行业内有影响力，起码也要做到在公司范围内有影响力。所以，从一开始，我们就不想把这个限流功能，做成只有我们项目可用。我们希望把它开发成一个通用的框架，能够应用到各个业务系统中，甚至可以集成到微服务治理平台中。实际上，这也体现了业务开发中要具备的抽象意识、框架意识。我们要善于识别出通用的功能模块，将它抽象成通用的框架、组件、类库等。</p>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>这里，我们借助用户用例和测试驱动开发的思想，先去思考，如果框架最终被开发出来之后，它会如何被使用。我一般会找一个框架的应用场景，针对这个场景写一个框架使用的 Demo 程序，这样能够很直观地看到框架长什么样子。知道了框架应该长什么样，就相当于应试教育中确定了考试题目。针对明确的考题去想解决方案，这是我们多年应试教育锻炼之后最擅长做的。</p>
+<p>对于限流框架来说，我们来看下它的应用场景。</p>
+<p>首先我们需要设置限流规则。为了做到在不修改代码的前提下修改规则，我们一般会把规则放到配置文件中（比如 XML、YAML 配置文件）。在集成了限流框架的应用启动的时候，限流框架会将限流规则，按照事先定义的语法，解析并加载到内存中。我写了一个限流规则的 Demo 配置，如下所示：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">configs:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">appId:</span> <span class="string">app-1</span></span><br><span class="line">  <span class="attr">limits:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">api:</span> <span class="string">/v1/user</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">100</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">api:</span> <span class="string">/v1/order</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">50</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">appId:</span> <span class="string">app-2</span></span><br><span class="line">  <span class="attr">limits:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">api:</span> <span class="string">/v1/user</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">50</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">api:</span> <span class="string">/v1/order</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">50</span></span><br></pre></td></tr></table></figure>
+
+<p>在接收到接口请求之后，应用会将请求发送给限流框架，限流框架会告诉应用，这个接口请求是允许继续处理，还是触发限流熔断。如果我们用代码来将这个过程表示出来的话，就是下面这个 Demo 的样子。如果项目使用的是 Spring 框架，我们可以利用 Spring AOP，把这段限流代码放在统一的切面中，在切面中拦截接口请求，解析出请求对应的调用方 APP ID 和 URL，然后验证是否对此调用方的这个接口请求进行限流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">appId</span> <span class="operator">=</span> <span class="string">&quot;app-1&quot;</span>; <span class="comment">// 调用方APP-ID</span></span><br><span class="line"><span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;http://www.eudemon.com/v1/user/12345&quot;</span>;<span class="comment">// 请求url</span></span><br><span class="line"><span class="type">RateLimiter</span> <span class="variable">ratelimiter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RateLimiter</span>();</span><br><span class="line"><span class="type">boolean</span> <span class="variable">passed</span> <span class="operator">=</span> ratelimiter.limit(appId, url);</span><br><span class="line"><span class="keyword">if</span> (passed) &#123;</span><br><span class="line">  <span class="comment">// 放行接口请求，继续后续的处理。</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 接口请求被限流。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结合刚刚的 Demo，从使用的角度来说，限流框架主要包含两部分功能：配置限流规则和提供编程接口（RateLimiter 类）验证请求是否被限流。不过，作为通用的框架，除了功能性需求之外，非功能性需求也非常重要，有时候会决定一个框架的成败，比如，框架的易用性、扩展性、灵活性、性能、容错性等。</p>
+<p>对于限流框架，我们来看它都有哪些非功能性需求。</p>
+<p>易用性方面，我们希望限流规则的配置、编程接口的使用都很简单。我们希望提供各种不同的限流算法，比如基于内存的单机限流算法、基于 Redis 的分布式限流算法，能够让使用者自由选择。除此之外，因为大部分项目都是基于 Spring 开发的，我们还希望限流框架能非常方便地集成到使用 Spring 框架的项目中。<br>扩展性、灵活性方面，我们希望能够灵活地扩展各种限流算法。同时，我们还希望支持不同格式（JSON、YAML、XML 等格式）、不同数据源（本地文件配置或 Zookeeper 集中配置等）的限流规则的配置方式。</p>
+<p>性能方面，因为每个接口请求都要被检查是否限流，这或多或少会增加接口请求的响应时间。而对于响应时间比较敏感的接口服务来说，我们要让限流框架尽可能低延迟，尽可能减少对接口请求本身响应时间的影响。</p>
+<p>容错性方面，接入限流框架是为了提高系统的可用性、稳定性，不能因为限流框架的异常，反过来影响到服务本身的可用性。所以，限流框架要有高度的容错性。比如，分布式限流算法依赖集中存储器 Redis。如果 Redis 挂掉了，限流逻辑无法正常运行，这个时候业务接口也要能正常服务才行。</p>
+<h1 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h1><p>分析环节跟之前讲过的面向对象分析很相似，都是做需求的梳理。但是，项目实战中的设计和实现，跟面向对象设计和实现就不是一回事儿了。这里的“设计”指的是系统设计，主要是划分模块，对模块进行设计。这里的“实现”实际上等于面向对象设计加实现。因为我们前面讲到，面向对象设计与实现是聚焦在代码层面的，主要产出的是类的设计和实现。</p>
+<p>我们分限流规则、限流算法、限流模式、集成使用这 4 个模块，来讲解限流框架的设计思路。看如何通过合理的设计，实现一个满足易用、易扩展、灵活、低延时、高容错等非功能性需求的限流框架。</p>
+<h2 id="限流规则"><a href="#限流规则" class="headerlink" title="限流规则"></a>限流规则</h2><p>框架需要定义限流规则的语法格式，包括调用方、接口、限流阈值、时间粒度这几个元素。框架用户按照这个语法格式来配置限流规则。我举了一个例子来说明一下，如下所示。其中，unit 表示限流时间粒度，默认情况下是 1 秒。limit 表示在 unit 时间粒度内最大允许的请求次数。拿第一条规则来举例，它表示的意思就是：调用方 app-1 对接口 &#x2F;v1&#x2F;user 每分钟的最大请求次数不能超过 100 次。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">configs:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">appId:</span> <span class="string">app-1</span></span><br><span class="line">  <span class="attr">limits:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">api:</span> <span class="string">/v1/user</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">100</span></span><br><span class="line">    <span class="string">unit：60</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">api:</span> <span class="string">/v1/order</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">50</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">appId:</span> <span class="string">app-2</span></span><br><span class="line">  <span class="attr">limits:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">api:</span> <span class="string">/v1/user</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">50</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">api:</span> <span class="string">/v1/order</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">50</span></span><br></pre></td></tr></table></figure>
+
+<p>对于限流时间粒度的选择，我们既可以选择限制 1 秒钟内不超过 1000 次，也可以选择限制 10 毫秒内不超过 10 次，还可以选择限制 1 分钟内不超过 6 万次。虽然看起来这几种限流规则是等价的，但过大的时间粒度会达不到限流的效果。比如，有可能 6 万次请求集中在 1 秒中到达，限制 1 分钟不超过 6 万次，就起不到保护的作用；相反，因为接口访问在细时间粒度上随机性很大，并不会很均匀。过小的时间粒度，会误杀很多本不应该限流的请求。所以，尽管越细的时间粒度限流整形效果越好，流量曲线越平滑，但也并不是时间粒度越小越合适。</p>
+<p>我们知道，Spring 框架支持各种格式的配置文件，比如 XML、YAML、Porperties 等。除此之外，基于约定优于配置原则，Spring 框架用户只需要将配置文件按照约定来命名，并且放置到约定的路径下，Spring 框架就能按照约定自动查找和加载配置文件。</p>
+<p>大部分 Java 程序员已经习惯了 Spring 的配置方式，基于我们前面讲的最小惊奇原则，在限流框架中，我们也延续 Spring 的配置方式，支持 XML、YAML、Properties 等几种配置文件格式，同时，约定默认的配置文件名为 ratelimiter-rule.yaml，默认放置在 classpath 路径中。</p>
+<p>除此之外，为了提高框架的兼容性、易用性，除了刚刚讲的本地文件的配置方式之外，我们还希望兼容从其他数据源获取配置的方式，比如 Zookeeper 或者自研的配置中心。</p>
+<h2 id="限流算法"><a href="#限流算法" class="headerlink" title="限流算法"></a>限流算法</h2><p>常见的限流算法有：固定时间窗口限流算法、滑动时间窗口限流算法、令牌桶限流算法、漏桶限流算法。其中，固定时间窗口限流算法最简单。我们只需要选定一个起始时间起点，之后每来一个接口请求，我们都给计数器（记录当前时间窗口内的访问次数）加一，如果在当前时间窗口内，根据限流规则（比如每秒钟最大允许 100 次接口请求），累加访问次数超过限流值（比如 100 次），就触发限流熔断，拒绝接口请求。当进入下一个时间窗口之后，计数器清零重新计数。</p>
+<p>不过，固定时间窗口的限流算法的缺点也很明显。这种算法的限流策略过于粗略，无法应对两个时间窗口临界时间内的突发流量。我们来举一个例子。假设我们限流规则为每秒钟不超过 100 次接口请求。第一个 1 秒时间窗口内，100 次接口请求都集中在最后的 10 毫秒内，在第二个 1 秒时间窗口内，100 次接口请求都集中在最开始的 10 毫秒内。虽然两个时间窗口内流量都符合限流要求 (小于等于 100 个接口请求)，但在两个时间窗口临界的 20 毫秒内集中有 200 次接口请求，固定时间窗口限流算法没法对这种情况进行限流，集中在这 20 毫秒内的 200 次请求有可能会压垮系统。</p>
+<p>为了让流量更加平滑，于是就有了更加高级的滑动时间窗口限流算法、令牌桶限流算法和漏桶限流算法。</p>
+<p>尽管固定时间窗口限流算法没法做到让流量很平滑，但大部分情况下，它已经够用了。默认情况下，框架使用固定时间窗口限流算法做限流。不过，考虑到框架的扩展性，我们需要预先做好设计，预留好扩展点，方便今后扩展其他限流算法。除此之外，为了提高框架的易用性、灵活性，我们最好将其他几种常用的限流算法，也在框架中实现出来，供框架用户根据自己业务场景自由选择。</p>
+<h2 id="限流模式"><a href="#限流模式" class="headerlink" title="限流模式"></a>限流模式</h2><p>我们把限流模式分为两种：单机限流和分布式限流。所谓单机限流，就是针对单个实例的访问频率进行限制。注意这里的单机并不是真的一台物理机器，而是一个服务实例，因为有可能一台物理机器部署多个实例。所谓的分布式限流，就是针对某个服务的多个实例的总的访问频率进行限制。我举个例子来解释一下。</p>
+<p>假设我们开发了一个用户相关的微服务，为了提高服务能力，我们部署了 5 个实例。我们限制某个调用方，对单个实例的某个接口的访问频率，不能超过 100 次 &#x2F; 秒。这就是单机限流。我们限制某个调用方，对 5 个实例的某个接口的总访问频率，不能超过 500 次 &#x2F; 秒。这就是所谓的分布式限流。</p>
+<p>从实现的角度来分析，单机限流和分布式限流的主要区别在接口访问计数器的实现。单机限流只需要在单个实例中维护自己的接口请求计数器。而分布式限流需要集中管理计数器（比如使用 Redis 存储接口访问计数），这样才能做到多个实例对同一个计数器累加计数，以便实现对多个实例总访问频率的限制。</p>
+<p>前面我们讲到框架要高容错，不能因为框架的异常，影响到集成框架的应用的可用性和稳定性。除此之外，我们还讲到框架要低延迟。限流逻辑的执行不能占用太长时间，不能或者很少影响接口请求本身的响应时间。因为分布式限流基于外部存储 Redis，网络通信成本较高，实际上，高容错、低延迟设计的主要场景就是基于 Redis 实现的分布式限流。</p>
+<p>对于 Redis 的各种异常情况，我们处理起来并不难，捕获并封装为统一的异常，向上抛出或者吞掉就可以了。比较难处理的是 Redis 访问超时。Redis 访问超时会严重影响接口的响应时间，甚至导致接口请求超时。所以，在访问 Redis 时，我们需要设置合理的超时时间。一旦超时，我们就判定为限流失效，继续执行接口请求。Redis 访问超时时间的设置既不能太大也不能太小，太大可能会影响到接口的响应时间，太小可能会导致太多的限流失效。我们可以通过压测或者线上监控，获取到 Redis 访问时间分布情况，再结合接口可以容忍的限流延迟时间，权衡设置一个较合理的 Redis 超时时间。</p>
+<h2 id="集成使用"><a href="#集成使用" class="headerlink" title="集成使用"></a>集成使用</h2><p>限流框架也应该满足低侵入松耦合设计思想。因为框架是需要集成到应用中使用的，我们希望框架尽可能低侵入，与业务代码松耦合，替换、删除起来也更容易些。</p>
+<p>我们还可以开发一个 Ratelimiter-Spring 类库，能够方便使用了 Spring 的项目集成限流框架，将易用性做到极致。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="V1-版本功能需求"><a href="#V1-版本功能需求" class="headerlink" title="V1 版本功能需求"></a>V1 版本功能需求</h2><p>在 V1 版本中，对于接口类型，我们只支持 HTTP 接口（也就 URL）的限流，暂时不支持 RPC 等其他类型的接口限流。对于限流规则，我们只支持本地文件配置，配置文件格式只支持 YAML。对于限流算法，我们只支持固定时间窗口算法。对于限流模式，我们只支持单机限流。</p>
+<p>尽管功能“裁剪”之后，V1 版本实现起来简单多了，但在编程开发的同时，我们还是要考虑代码的扩展性，预留好扩展点。这样，在接下来的新版本开发中，我们才能够轻松地扩展新的限流算法、限流模式、限流规则格式和数据源。</p>
+<h2 id="最小原型代码"><a href="#最小原型代码" class="headerlink" title="最小原型代码"></a>最小原型代码</h2><p>项目实战中的实现等于面向对象设计加实现。而面向对象设计与实现一般可以分为四个步骤：划分职责识别类、定义属性和方法、定义类之间的交互关系、组装类并提供执行入口。</p>
+<p>在平时的工作中，大部分程序员都是边写代码边做设计，边思考边重构，并不会严格地按照步骤，先做完类的设计再去写代码。而且，如果想一下子就把类设计得很好、很合理，也是比较难的。过度追求完美主义，只会导致迟迟下不了手，连第一行代码也敲不出来。所以，我的习惯是，先完全不考虑设计和代码质量，先把功能完成，先把基本的流程走通，哪怕所有的代码都写在一个类中也无所谓。然后，我们再针对这个 MVP 代码（最小原型代码）做优化重构，比如，将代码中比较独立的代码块抽离出来，定义成独立的类或函数。</p>
+<p>我们按照先写 MVP 代码的思路，把代码实现出来。它的目录结构如下所示。代码非常简单，只包含 5 个类，接下来，我们针对每个类一一讲解一下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">com.monochrome.ratelimiter</span><br><span class="line">  --RateLimiter</span><br><span class="line">com.monochrome.ratelimiter.rule</span><br><span class="line">  --ApiLimit</span><br><span class="line">  --RuleConfig</span><br><span class="line">  --RateLimitRule</span><br><span class="line">com.monochrome.ratelimiter.alg</span><br><span class="line">  --RateLimitAlg</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.monochrome.ratelimiter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.monochrome.ratelimiter.alg.RateLimitAlg;</span><br><span class="line"><span class="keyword">import</span> com.monochrome.ratelimiter.rule.ApiLimit;</span><br><span class="line"><span class="keyword">import</span> com.monochrome.ratelimiter.rule.RateLimitRule;</span><br><span class="line"><span class="keyword">import</span> com.monochrome.ratelimiter.rule.RuleConfig;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.slf4j.internal.Logger;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.slf4j.internal.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.yaml.snakeyaml.Yaml;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> monochrome</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2022/10/23</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RateLimiter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">log</span> <span class="operator">=</span> LoggerFactory.getLogger(RateLimiter.class);</span><br><span class="line">    <span class="comment">// 为每个api在内存中存储限流计数器</span></span><br><span class="line">    <span class="keyword">private</span> ConcurrentHashMap&lt;String, RateLimitAlg&gt; counters = <span class="keyword">new</span> <span class="title class_">ConcurrentHashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> RateLimitRule rule;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RateLimiter</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 将限流规则配置文件rate-limiter-rule.yaml中的内容读取到RuleConfig中</span></span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">in</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">RuleConfig</span> <span class="variable">ruleConfig</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            in = <span class="built_in">this</span>.getClass().getResourceAsStream(<span class="string">&quot;./rate-limiter-rule.yaml&quot;</span>);</span><br><span class="line">            <span class="keyword">if</span> (in != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="type">Yaml</span> <span class="variable">yaml</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Yaml</span>();</span><br><span class="line">                ruleConfig = yaml.loadAs(in, RuleConfig.class);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (in != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    in.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    log.error(<span class="string">&quot;close file error:&#123;&#125;&quot;</span>, e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将限流规则构建成支持快速查找的数据结构RateLimitRule</span></span><br><span class="line">        <span class="built_in">this</span>.rule = <span class="keyword">new</span> <span class="title class_">RateLimitRule</span>(ruleConfig);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">limit</span><span class="params">(String appId, String url)</span> &#123;</span><br><span class="line">        <span class="type">ApiLimit</span> <span class="variable">apiLimit</span> <span class="operator">=</span> rule.getLimit(appId, url);</span><br><span class="line">        <span class="keyword">if</span> (apiLimit == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取api对应在内存中的限流计数器（rateLimitCounter）</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">counterKey</span> <span class="operator">=</span> appId + <span class="string">&quot;:&quot;</span> + apiLimit.getApi();</span><br><span class="line">        <span class="type">RateLimitAlg</span> <span class="variable">rateLimitCounter</span> <span class="operator">=</span> counters.get(counterKey);</span><br><span class="line">        <span class="keyword">if</span> (rateLimitCounter == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">RateLimitAlg</span> <span class="variable">newRateLimitCounter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RateLimitAlg</span>(apiLimit.getLimit());</span><br><span class="line">            rateLimitCounter = counters.putIfAbsent(counterKey, newRateLimitCounter);</span><br><span class="line">            <span class="keyword">if</span> (rateLimitCounter == <span class="literal">null</span>) &#123;</span><br><span class="line">                rateLimitCounter = newRateLimitCounter;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 判断是否限流</span></span><br><span class="line">        <span class="keyword">return</span> rateLimitCounter.tryAcquire();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>RateLimiter 类用来串联整个限流流程。它先读取限流规则配置文件，映射为内存中的 Java 对象（RuleConfig），然后再将这个中间结构构建成一个支持快速查询的数据结构（RateLimitRule）。除此之外，这个类还提供供用户直接使用的最顶层接口（limit() 接口）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.monochrome.ratelimiter.rule;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> monochrome</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2022/10/23</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuleConfig</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;AppRuleConfig&gt; configs;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;AppRuleConfig&gt; <span class="title function_">getConfigs</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> configs;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setConfigs</span><span class="params">(List&lt;AppRuleConfig&gt; configs)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.configs = configs;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">AppRuleConfig</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> String appId;</span><br><span class="line">        <span class="keyword">private</span> List&lt;ApiLimit&gt; limits;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">AppRuleConfig</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">AppRuleConfig</span><span class="params">(String appId, List&lt;ApiLimit&gt; limits)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.appId = appId;</span><br><span class="line">            <span class="built_in">this</span>.limits = limits;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">getAppId</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> appId;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAppId</span><span class="params">(String appId)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.appId = appId;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> List&lt;ApiLimit&gt; <span class="title function_">getLimits</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> limits;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setLimits</span><span class="params">(List&lt;ApiLimit&gt; limits)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.limits = limits;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从代码中，我们可以看出来，RuleConfig 类嵌套了另外两个类 AppRuleConfig 和 ApiLimit。这三个类跟配置文件的三层嵌套结构完全对应。我把对应关系标注在了下面的示例中，你可以对照着代码看下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">configs:          #&lt;!--对应RuleConfig--&gt;</span><br><span class="line">  - appId: app-1    #&lt;!--对应AppRuleConfig--&gt;</span><br><span class="line">    limits:</span><br><span class="line">      - api: /v1/user #&lt;!--对应ApiLimit--&gt;</span><br><span class="line">        limit: 100</span><br><span class="line">        unit: 60</span><br><span class="line">      - api: /v1/order</span><br><span class="line">        limit: 50</span><br><span class="line">  - appId: app-2</span><br><span class="line">    limits:</span><br><span class="line">      - api: /v1/user</span><br><span class="line">        limit: 50</span><br><span class="line">      - api: /v1/order</span><br><span class="line">        limit: 50</span><br></pre></td></tr></table></figure>
+
+<p>你可能会好奇，有了 RuleConfig 来存储限流规则，为什么还要 RateLimitRule 类呢？这是因为，限流过程中会频繁地查询接口对应的限流规则，为了尽可能地提高查询速度，我们需要将限流规则组织成一种支持按照 URL 快速查询的数据结构。考虑到 URL 的重复度比较高，且需要按照前缀来匹配，我们这里选择使用 Trie 树这种数据结构。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.monochrome.ratelimiter.rule;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> monochrome</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2022/10/23</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RateLimitRule</span> &#123;</span><br><span class="line"></span><br><span class="line">    Map&lt;String, ApiLimit&gt; apiLimitMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RateLimitRule</span><span class="params">(RuleConfig ruleConfig)</span> &#123;</span><br><span class="line">        List&lt;RuleConfig.AppRuleConfig&gt; configs = ruleConfig.getConfigs();</span><br><span class="line">        <span class="keyword">for</span> (RuleConfig.AppRuleConfig config : configs) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">appId</span> <span class="operator">=</span> config.getAppId();</span><br><span class="line">            List&lt;ApiLimit&gt; limits = config.getLimits();</span><br><span class="line">            <span class="keyword">for</span> (ApiLimit limit : limits) &#123;</span><br><span class="line">                apiLimitMap.putIfAbsent(appId + <span class="string">&quot;:&quot;</span> + limit.getApi(), limit);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> ApiLimit <span class="title function_">getLimit</span><span class="params">(String appId, String api)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> apiLimitMap.get(appId + <span class="string">&quot;:&quot;</span> + api);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>最后，我们看下 RateLimitAlg 这个类。</strong></p>
+<p>这个类是限流算法实现类。它实现了最简单的固定时间窗口限流算法。每个接口都要在内存中对应一个 RateLimitAlg 对象，记录在当前时间窗口内已经被访问的次数。RateLimitAlg 类的代码如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.monochrome.ratelimiter.alg;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.common.annotations.VisibleForTesting;</span><br><span class="line"><span class="keyword">import</span> com.google.common.base.Stopwatch;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Lock;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> monochrome</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2022/10/23</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RateLimitAlg</span> &#123;</span><br><span class="line">    <span class="comment">/* timeout for &#123;@code Lock.tryLock() &#125;. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">TRY_LOCK_TIMEOUT</span> <span class="operator">=</span> <span class="number">200L</span>;  <span class="comment">// 200ms.</span></span><br><span class="line">    <span class="keyword">private</span> Stopwatch stopwatch;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">AtomicInteger</span> <span class="variable">currentCount</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> limit;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">Lock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RateLimitAlg</span><span class="params">(<span class="type">int</span> limit)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(limit, Stopwatch.createStarted());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@VisibleForTesting</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="title function_">RateLimitAlg</span><span class="params">(<span class="type">int</span> limit, Stopwatch stopwatch)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.limit = limit;</span><br><span class="line">        <span class="built_in">this</span>.stopwatch = stopwatch;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">tryAcquire</span><span class="params">()</span> <span class="keyword">throws</span> RuntimeException &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">updatedCount</span> <span class="operator">=</span> currentCount.incrementAndGet();</span><br><span class="line">        <span class="keyword">if</span> (updatedCount &lt;= limit) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (lock.tryLock(TRY_LOCK_TIMEOUT, TimeUnit.MILLISECONDS)) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (stopwatch.elapsed(TimeUnit.MILLISECONDS) &gt; TimeUnit.SECONDS.toMillis(<span class="number">1</span>)) &#123;</span><br><span class="line">                        currentCount.set(<span class="number">0</span>);</span><br><span class="line">                        stopwatch.reset();</span><br><span class="line">                    &#125;</span><br><span class="line">                    updatedCount = currentCount.incrementAndGet();</span><br><span class="line">                    <span class="keyword">return</span> updatedCount &lt;= limit;</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;tryAcquire() wait lock too long:&quot;</span> + TRY_LOCK_TIMEOUT + <span class="string">&quot;ms&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;tryAcquire() is interrupted by lock-time-out.&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Review-最小原型代码"><a href="#Review-最小原型代码" class="headerlink" title="Review 最小原型代码"></a>Review 最小原型代码</h2><p>刚刚给出的 MVP 代码，虽然总共也就 200 多行，但已经实现了 V1 版本中规划的功能。不过，从代码质量的角度来看，它还有很多值得优化的地方。现在，我们现在站在一个 Code Reviewer 的角度，来分析一下这段代码的设计和实现。</p>
+<p>结合 SOLID、DRY、KISS、LOD、基于接口而非实现编程、高内聚松耦合等经典的设计思想和原则，以及编码规范，我们从代码质量评判标准的角度重点剖析一下，这段代码在可读性、扩展性等方面的表现。其他方面的表现，比如复用性、可测试性等，这些你可以比葫芦画瓢，自己来进行分析。</p>
+<h3 id="代码的可读性"><a href="#代码的可读性" class="headerlink" title="代码的可读性"></a><strong>代码的可读性</strong></h3><p>影响代码可读性的因素有很多。我们重点关注目录设计（package 包）是否合理、模块划分是否清晰、代码结构是否高内聚低耦合，以及是否符合统一的编码规范这几点。</p>
+<p>因为涉及的代码不多，目录结构前面也给出了，总体来说比较简单，所以目录设计、包的划分没有问题。</p>
+<p>按照上节课中的模块划分，RuleConfig、ApiLimit、RateLimitRule 属于“限流规则”模块，负责限流规则的构建和查询。RateLimitAlg 属于“限流算法”模块，提供了基于内存的单机固定时间窗口限流算法。RateLimiter 类属于“集成使用”模块，作为最顶层类，组装其他类，提供执行入口（也就是调用入口）。不过，RateLimiter 类作为执行入口，我们希望它只负责组装工作，而不应该包含具体的业务逻辑，所以，RateLimiter 类中，从配置文件中读取限流规则这块逻辑，应该拆分出来设计成独立的类。</p>
+<p>如果我们把类与类之间的依赖关系图画出来，你会发现，它们之间的依赖关系很简单，每个类的职责也比较单一，所以类的设计满足单一职责原则、LOD 迪米特法则、高内聚松耦合的要求。</p>
+<p>从编码规范上来讲，没有超级大的类、函数、代码块。类、函数、变量的命名基本能达意，也符合最小惊奇原则。虽然，有些命名不能一眼就看出是干啥的，有些命名采用了缩写，比如 RateLimitAlg，但是我们起码能猜个八九不离十，结合注释（限于篇幅注释都没有写，并不代表不需要写），很容易理解和记忆。</p>
+<p>总结一下，在最小原型代码中，目录设计、代码结构、模块划分、类的设计还算合理清晰，基本符合编码规范，代码的可读性不错！</p>
+<h3 id="代码的扩展性"><a href="#代码的扩展性" class="headerlink" title="代码的扩展性"></a><strong>代码的扩展性</strong></h3><p>实际上，这段代码最大的问题就是它的扩展性，也是我们最关注的，毕竟后续还有更多版本的迭代开发。编写可扩展代码，关键是要建立扩展意识。这就像下象棋，我们要多往前想几步，为以后做准备。在写代码的时候，我们要时刻思考，这段代码如果要扩展新的功能，那是否可以在尽量少改动代码的情况下完成，还是需要要大动干戈，推倒重写。</p>
+<p>具体到 MVP 代码，不易扩展的最大原因是，没有遵循基于接口而非实现的编程思想，没有接口抽象意识。比如，RateLimitAlg 类只是实现了固定时间窗口限流算法，也没有提炼出更加抽象的算法接口。如果我们要替换其他限流算法，就要改动比较多的代码。其他类的设计也有同样的问题，比如 RateLimitRule。</p>
+<p>除此之外，在 RateLimiter 类中，配置文件的名称、路径，是硬编码在代码中的。尽管我们说约定优于配置，但也要兼顾灵活性，能够让用户在需要的时候，自定义配置文件名称、路径。而且，配置文件的格式只支持 Yaml，之后扩展其他格式，需要对这部分代码做很大的改动。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag"># 设计模式</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%89%96%E6%9E%90Spring%E6%A1%86%E6%9E%B6%E7%94%A8%E5%88%B0%E7%9A%8411%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="prev" title="设计模式-剖析Spring框架用到的11种设计模式">
+                  <i class="fa fa-chevron-left"></i> 设计模式-剖析Spring框架用到的11种设计模式
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Monochrome</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">492k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script type="text/javascript">
+var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(t,e,i){return e&&n(t.prototype,e),i&&n(t,i),t}}();function _classCallCheck(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}!function(P){P.extend({shuicheMouse:function(t){(new e).init(t)}});var e=(_createClass(t,[{key:"init",value:function(t){!function(){for(var a=0,t=["webkit","moz"],e=0;e<t.length&&!window.requestAnimationFrame;++e)window.requestAnimationFrame=window[t[e]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[t[e]+"CancelAnimationFrame"]||window[t[e]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(t,e){var i=(new Date).getTime(),n=Math.max(0,16.7-(i-a)),o=window.setTimeout(function(){t(i+n)},n);return a=i+n,o}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(t){clearTimeout(t)})}(),t&&P.extend(!0,this.defaluts,t);var e=P("<canvas id='shuicheCanvas' style='position: fixed; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></canvas>");P("body").append(e);var i=this.defaluts.type;1<=i&&i<11&&this.mouseType1(this.defaluts.type,this.defaluts.color),11==i&&this.mouseType2(),12==i&&this.mouseType3()}},{key:"mouseType1",value:function(t,e){var n,o,a,h,i=document.getElementById("shuicheCanvas"),s=i.getContext("2d"),r=P("#shuicheCanvas"),l=[],c={n:100,c:222,bc:"#fff",r:.9,o:.05,a:1,s:20},d=0,f=0,u=0,y=0,w=0,p=0,v=0;g();var m,x=360*Math.random();m=e||"hsl("+x+",100%,80%)",P(window).resize(function(){g()});var M=t;function g(){n=window.innerWidth,o=window.innerHeight,i.width=n,i.height=o,a=n/2,h=o/2}P(window).mousemove(function(t){a=t.pageX-r.offset().left,h=t.pageY-r.offset().top,4==M&&(Math.random()<=.5?(d=Math.random()<=.5?-10:n+10,f=Math.random()*o):(f=Math.random()<=.5?-10:o+10,d=Math.random()*n),u=8*(Math.random()-.5),y=8*(Math.random()-.5)),1==M||2==M||3==M?l.push({x:a,y:h,r:c.r,o:1,v:0}):4==M?l.push({x:a,y:h,r:c.r,o:1,v:0,wx:d,wy:f,vx2:u,vy2:y}):6==M&&l.push({x:a+30*(Math.random()-.5),y:h+30*(Math.random()-.5),o:1,wx:a,wy:h})}),function t(){if(1==M){s.clearRect(0,0,n,o);for(var e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),l[e].r+=c.r,l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--)}else if(2==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].r=10,s.shadowBlur=20,s.shadowColor=m,s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o-=c.o,l[e].v+=c.a,l[e].y+=l[e].v,(l[e].y>=o+l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(3==M)for(w+=5,s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].r=20*(1-l[e].y/o),s.arc(l[e].x,l[e].y,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o=l[e].y/o,l[e].v+=c.a,l[e].y-=c.s,l[e].x+=10*Math.cos((l[e].y+w)/100),(l[e].y<=0-l[e].r||l[e].o<=0)&&(l.splice(e,1),e--);else if(4==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),s.shadowBlur=20,s.shadowColor=m,l[e].vx2+=(a-l[e].wx)/1e3,l[e].vy2+=(h-l[e].wy)/1e3,l[e].wx+=l[e].vx2,l[e].wy+=l[e].vy2,l[e].o-=c.o/2,l[e].r=10,s.arc(l[e].wx,l[e].wy,l[e].r,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0,l[e].o<=0&&(l.splice(e,1),e--);else if(5==M)c.c||(m="hsl("+(x+=.1)+",100%,80%)"),s.clearRect(0,0,n,o),p+=10,s.globalAlpha=1,s.fillStyle=m,s.shadowBlur=20,s.shadowColor=m,s.beginPath(),s.arc(a+50*Math.cos(p*Math.PI/180),h+50*Math.sin(p*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+180)*Math.PI/180),h+50*Math.sin((p+180)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+90)*Math.PI/180),h+50*Math.sin((p+90)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.beginPath(),s.arc(a+50*Math.cos((p+270)*Math.PI/180),h+50*Math.sin((p+270)*Math.PI/180),10,0,2*Math.PI),s.closePath(),s.fill(),s.shadowBlur=0;else if(6==M)for(s.clearRect(0,0,n,o),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.strokeStyle=m,s.beginPath(),s.lineWidth=2,s.moveTo(l[e].x,l[e].y),s.lineTo((l[e].wx+l[e].x)/2+20*Math.random(),(l[e].wy+l[e].y)/2+20*Math.random()),s.lineTo(l[e].wx,l[e].wy),s.closePath(),s.stroke(),l[e].o-=c.o,l[e].o<=0&&(l.splice(e,1),e--);else if(7==M)for(s.clearRect(0,0,n,o),l.length<2*c.n&&(v=2*Math.random()*Math.PI,l.push({x:a+100*(Math.random()-.5)*Math.cos(v),y:h+100*(Math.random()-.5)*Math.cos(v),o:1,h:v})),e=0;e<l.length;e++)s.globalAlpha=l[e].o,s.fillStyle=m,s.beginPath(),l[e].x+=(a-l[e].x)/10,l[e].y+=(h-l[e].y)/10,s.arc(l[e].x,l[e].y,1,0,2*Math.PI),s.closePath(),s.fill(),l[e].o-=c.o,l[e].o<=0&&(l[e].h=2*Math.random()*Math.PI,l[e].x=a+100*(Math.random()-.5)*Math.cos(l[e].h),l[e].y=h+100*(Math.random()-.5)*Math.sin(l[e].h),l[e].o=1);else if(8==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),e=a-60;e<a+60;e+=4)for(var i=h-60;i<h+60;i+=4)Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))<=60&&(s.globalAlpha=1-Math.sqrt(Math.pow(a-e,2)+Math.pow(h-i,2))/60,Math.random()<.2&&s.fillRect(e,i,3,3));else if(9==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,a%4==0?a+=1:a%4==2?--a:a%4==3&&(a-=2),h%4==0?h+=1:h%4==2?--h:h%4==3&&(h-=2),l.length<c.n&&l.push({x:a,y:h,xv:0,yv:0,o:1}),e=0;e<l.length;e++)0==l[e].xv&&0==l[e].yv?Math.random()<.5?Math.random()<.5?l[e].xv=3:l[e].xv=-3:Math.random()<.5?l[e].yv=3:l[e].yv=-3:0==l[e].xv?Math.random()<.66&&(l[e].yv=0,Math.random()<.5?l[e].xv=3:l[e].xv=-3):0==l[e].yv&&Math.random()<.66&&(l[e].xv=0,Math.random()<.5?l[e].yv=3:l[e].yv=-3),l[e].o-=c.o/2,s.globalAlpha=l[e].o,l[e].x+=l[e].xv,l[e].y+=l[e].yv,s.fillRect(l[e].x,l[e].y,3,3),l[e].o<=0&&(l.splice(e,1),e--);else if(10==M)for(s.clearRect(0,0,n,o),s.fillStyle=m,l.push({x:a,y:h,xv:2,yv:1,o:1}),e=0;e<l.length;e++)l[e].o-=c.o/10,s.globalAlpha=l[e].o,l[e].x+=4*(Math.random()-.5),--l[e].y,s.fillRect(l[e].x,l[e].y,2,2),l[e].o<=0&&(l.splice(e,1),e--);window.requestAnimationFrame(t)}()}},{key:"mouseType2",value:function(){var t,o,a,h=window.innerWidth,s=window.innerHeight,i=70,r=1,l=1,c=1.5,n=25,d=.5*h,f=.5*s,u=!1;function e(t){console.log("----------"),d=t.clientX-.5*(window.innerWidth-h),f=t.clientY-.5*(window.innerHeight-s)}function y(t){u=!0}function w(t){u=!1}function p(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function v(t){1==t.touches.length&&(t.preventDefault(),d=t.touches[0].pageX-.5*(window.innerWidth-h),f=t.touches[0].pageY-.5*(window.innerHeight-s))}function m(){h=window.innerWidth,s=window.innerHeight,t.width=h,t.height=s}function x(){u?r+=.02*(c-r):r-=.02*(r-l),r=Math.min(r,c),o.clearRect(0,0,o.canvas.width,o.canvas.height);for(var t=0,e=a.length;t<e;t++){var i=a[t],n={x:i.position.x,y:i.position.y};i.offset.x+=i.speed,i.offset.y+=i.speed,i.shift.x+=(d-i.shift.x)*i.speed,i.shift.y+=(f-i.shift.y)*i.speed,i.position.x=i.shift.x+Math.cos(t+i.offset.x)*(i.orbit*r),i.position.y=i.shift.y+Math.sin(t+i.offset.y)*(i.orbit*r),i.position.x=Math.max(Math.min(i.position.x,h),0),i.position.y=Math.max(Math.min(i.position.y,s),0),i.size+=.01*(i.targetSize-i.size),Math.round(i.size)==Math.round(i.targetSize)&&(i.targetSize=1+2*Math.random()),o.beginPath(),o.fillStyle=i.fillColor,o.strokeStyle=i.fillColor,o.lineWidth=i.size,o.moveTo(n.x,n.y),o.lineTo(i.position.x,i.position.y),o.stroke(),o.arc(i.position.x,i.position.y,i.size/2,0,2*Math.PI,!0),o.fill()}window.requestAnimationFrame(x)}(t=document.getElementById("shuicheCanvas"))&&t.getContext&&(o=t.getContext("2d"),window.addEventListener("mousemove",e,!1),window.addEventListener("mousedown",y,!1),window.addEventListener("mouseup",w,!1),document.addEventListener("touchstart",p,!1),document.addEventListener("touchmove",v,!1),window.addEventListener("resize",m,!1),function(){a=[];for(var t=0;t<n;t++){var e={size:1,position:{x:d,y:f},offset:{x:0,y:0},shift:{x:d,y:f},speed:.01+.04*Math.random(),targetSize:1,fillColor:"#"+(9453632*Math.random()+11184810|0).toString(16),orbit:.5*i+.5*i*Math.random()};a.push(e)}}(),m(),x())}},{key:"mouseType3",value:function(){var t=P("<div id='shuicheDiv' style='position: fixed;width: 100%;height: "+P(window).height()+"px; left: 0px; top: 0px; z-index: 2147483647;pointer-events:none;'></div>");P("body").append(t),new(function(){function i(t){return document.getElementById(t)}function t(t,e){this.config=e||{},this.obj=i(t),n=this.config.speed||4,o=this.config.animR||1,a={x:.5*i(t).offsetWidth,y:.5*i(t).offsetHeight},this.setXY(),this.start()}var n,o,a,r=[],l=0;t.prototype={setXY:function(){var t,e;this.obj,t="mousemove",e=function(t){t=t||window.event,console.log(t.clientX),a.x=t.clientX,a.y=t.clientY},window.addEventListener?window.addEventListener(t,e,!1):window.attachEvent("on"+t,function(){e.call(window)})},start:function(){Math.PI;var t,e,i=this.config.fn;r[l++]=t=new c(null,0,0);for(var n=0;n<360;n+=20)for(var o=t,a=10;a<35;a+=1){var h=i(n,a).x,s=i(n,a).y;r[l++]=e=new c(o,h,s),o=e}setInterval(function(){for(var t=0;t<l;t++)r[t].run()},16)}};var c=function(t,e,i){var n=document.createElement("span");this.css=n.style,this.css.backgroundColor="#2D8CF0",this.css.width="2px",this.css.height="2px",this.css.position="absolute",this.css.left="-1000px",this.css.zIndex=1e3-l,document.getElementById("shuicheDiv").appendChild(n),this.ddx=0,this.ddy=0,this.PX=0,this.PY=0,this.x=0,this.y=0,this.x0=0,this.y0=0,this.cx=e,this.cy=i,this.parent=t};return c.prototype.run=function(){this.parent?(this.x0=this.parent.x,this.y0=this.parent.y):(this.x0=a.x,this.y0=a.y),this.x=this.PX+=(this.ddx+=(this.x0-this.PX-this.ddx+this.cx)/o)/n,this.y=this.PY+=(this.ddy+=(this.y0-this.PY-this.ddy+this.cy)/o)/n,this.css.left=Math.round(this.x)+"px",this.css.top=Math.round(this.y)+"px"},t}())("shuicheDiv",{speed:4,animR:2,fn:function(t,e){return{x:e/4*Math.cos(t),y:e/4*Math.sin(t)}}})}},{key:"cnblogs",get:function(){return{canvase:"#shuicheCanvase"}}}]),t);function t(){_classCallCheck(this,t),this.defaluts={type:1,color:!1},this.version="0.0.1"}}(jQuery);
+</script>
+<script type="text/javascript">
+    $.shuicheMouse({
+        type:11,
+        color:false
+    })
+    //$(".main-menu").addClass("darkmode--activated")
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+<script src="https://unpkg.com/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

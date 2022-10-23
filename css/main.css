@@ -2659,7 +2659,7 @@ mark.search-keyword {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #1741dd;
+  background: #ffff6e;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2679,8 +2679,8 @@ mark.search-keyword {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-body {
-  background: url("/images/next/background.jpg") no-repeat;
+.main {
+  background: url("/images/next/your_name.jpg") no-repeat;
 /* 背景图垂直、水平均居中 */
   background-position: center center;
 /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
@@ -2691,7 +2691,7 @@ body {
   background-color: rgba(0,0,0,0.5);
 }
 main .sidebar {
-  background: url("/images/next/sidebar.jpg");
+  background: url("/images/next/your_name_sidebar.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -2715,6 +2715,17 @@ header .brand {
   border-radius: 20px;
   padding: 30px 60px 30px 60px;
   background: rgba(255,255,255,0.8) none repeat scroll !important;
+}
+.darkmode--activated .main {
+  background: url("/images/next/your_name_dark.png") no-repeat;
+/* 背景图垂直、水平均居中 */
+  background-position: center center;
+/* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+  background-attachment: fixed;
+/* 让背景图基于容器大小伸缩 */
+  background-size: cover;
+/* 设置背景颜色，背景图加载过程中会显示背景色 */
+  background-color: rgba(0,0,0,0.5);
 }
 .darkmode--activated .posts-expand {
   border-radius: 20px;
