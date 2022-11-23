@@ -23,22 +23,22 @@
     <meta name="description" content="基础知识一把锁synchronized 两个并（并发、并行）并发：  是在同一实体上的多个事件 是在一合处理器上“同时”处理多个任务 同一时刻，其实是只有一个事件在发生  并行：  是在不同实体上的多个事件 是在多台处理器上同时处理多个任务 同一时刻，大家真的都在做事情  三个程（进程、线程、管程）进程：简单的说，在系统中运行的一个应用程序就是一个进程，每一个进程都有它自己的内存空间和系统资源。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JUC并发编程">
-<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2022/05/31/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2022/11/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Monochrome">
 <meta property="og:description" content="基础知识一把锁synchronized 两个并（并发、并行）并发：  是在同一实体上的多个事件 是在一合处理器上“同时”处理多个任务 同一时刻，其实是只有一个事件在发生  并行：  是在不同实体上的多个事件 是在多台处理器上同时处理多个任务 同一时刻，大家真的都在做事情  三个程（进程、线程、管程）进程：简单的说，在系统中运行的一个应用程序就是一个进程，每一个进程都有它自己的内存空间和系统资源。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-05-31T14:23:16.000Z">
-<meta property="article:modified_time" content="2022-05-31T14:42:42.023Z">
+<meta property="article:published_time" content="2022-11-23T14:23:16.000Z">
+<meta property="article:modified_time" content="2022-11-23T15:29:28.085Z">
 <meta property="article:author" content="Monochrome">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2022/05/31/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2022/11/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2022/05/31/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/","path":"2022/05/31/JUC并发编程/","title":"JUC并发编程"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2022/11/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/","path":"2022/11/23/JUC并发编程/","title":"JUC并发编程"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>JUC并发编程 | Monochrome</title>
@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E6%8A%8A%E9%94%81"><span class="nav-number">1.1.</span> <span class="nav-text">一把锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E5%B9%B6%EF%BC%88%E5%B9%B6%E5%8F%91%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">两个并（并发、并行）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E4%B8%AA%E7%A8%8B%EF%BC%88%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E7%AE%A1%E7%A8%8B%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">三个程（进程、线程、管程）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%8C%87%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">同步指令</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E6%8A%8A%E9%94%81"><span class="nav-number">1.1.</span> <span class="nav-text">一把锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E5%B9%B6%EF%BC%88%E5%B9%B6%E5%8F%91%E3%80%81%E5%B9%B6%E8%A1%8C%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">两个并（并发、并行）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E4%B8%AA%E7%A8%8B%EF%BC%88%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E7%AE%A1%E7%A8%8B%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">三个程（进程、线程、管程）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%8C%87%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">同步指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">用户线程和守护线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%BA%BF%E7%A8%8B%EF%BC%88User-Thread%EF%BC%89"><span class="nav-number">1.5.1.</span> <span class="nav-text">用户线程（User Thread）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B%EF%BC%88Daemon-Thread%EF%BC%89"><span class="nav-number">1.5.2.</span> <span class="nav-text">守护线程（Daemon Thread）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.5.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CompletableFuture"><span class="nav-number">2.</span> <span class="nav-text">CompletableFuture</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Future%E6%8E%A5%E5%8F%A3%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0"><span class="nav-number">2.1.</span> <span class="nav-text">Future接口理论知识复习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Future%E6%8E%A5%E5%8F%A3%E5%B8%B8%E7%94%A8%E5%AE%9E%E7%8E%B0%E7%B1%BBFutureTask%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.2.</span> <span class="nav-text">Future接口常用实现类FutureTask异步任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">2.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">2.2.2.</span> <span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CompletableFuture%E5%AF%B9Future%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-number">2.3.</span> <span class="nav-text">CompletableFuture对Future的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E7%B2%BE%E8%AE%B2-%E4%BB%8E%E7%94%B5%E5%95%86%E7%BD%91%E7%AB%99%E7%9A%84%E6%AF%94%E4%BB%B7%E9%9C%80%E6%B1%82%E8%AF%B4%E5%BC%80%E5%8E%BB"><span class="nav-number">2.4.</span> <span class="nav-text">案例精讲-从电商网站的比价需求说开去</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CompletableFuture%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">CompletableFuture常用方法</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -217,7 +217,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2022/05/31/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2022/11/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/next/Avatar.png">
@@ -247,7 +247,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-05-31 22:23:16 / 修改时间：22:42:42" itemprop="dateCreated datePublished" datetime="2022-05-31T22:23:16+08:00">2022-05-31</time>
+      <time title="创建时间：2022-11-23 22:23:16 / 修改时间：23:29:28" itemprop="dateCreated datePublished" datetime="2022-11-23T22:23:16+08:00">2022-11-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -266,7 +266,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>707</span>
+      <span>1.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -300,9 +300,30 @@
 <h2 id="三个程（进程、线程、管程）"><a href="#三个程（进程、线程、管程）" class="headerlink" title="三个程（进程、线程、管程）"></a>三个程（进程、线程、管程）</h2><p>进程：简单的说，在系统中运行的一个应用程序就是一个进程，每一个进程都有它自己的内存空间和系统资源。</p>
 <p>线程：也被称为轻量级进程，在同一个进程内会有1个或多个线程，是大多数操作系统进行时序调度的基本单元。</p>
 <p>管程：Monitor(监视器），也就是我们平时所说的锁，Monitor其实是一种同步机制，他的义务是保证（同一时间）只有一个线程可以访问被保护的数据和代码。JVM中同步是基于进入和退出监视器对象(Monitor，管程对象)来实现的，每个对象实例都会有一个Monitor对象。Monitor对象会和Java对象一同创建并销毁。</p>
-<h2 id="同步指令"><a href="#同步指令" class="headerlink" title="同步指令"></a>同步指令</h2><p>执行线程就要求先成功持有管程，然后才能执行方法，最后当方法完成 （无论是正當完成还是非正常完成）时释放管程。在方法执行期间，执行线程持有了管程，其他任何线程都无法再获取到同一个管程。</p>
-<p>如果一个同步方法执行期间拋出了异常，并且在方法内部无法处理此异常，那这个同步方法所持有的管程将在异常抛到同步方法边界之外时自动释放。同步一段指令集序列通常是由Java语言中的synchronized语句块来表示的，Java虛拟机的指令集中有monitorenter和monitorext 两条指令来支持synchronized关键字的语义，正确实现synchronized关键宇需要Javac编译器与Java虛拟机两者共同协作支持。</p>
+<span id="more"></span>
 
+<h2 id="同步指令"><a href="#同步指令" class="headerlink" title="同步指令"></a>同步指令</h2><p>执行线程就要求先成功持有管程，然后才能执行方法，最后当方法完成 （无论是正當完成还是非正常完成）时释放管程。在方法执行期间，执行线程持有了管程，其他任何线程都无法再获取到同一个管程。</p>
+<p>如果一个同步方法执行期间拋出了异常，并且在方法内部无法处理此异常，那这个同步方法所持有的管程将在异常抛到同步方法边界之外时自动释放。同步一段指令集序列通常是由Java语言中的synchronized语句块来表示的，Java虛拟机的指令集中有 monitorenter 和 monitorext 两条指令来支持synchronized关键字的语义，正确实现synchronized关键宇需要Javac编译器与Java虛拟机两者共同协作支持。</p>
+<h2 id="用户线程和守护线程"><a href="#用户线程和守护线程" class="headerlink" title="用户线程和守护线程"></a>用户线程和守护线程</h2><h3 id="用户线程（User-Thread）"><a href="#用户线程（User-Thread）" class="headerlink" title="用户线程（User Thread）"></a>用户线程（User Thread）</h3><p>是系统的工作线程，它会完成这个程序需要完成的业务操作。</p>
+<h3 id="守护线程（Daemon-Thread）"><a href="#守护线程（Daemon-Thread）" class="headerlink" title="守护线程（Daemon Thread）"></a>守护线程（Daemon Thread）</h3><p>是一种特殊的线蛋为基宫线程服务的，在后台默默地完成一些系统性的服务，比如垃圾回收线程就是最典型的例子</p>
+<p>守护线程作为一个服务线程，没有服务对象就没有必要继续运行了，如果用户线程全部结束了，意味着程序需要完成的业务操作己经结束了，系统可以退出了。所以假如当系统只剩下守护线程的时候，java虛拟机会自动退出。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>如果用户线程全部结束意味着程序需要完成的业务操作己经结束了，守护线程随者JVM一同结束工作</li>
+<li>setDaemon(true)方法必须在start()之前设置，否则报IllegalThreaaStateException异常</li>
+</ul>
+<h1 id="CompletableFuture"><a href="#CompletableFuture" class="headerlink" title="CompletableFuture"></a>CompletableFuture</h1><h2 id="Future接口理论知识复习"><a href="#Future接口理论知识复习" class="headerlink" title="Future接口理论知识复习"></a>Future接口理论知识复习</h2><p>Future接口（FutureTask实现类)定义了操作<strong><em>异步任务</em>执行一些方法</strong>，如获取异步任务的执行结果、取消任务的执行、判断任务是否被取消、判断任务执行是否完毕等。</p>
+<p>Future是Java5新加的一个接口，它提供了一<strong>种异步并行计算的功能</strong>。</p>
+<p>如果主线程需要执行一个很耗时的计算任务，我们就可以通过future把这个任务放到异步线程中执行。</p>
+<p>主线程继续处理其他任务或者先行结束，再通过Future 获取计算结果。</p>
+<h2 id="Future接口常用实现类FutureTask异步任务"><a href="#Future接口常用实现类FutureTask异步任务" class="headerlink" title="Future接口常用实现类FutureTask异步任务"></a>Future接口常用实现类FutureTask异步任务</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>future+线程池异步多线程任务配合，能显著提高程序的执行效率。</li>
+</ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>get()阻塞，一旦调用get()方法求结果，如果计算没有完成容易导致程序阻塞</li>
+<li>isDone()轮询，轮询的方式会耗费无谓的CPU资源，而且也不见得能及时地得到计算结果。如果想要异步获取结果，通常都会以轮询的方式去获取结果。尽量不要阻寒</li>
+</ul>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>Future对于结果的获取不是很友好，只能通过阻塞或轮询的方式得到任务的结果。</p>
+<h2 id="CompletableFuture对Future的改进"><a href="#CompletableFuture对Future的改进" class="headerlink" title="CompletableFuture对Future的改进"></a>CompletableFuture对Future的改进</h2><h2 id="案例精讲-从电商网站的比价需求说开去"><a href="#案例精讲-从电商网站的比价需求说开去" class="headerlink" title="案例精讲-从电商网站的比价需求说开去"></a>案例精讲-从电商网站的比价需求说开去</h2><h2 id="CompletableFuture常用方法"><a href="#CompletableFuture常用方法" class="headerlink" title="CompletableFuture常用方法"></a>CompletableFuture常用方法</h2>
     </div>
 
     
@@ -318,14 +339,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/05/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BC%80%E7%AF%87/" rel="prev" title="设计模式-开篇">
-                  <i class="fa fa-chevron-left"></i> 设计模式-开篇
+                <a href="/2022/10/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E5%88%99%E7%9A%84%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83%E7%BB%84%E4%BB%B6/" rel="prev" title="设计模式-设计实现一个支持自定义规则的灰度发布组件">
+                  <i class="fa fa-chevron-left"></i> 设计模式-设计实现一个支持自定义规则的灰度发布组件
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/07/20/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E5%AE%B9%E5%99%A8/" rel="next" title="设计模式-工厂模式-依赖注入容器">
-                  设计模式-工厂模式-依赖注入容器 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -357,13 +375,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">549k</span>
+    <span title="站点总字数">550k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">8:19</span>
+    <span title="站点阅读时长">8:20</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
