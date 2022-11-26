@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/synchronized%E5%90%8C%E6%AD%A5%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95.png">
 <meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/ObjectMonitor.hpp(%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90).png">
 <meta property="article:published_time" content="2022-11-23T14:23:16.000Z">
-<meta property="article:modified_time" content="2022-11-26T14:14:09.127Z">
+<meta property="article:modified_time" content="2022-11-26T15:27:29.171Z">
 <meta property="article:author" content="Monochrome">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -258,7 +258,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-11-26 22:14:09" itemprop="dateModified" datetime="2022-11-26T22:14:09+08:00">2022-11-26</time>
+      <time title="修改时间：2022-11-26 23:27:29" itemprop="dateModified" datetime="2022-11-26T23:27:29+08:00">2022-11-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -346,7 +346,7 @@
 <h3 id="CompletableFuture-1"><a href="#CompletableFuture-1" class="headerlink" title="CompletableFuture"></a>CompletableFuture</h3><ul>
 <li><p>在Java8中，CompletableFuture提供了非常强大的Future的扩展功能，可以帮助我们简化异步编程的复杂性，并且提供了函数式编程的能力，可以通过回调的方式处理计算结果，也提供了转换和组合 CompletableFuture 的方法。</p>
 </li>
-<li><p>﻿它可能代表一个明确完成的Future，也有可能代表一个完成阶段（Completionstage），它支持在计算完成以后触发一些函数或执行某些动作。</p>
+<li><p>它可能代表一个明确完成的Future，也有可能代表一个完成阶段（Completionstage），它支持在计算完成以后触发一些函数或执行某些动作。</p>
 </li>
 <li><p>它实现了Future和Completionstage接口</p>
 </li>
@@ -360,30 +360,30 @@
 
 
 <h2 id="CompletableFuture-API"><a href="#CompletableFuture-API" class="headerlink" title="CompletableFuture API"></a>CompletableFuture API</h2><h3 id="获得结果和触发计算-get、getNow、join、complete"><a href="#获得结果和触发计算-get、getNow、join、complete" class="headerlink" title="获得结果和触发计算(get、getNow、join、complete)"></a>获得结果和触发计算(get、getNow、join、complete)</h3><ul>
-<li><p>public T get( )：不见不散(会抛出异常)，只要调用了get( )方法，不管是否计算完成都会导致阻塞</p>
+<li><p><code>public T get( )</code>：不见不散(会抛出异常)，只要调用了get( )方法，不管是否计算完成都会导致阻塞</p>
 </li>
-<li><p>public T get(long timeout, TimeUnit unit)：过时不候</p>
+<li><p><code>public T get(long timeout, TimeUnit unit)</code>：过时不候</p>
 </li>
-<li><p>public T getNow(T valuelfAbsent)：没有计算完成的情况下，给我一个替代结果计算完，返回计算完成后的结果、没算完，返回设定的valuelfAbsent</p>
+<li><p><code>public T getNow(T valuelfAbsent)</code>：没有计算完成的情况下，给我一个替代结果计算完，返回计算完成后的结果、没算完，返回设定的valuelfAbsent</p>
 </li>
-<li><p>public T join( )：join方法和get( )方法作用一样，不同的是，join方法不抛出异常</p>
+<li><p><code>public T join( )</code>：join方法和get( )方法作用一样，不同的是，join方法不抛出异常</p>
 </li>
-<li><p>public boolean complete(T value)：是否打断get方法立刻返回括号值</p>
+<li><p><code>public boolean complete(T value)</code>：是否打断get方法立刻返回括号值</p>
 </li>
 </ul>
 <h3 id="对计算结果进行处理-thenApply、handle"><a href="#对计算结果进行处理-thenApply、handle" class="headerlink" title="对计算结果进行处理(thenApply、handle)"></a>对计算结果进行处理(thenApply、handle)</h3><ul>
-<li>public <U> CompletableFuture<U> thenApply：计算结果存在依赖关系，这两个线程串行化，由于存在依赖关系(当前步错，不走下一步)，当前步骤有异常的话就叫停</li>
-<li>public <U> CompletableFuture<U> handle(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：计算结果存在依赖关系，这两个线程串行化，有异常也可以往下一步走，根据带的异常参数可以进一步处理</li>
-<li>whenComplete：是执行当前任务的线程执行继续执行whenComplete的任务</li>
-<li>whenCompleteAsync：是执行把whenCompleteAsync这个任务继续提交给线程池来进行执行</li>
+<li><code>public &lt;U&gt; CompletableFuture&lt;U&gt; thenApply</code>：计算结果存在依赖关系，这两个线程串行化，由于存在依赖关系(当前步错，不走下一步)，当前步骤有异常的话就叫停</li>
+<li><code>public &lt;U&gt; CompletableFuture&lt;U&gt; handle(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)</code>：计算结果存在依赖关系，这两个线程串行化，有异常也可以往下一步走，根据带的异常参数可以进一步处理</li>
+<li><code>whenComplete</code>：是执行当前任务的线程执行继续执行whenComplete的任务</li>
+<li><code>whenCompleteAsync</code>：是执行把whenCompleteAsync这个任务继续提交给线程池来进行执行</li>
 </ul>
 <h3 id="对计算结果进行消费-thenRun、thenAccept、thenApply"><a href="#对计算结果进行消费-thenRun、thenAccept、thenApply" class="headerlink" title="对计算结果进行消费(thenRun、thenAccept、thenApply)"></a>对计算结果进行消费(thenRun、thenAccept、thenApply)</h3><ul>
-<li>thenRun(Runnable runnable)：任务A执行完执行B，并且B不需要A的结果</li>
-<li>CompletableFuture<Void> thenAccept(Consumer&lt;? super T&gt; action)：任务A执行完成执行B，B需要A的结果，但是任务B无返回值</li>
-<li>public <U> CompletableFuture<U> thenApply(Function&lt;? super T,? extends U&gt; fn)：任务A执行完成执行B，B需要A的结果，同时任务B有返回值</li>
+<li><code>thenRun(Runnable runnable)</code>：任务A执行完执行B，并且B不需要A的结果</li>
+<li><code>CompletableFuture&lt;Void&gt; thenAccept(Consumer&lt;? super T&gt; action)</code>：任务A执行完成执行B，B需要A的结果，但是任务B无返回值</li>
+<li><code>public &lt;U&gt; CompletableFuture&lt;U&gt; thenApply(Function&lt;? super T,? extends U&gt; fn)</code>：任务A执行完成执行B，B需要A的结果，同时任务B有返回值</li>
 </ul>
 <h4 id="thenRun和thenRunAsync区别"><a href="#thenRun和thenRunAsync区别" class="headerlink" title="thenRun和thenRunAsync区别"></a>thenRun和thenRunAsync区别</h4><ul>
-<li><p>﻿没有传入自定义线程池，都用默认线程池ForkJoinPool;</p>
+<li><p>没有传入自定义线程池，都用默认线程池ForkJoinPool;</p>
 </li>
 <li><p>如果你执行第一个任务的时候，传入了一个自定义线程池：</p>
 <p>​	调用thenRun方法执行第二个任务时，则第二个任务和第一个任务是共用同一个线程池</p>
@@ -394,20 +394,20 @@
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title function_">thenRunAsync</span><span class="params">(Runnable action)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> uniRunStage(asyncPool, action);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title function_">thenRunAsync</span><span class="params">(Runnable action,</span></span><br><span class="line"><span class="params">                                            Executor executor)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> uniRunStage(screenExecutor(executor), action);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">useCommonPool</span> <span class="operator">=</span></span><br><span class="line">    (ForkJoinPool.getCommonPoolParallelism() &gt; <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Executor</span> <span class="variable">asyncPool</span> <span class="operator">=</span> useCommonPool ?</span><br><span class="line">    ForkJoinPool.commonPool() : <span class="keyword">new</span> <span class="title class_">ThreadPerTaskExecutor</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="对计算速度进行选用-applyToEither、acceptEither、runAfterEither"><a href="#对计算速度进行选用-applyToEither、acceptEither、runAfterEither" class="headerlink" title="对计算速度进行选用(applyToEither、acceptEither、runAfterEither)"></a>对计算速度进行选用(applyToEither、acceptEither、runAfterEither)</h3><p>public <U> CompletableFuture<U> applyToEither(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T, U&gt; fn)：这个方法表示的是，谁快就用谁的结果</p>
+<h3 id="对计算速度进行选用-applyToEither、acceptEither、runAfterEither"><a href="#对计算速度进行选用-applyToEither、acceptEither、runAfterEither" class="headerlink" title="对计算速度进行选用(applyToEither、acceptEither、runAfterEither)"></a>对计算速度进行选用(applyToEither、acceptEither、runAfterEither)</h3><p><code>public &lt;U&gt; CompletableFuture&lt;U&gt; applyToEither(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T, U&gt; fn)</code>：这个方法表示的是，谁快就用谁的结果</p>
 <p>两任务组合，一个完成</p>
 <ul>
-<li>applyToEither：两个任务有一个执行完成，获取它的返回值，处理任务并有新的返回值</li>
-<li>acceptEither：两个任务有一个执行完成，获取它的返回值，处理任务,没有新的返回值</li>
-<li>runAfterEither：两个任务有一个执行完成，不需要获取 future 的结果，处理任务，也没有返回值</li>
+<li><code>applyToEither</code>：两个任务有一个执行完成，获取它的返回值，处理任务并有新的返回值</li>
+<li><code>acceptEither</code>：两个任务有一个执行完成，获取它的返回值，处理任务,没有新的返回值</li>
+<li><code>runAfterEither</code>：两个任务有一个执行完成，不需要获取 future 的结果，处理任务，也没有返回值</li>
 </ul>
 <h3 id="对计算结果进行合并-thenCombine、thenAcceptBoth、runAfterBoth"><a href="#对计算结果进行合并-thenCombine、thenAcceptBoth、runAfterBoth" class="headerlink" title="对计算结果进行合并(thenCombine、thenAcceptBoth、runAfterBoth)"></a>对计算结果进行合并(thenCombine、thenAcceptBoth、runAfterBoth)</h3><ul>
-<li>public &lt;U,V&gt; CompletableFuture<V> thenCombine(CompletionStage&lt;? extends U&gt; other,BiFunction&lt;? super T,? super U,? extends V&gt; fn)：两个CompletionStage任务都完成后，最终把两个任务的结果一起交给thenCombine来处理。先完成的先等着，等待其他分支任务</li>
+<li><code>public &lt;U,V&gt; CompletableFuture&lt;V&gt; thenCombine(CompletionStage&lt;? extends U&gt; other,BiFunction&lt;? super T,? super U,? extends V&gt; fn)</code>：两个CompletionStage任务都完成后，最终把两个任务的结果一起交给thenCombine来处理。先完成的先等着，等待其他分支任务</li>
 </ul>
 <h3 id="多任务组合-allOf、anyOf"><a href="#多任务组合-allOf、anyOf" class="headerlink" title="多任务组合(allOf、anyOf)"></a>多任务组合(allOf、anyOf)</h3><ul>
-<li><p>allOf：等待所有任务完成，(public static CompletableFuture<Void> allOf(CompletableFuture&lt;?&gt;… cfs))</p>
+<li><p><code>allOf</code>：等待所有任务完成</p>
 </li>
-<li><p>anyOf：只要有一个任务完成，(public static CompletableFuture<Object> anyOf(CompletableFuture&lt;?&gt;… cfs))</p>
+<li><p><code>anyOf</code>：只要有一个任务完成</p>
 </li>
 </ul>
 <h1 id="JDK8锁"><a href="#JDK8锁" class="headerlink" title="JDK8锁"></a>JDK8锁</h1><h2 id="乐观锁和悲观锁"><a href="#乐观锁和悲观锁" class="headerlink" title="乐观锁和悲观锁"></a>乐观锁和悲观锁</h2><h3 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h3><p>概念：认为自己在使用数据的时候一定有别的线程来修改数据，因此在获取数据的时候会先加锁,确保数据不会被别的线程修改<br>适合写操作多的场景，先加锁可以保证写操作时数据正确(写操作包括增删改)、显式的锁定之后再操作同步资源</p>
