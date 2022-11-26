@@ -2659,7 +2659,7 @@ mark.search-keyword {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #1882cc;
+  background: #f0ffd5;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2679,7 +2679,7 @@ mark.search-keyword {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.main {
+body {
   background: url("/images/next/your_name.jpg") no-repeat;
 /* 背景图垂直、水平均居中 */
   background-position: center center;
@@ -2716,8 +2716,8 @@ header .brand {
   padding: 30px 60px 30px 60px;
   background: rgba(255,255,255,0.8) none repeat scroll !important;
 }
-.darkmode--activated .main {
-  background: url("/images/next/your_name_dark.png") no-repeat;
+.darkmode--activated .darkmode-background {
+  background: url("/images/next/your_name_dark.jpg") no-repeat;
 /* 背景图垂直、水平均居中 */
   background-position: center center;
 /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
