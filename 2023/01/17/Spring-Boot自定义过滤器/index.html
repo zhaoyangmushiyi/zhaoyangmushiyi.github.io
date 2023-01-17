@@ -20,25 +20,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Monochrome">
-<meta property="og:url" content="http://zhaoyangmushiyi.github.io/tags/Kafka/index.html">
+    <meta name="description" content="什么是过滤器?Filter 也称之为过滤器，它是Servlet技术中最实用的技术，WEB开发人员通过Filter技术，对web服务器管理的所有web资源：例如JSP，Servlet，静态图片文件或静态HTML文件进行拦截，从而实现一些特殊功能。例如实现 URL级别的权限控制 、 过滤敏感词汇 、 压缩响应信息 等一些高级功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot自定义过滤器">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2023/01/17/Spring-Boot%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%87%E6%BB%A4%E5%99%A8/index.html">
 <meta property="og:site_name" content="Monochrome">
-<meta property="og:description" content="有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。">
+<meta property="og:description" content="什么是过滤器?Filter 也称之为过滤器，它是Servlet技术中最实用的技术，WEB开发人员通过Filter技术，对web服务器管理的所有web资源：例如JSP，Servlet，静态图片文件或静态HTML文件进行拦截，从而实现一些特殊功能。例如实现 URL级别的权限控制 、 过滤敏感词汇 、 压缩响应信息 等一些高级功能。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-17T06:03:10.000Z">
+<meta property="article:modified_time" content="2023-01-17T07:04:17.080Z">
 <meta property="article:author" content="Monochrome">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring boot">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://zhaoyangmushiyi.github.io/tags/Kafka/">
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2023/01/17/Spring-Boot%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%87%E6%BB%A4%E5%99%A8/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/Kafka/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2023/01/17/Spring-Boot%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%87%E6%BB%A4%E5%99%A8/","path":"2023/01/17/Spring-Boot自定义过滤器/","title":"Spring Boot自定义过滤器"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: Kafka | Monochrome</title>
+<title>Spring Boot自定义过滤器 | Monochrome</title>
   
 
 
@@ -128,7 +132,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -141,6 +145,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">什么是过滤器?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Filter%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">Filter的执行原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AAFilter"><span class="nav-number">3.</span> <span class="nav-text">如何自定义一个Filter?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AEFilter"><span class="nav-number">4.</span> <span class="nav-text">Spring Boot如何配置Filter?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%B1%BB%E4%B8%AD%E4%BD%BF%E7%94%A8-Bean%E6%B3%A8%E5%85%A5%E3%80%90%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%E3%80%91"><span class="nav-number">4.1.</span> <span class="nav-text">配置类中使用@Bean注入【推荐使用】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-WebFilter"><span class="nav-number">4.2.</span> <span class="nav-text">使用@WebFilter</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90"><span class="nav-number">5.</span> <span class="nav-text">举个栗子</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -202,50 +207,152 @@
 </noscript>
 
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">Kafka
-          <small>标签</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2023/01/17/Spring-Boot%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%87%E6%BB%A4%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/next/Avatar.png">
+      <meta itemprop="name" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monochrome">
+      <meta itemprop="description" content="有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Spring Boot自定义过滤器 | Monochrome">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring Boot自定义过滤器
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+
+      <time title="创建时间：2023-01-17 14:03:10 / 修改时间：15:04:17" itemprop="dateCreated datePublished" datetime="2023-01-17T14:03:10+08:00">2023-01-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/Spring/Spring-boot/" itemprop="url" rel="index"><span itemprop="name">Spring boot</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="什么是过滤器"><a href="#什么是过滤器" class="headerlink" title="什么是过滤器?"></a>什么是过滤器?</h1><p>Filter 也称之为过滤器，它是Servlet技术中最实用的技术，WEB开发人员通过Filter技术，对web服务器管理的所有web资源：例如JSP，Servlet，静态图片文件或静态HTML文件进行拦截，从而实现一些特殊功能。例如实现 URL级别的权限控制 、 过滤敏感词汇 、 压缩响应信息 等一些高级功能。</p>
+<span id="more"></span>
+
+<h1 id="Filter的执行原理"><a href="#Filter的执行原理" class="headerlink" title="Filter的执行原理"></a>Filter的执行原理</h1><p>当客户端发出Web资源的请求时，Web服务器根据应用程序配置文件设置的过滤规则进行检查，若客户请求满足过滤规则，则对客户请求&#x2F;响应进行拦截，对请求头和请求数据进行检查或改动，并依次通过过滤器链，最后把请求&#x2F;响应交给请求的Web资源处理。请求信息在过滤器链中可以被修改，也可以根据条件让请求不发往资源处理器，并直接向客户机发回一个响应。当资源处理器完成了对资源的处理后，响应信息将逐级逆向返回。同样在这个过程中，用户可以修改响应信息，从而完成一定的任务。</p>
+<p>服务器会按照过滤器定义的先后循序组装成一条链 ，然后一次执行其中的 <code>doFilter()</code> 方法。这一点 Filter 和 Servlet 是不一样的，执行的顺序不同：</p>
+<ol>
+<li>执行第一个过滤器的 <code>chain.doFilter()</code> 之前的代码</li>
+<li>第二个过滤器的 <code>chain.doFilter()</code> 之前的代码，</li>
+<li>请求的资源，第二个过滤器的 <code>chain.doFilter()</code> 之后的代码</li>
+<li>第一个过滤器的 <code>chain.doFilter()</code> 之后的代码</li>
+<li>最后返回响应</li>
+</ol>
+<h1 id="如何自定义一个Filter"><a href="#如何自定义一个Filter" class="headerlink" title="如何自定义一个Filter?"></a>如何自定义一个Filter?</h1><p>只需要实现 <code>javax.servlet.Filter</code>这个接口，重写其中的方法。实例如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CrosFilter</span> <span class="keyword">implements</span> <span class="title class_">Filter</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line">        <span class="comment">// 继续执行下一个过滤器</span></span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Spring-Boot如何配置Filter"><a href="#Spring-Boot如何配置Filter" class="headerlink" title="Spring Boot如何配置Filter?"></a>Spring Boot如何配置Filter?</h1><h2 id="配置类中使用-Bean注入【推荐使用】"><a href="#配置类中使用-Bean注入【推荐使用】" class="headerlink" title="配置类中使用@Bean注入【推荐使用】"></a>配置类中使用@Bean注入【推荐使用】</h2><p>只需要将 FilterRegistrationBean 这个实例注入到IOC容器中即可，如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FilterConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    CrosFilter crosFilter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    FilterRegistrationBean&lt;CrosFilter&gt; <span class="title function_">crosFilter</span><span class="params">()</span> &#123;</span><br><span class="line">        FilterRegistrationBean&lt;CrosFilter&gt; registrationBean = <span class="keyword">new</span> <span class="title class_">FilterRegistrationBean</span>&lt;CrosFilter&gt;();</span><br><span class="line">        registrationBean.setFilter(crosFilter);</span><br><span class="line">        registrationBean.addUrlPatterns(<span class="string">&quot;/*&quot;</span>);</span><br><span class="line">        registrationBean.setName(<span class="string">&quot;crosFilter&quot;</span>);</span><br><span class="line">        <span class="comment">// 设置优先级别</span></span><br><span class="line">        registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);</span><br><span class="line">        <span class="keyword">return</span> registrationBean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-WebFilter"><a href="#使用-WebFilter" class="headerlink" title="使用@WebFilter"></a>使用@WebFilter</h2><p><code>@WebFilter</code> 是Servlet3.0的一个注解，用于标注一个Filter，Spring Boot也是支持这种方式，只需要在自定义的Filter上标注该注解即可，如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebFilter(filterName = &quot;crosFilter2&quot;, urlPatterns = &#123;&quot;/*&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CrosFilter2</span> <span class="keyword">implements</span> <span class="title class_">Filter</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line">        <span class="comment">// 继续执行下一个过滤器</span></span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要想 <code>@WebFilter</code> 注解生效，需要在配置类上标注另外一个注解 <code>@ServletComponentScan</code> 用于扫描使其生效 ，如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@ServletComponentScan(value = &#123;&quot;com.monochrome.filter&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringbootApplication</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h1><p>对于前后端分离的项目来说跨域是一个难题，什么是跨域问题？如何造成的？ 对于跨域问题有多中解决方案，比如JSONP，网关支持等等。如何使用过滤器来解决跨域问题？</p>
+<p>其实原理很简单，只需要在请求头中添加相应支持跨域的内容即可，如下代码仅仅是简单的演示下，针对细致的内容还需自己完善，比如白名单等等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CrosFilter</span> <span class="keyword">implements</span> <span class="title class_">Filter</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line">        <span class="type">HttpServletResponse</span> <span class="variable">response</span> <span class="operator">=</span> (HttpServletResponse) servletRequest;</span><br><span class="line">        response.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        response.setHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">        response.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;POST, GET, OPTIONS, DELETE&quot;</span>);</span><br><span class="line">        response.setHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>, <span class="string">&quot;3600&quot;</span>);</span><br><span class="line">        response.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot; Origin, X-Requested-With, Content-Type,Accept&quot;</span>);</span><br><span class="line">        <span class="comment">// 继续执行下一个过滤器</span></span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-04T10:43:05+08:00"
-              content="2021-07-04">
-          07-04
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/07/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/" itemprop="url">
-            <span itemprop="name">消息队列学习</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Spring-boot/" rel="tag"># Spring boot</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/01/16/Spring-Boot%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%A6%E6%88%AA%E5%99%A8/" rel="prev" title="Spring Boot自定义拦截器">
+                  <i class="fa fa-chevron-left"></i> Spring Boot自定义拦截器
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
+
 
 </div>
   </main>
