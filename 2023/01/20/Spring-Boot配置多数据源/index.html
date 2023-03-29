@@ -20,40 +20,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="准备Jenkinsfile配置文件准备公共配置文件新建远程仓库，文件目录结构： 1234# 资源文件|-- resources# 执行脚本文件|-- vars">
+    <meta name="description" content="什么是多数据源?最常见的单一应用中最多涉及到一个数据库，即是一个数据源( Datasource )。那么顾名思义，多数据源就是在一个单一应用中涉及到了两个及以上的数据库了。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在Jenkins上创建多分支流水线">
-<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2019/12/05/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF/index.html">
+<meta property="og:title" content="Spring Boot配置多数据源">
+<meta property="og:url" content="http://zhaoyangmushiyi.github.io/2023/01/20/Spring-Boot%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/index.html">
 <meta property="og:site_name" content="Monochrome">
-<meta property="og:description" content="准备Jenkinsfile配置文件准备公共配置文件新建远程仓库，文件目录结构： 1234# 资源文件|-- resources# 执行脚本文件|-- vars">
+<meta property="og:description" content="什么是多数据源?最常见的单一应用中最多涉及到一个数据库，即是一个数据源( Datasource )。那么顾名思义，多数据源就是在一个单一应用中涉及到了两个及以上的数据库了。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-0.png">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-1.png">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-2.png">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-3.png">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-4.png">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-5.png">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-6.png">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-7.png">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-8.png">
-<meta property="og:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-9.png">
-<meta property="article:published_time" content="2019-12-05T02:12:50.000Z">
-<meta property="article:modified_time" content="2022-08-24T10:57:21.743Z">
+<meta property="article:published_time" content="2023-01-20T09:45:50.000Z">
+<meta property="article:modified_time" content="2023-02-19T02:50:07.544Z">
 <meta property="article:author" content="Monochrome">
-<meta property="article:tag" content="Jenkins">
-<meta property="article:tag" content="Pipeline">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring boot">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://zhaoyangmushiyi.github.io/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-0.png">
 
 
-<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2019/12/05/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF/">
+<link rel="canonical" href="http://zhaoyangmushiyi.github.io/2023/01/20/Spring-Boot%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2019/12/05/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF/","path":"2019/12/05/在Jenkins上创建多分支流水线/","title":"在Jenkins上创建多分支流水线"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://zhaoyangmushiyi.github.io/2023/01/20/Spring-Boot%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/","path":"2023/01/20/Spring-Boot配置多数据源/","title":"Spring Boot配置多数据源"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>在Jenkins上创建多分支流水线 | Monochrome</title>
+<title>Spring Boot配置多数据源 | Monochrome</title>
   
 
 
@@ -156,7 +145,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87Jenkinsfile%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">准备Jenkinsfile配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%85%AC%E5%85%B1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">准备公共配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEJenkins%E5%85%AC%E5%85%B1Jenkinsfile%E5%BA%93%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="nav-number">1.2.</span> <span class="nav-text">配置Jenkins公共Jenkinsfile库的地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E7%A8%8B%E5%BA%8FJenkinsfile%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">准备程序Jenkinsfile配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Blue-Ocean"><span class="nav-number">2.</span> <span class="nav-text">Blue Ocean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAPipeline"><span class="nav-number">3.</span> <span class="nav-text">创建Pipeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEwebhook"><span class="nav-number">4.</span> <span class="nav-text">配置webhook</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="nav-number">1.</span> <span class="nav-text">什么是多数据源?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E5%90%88%E5%8D%95%E4%B8%80%E7%9A%84%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="nav-number">2.</span> <span class="nav-text">整合单一的数据源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E5%90%88Mybatis"><span class="nav-number">3.</span> <span class="nav-text">整合Mybatis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E5%90%88%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="nav-number">4.</span> <span class="nav-text">整合多数据源</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="nav-number">4.1.</span> <span class="nav-text">什么是动态数据源?</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -229,7 +218,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2019/12/05/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF/">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2023/01/20/Spring-Boot%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/next/Avatar.png">
@@ -242,12 +231,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="在Jenkins上创建多分支流水线 | Monochrome">
+      <meta itemprop="name" content="Spring Boot配置多数据源 | Monochrome">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          在Jenkins上创建多分支流水线
+          Spring Boot配置多数据源
         </h1>
 
         <div class="post-meta-container">
@@ -258,14 +247,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-12-05 10:12:50" itemprop="dateCreated datePublished" datetime="2019-12-05T10:12:50+08:00">2019-12-05</time>
+      <time title="创建时间：2023-01-20 17:45:50" itemprop="dateCreated datePublished" datetime="2023-01-20T17:45:50+08:00">2023-01-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-08-24 18:57:21" itemprop="dateModified" datetime="2022-08-24T18:57:21+08:00">2022-08-24</time>
+      <time title="修改时间：2023-02-19 10:50:07" itemprop="dateModified" datetime="2023-02-19T10:50:07+08:00">2023-02-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -273,11 +262,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Jenkins/" itemprop="url" rel="index"><span itemprop="name">Jenkins</span></a>
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Jenkins/Pipeline/" itemprop="url" rel="index"><span itemprop="name">Pipeline</span></a>
+          <a href="/categories/Java/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/Spring/Spring-boot/" itemprop="url" rel="index"><span itemprop="name">Spring boot</span></a>
         </span>
     </span>
 
@@ -288,14 +281,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.7k</span>
+      <span>4.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -306,41 +299,76 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h3 id="准备Jenkinsfile配置文件"><a href="#准备Jenkinsfile配置文件" class="headerlink" title="准备Jenkinsfile配置文件"></a>准备Jenkinsfile配置文件</h3><h4 id="准备公共配置文件"><a href="#准备公共配置文件" class="headerlink" title="准备公共配置文件"></a>准备公共配置文件</h4><p>新建远程仓库，文件目录结构：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 资源文件</span><br><span class="line">|-- resources</span><br><span class="line"># 执行脚本文件</span><br><span class="line">|-- vars</span><br></pre></td></tr></table></figure>
+        <h1 id="什么是多数据源"><a href="#什么是多数据源" class="headerlink" title="什么是多数据源?"></a>什么是多数据源?</h1><p>最常见的单一应用中最多涉及到一个数据库，即是一个数据源( Datasource )。那么顾名思义，多数据源就是在一个单一应用中涉及到了两个及以上的数据库了。</p>
 <span id="more"></span>
 
-<p>新建配置文件<code>build.groovy</code>，放在<code>vars</code>文件夹下:</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">#!groovy</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> call(Map map) &#123;</span><br><span class="line"></span><br><span class="line">    pipeline &#123;</span><br><span class="line">        agent any</span><br><span class="line"></span><br><span class="line">        environment &#123;</span><br><span class="line">			APP_NAME = <span class="string">&quot;$&#123;map.APP_NAME&#125;&quot;</span></span><br><span class="line">			APP_PORT = <span class="string">&quot;$&#123;map.APP_PORT&#125;&quot;</span></span><br><span class="line">            <span class="comment">//非必要，可以设置用于发版</span></span><br><span class="line">            REMOTE_HOST = <span class="string">&quot;$&#123;map.REMOTE_HOST&#125;&quot;</span></span><br><span class="line">            <span class="comment">//程序远程仓库地址</span></span><br><span class="line">            REPO_URL = <span class="string">&quot;$&#123;map.REPO_URL&#125;&quot;</span></span><br><span class="line">            BRANCH_NAME = <span class="string">&quot;$&#123;map.BRANCH_NAME&#125;&quot;</span></span><br><span class="line">            <span class="comment">//非必要</span></span><br><span class="line">            STACK_NAME = <span class="string">&quot;$&#123;map.STACK_NAME&#125;&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        stages &#123;</span><br><span class="line">            stage(<span class="string">&#x27;获取代码&#x27;</span>) &#123;</span><br><span class="line">                steps &#123;</span><br><span class="line">                    git([<span class="attr">url:</span> <span class="string">&quot;$&#123;REPO_URL&#125;&quot;</span>, <span class="attr">branch:</span> <span class="string">&quot;$&#123;BRANCH_NAME&#125;&quot;</span>])</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            stage(<span class="string">&#x27;编译代码&#x27;</span>) &#123;</span><br><span class="line">                steps &#123;</span><br><span class="line">                    withMaven(<span class="attr">maven:</span> <span class="string">&#x27;maven 3.6&#x27;</span>) &#123;</span><br><span class="line">                        sh <span class="string">&quot;mvn -U -am clean package -DskipTests&quot;</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            stage(<span class="string">&#x27;构建镜像&#x27;</span>) &#123;</span><br><span class="line">                steps &#123;</span><br><span class="line">					sh <span class="string">&quot;cp ./target/*.jar ./&quot;</span></span><br><span class="line">                    sh <span class="string">&quot;docker build -t $&#123;APP_NAME&#125;/$&#123;BRANCH_NAME&#125;:1.0-SNAPSHOT .&quot;</span> </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">			</span><br><span class="line">			stage(<span class="string">&#x27;运行镜像&#x27;</span>) &#123;</span><br><span class="line">                steps &#123;</span><br><span class="line">					sh <span class="string">&quot;if docker ps -a | grep $&#123;APP_NAME&#125;-$&#123;BRANCH_NAME&#125;;\n then docker rm -f $&#123;APP_NAME&#125;-$&#123;BRANCH_NAME&#125;\n echo Remove Docker Container: $&#123;APP_NAME&#125;-$&#123;BRANCH_NAME&#125;\n fi&quot;</span></span><br><span class="line">					sh <span class="string">&quot;docker run -d -p $&#123;APP_PORT&#125;:$&#123;APP_PORT&#125; --name $&#123;APP_NAME&#125;-$&#123;BRANCH_NAME&#125; $&#123;APP_NAME&#125;/$&#123;BRANCH_NAME&#125;:1.0-SNAPSHOT&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实在配置数据源的时候就已经很明确这个定义了，如以下代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean(name = &quot;dataSource&quot;)</span></span><br><span class="line"><span class="keyword">public</span> DataSource <span class="title function_">dataSource</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">DruidDataSource</span> <span class="variable">druidDataSource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DruidDataSource</span>();</span><br><span class="line">    druidDataSource.setUrl(url);</span><br><span class="line">    druidDataSource.setUsername(username);</span><br><span class="line">    druidDataSource.setDriverClassName(driverClassName);</span><br><span class="line">    druidDataSource.setPassword(password);</span><br><span class="line">    <span class="keyword">return</span> druidDataSource;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="配置Jenkins公共Jenkinsfile库的地址"><a href="#配置Jenkins公共Jenkinsfile库的地址" class="headerlink" title="配置Jenkins公共Jenkinsfile库的地址"></a>配置Jenkins公共Jenkinsfile库的地址</h4><p>进入Jenkins的系统管理的系统配置，找到<code>Global Pipeline Libraries</code>，配置远程仓库地址：<br><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-0.png" alt="在Jenkins上创建多分支流水线-0"></p>
-<h4 id="准备程序Jenkinsfile配置文件"><a href="#准备程序Jenkinsfile配置文件" class="headerlink" title="准备程序Jenkinsfile配置文件"></a>准备程序Jenkinsfile配置文件</h4><p>程序根目录新建Jenkinsfile文件，填写配置：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#!groovy</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在多分支构建下，严格规定Jenkinsfile只存在可以发版的分支上</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 引用在jenkins已经全局定义好的library</span></span><br><span class="line">library <span class="string">&#x27;aptst-pipeline-library&#x27;</span></span><br><span class="line"><span class="keyword">def</span> map = [:]</span><br><span class="line"></span><br><span class="line"><span class="comment">//程序名称</span></span><br><span class="line">map.put(<span class="string">&#x27;APP_NAME&#x27;</span>,<span class="string">&#x27;aptst-config-server&#x27;</span>)</span><br><span class="line"><span class="comment">//程序端口</span></span><br><span class="line">map.put(<span class="string">&#x27;APP_PORT&#x27;</span>,<span class="string">&#x27;3344&#x27;</span>)</span><br><span class="line"><span class="comment">// 远程管理节点地址（用于执行发版）</span></span><br><span class="line">map.put(<span class="string">&#x27;REMOTE_HOST&#x27;</span>,<span class="string">&#x27;xxx.xxx.xxx.xxx&#x27;</span>)</span><br><span class="line"><span class="comment">// 项目github代码地址</span></span><br><span class="line">map.put(<span class="string">&#x27;REPO_URL&#x27;</span>,<span class="string">&#x27;XXX&#x27;</span>)</span><br><span class="line"><span class="comment">// 分支名称</span></span><br><span class="line">map.put(<span class="string">&#x27;BRANCH_NAME&#x27;</span>,<span class="string">&#x27;master&#x27;</span>)</span><br><span class="line"><span class="comment">// 服务栈名称，公共配置没配置可以不需要</span></span><br><span class="line">map.put(<span class="string">&#x27;STACK_NAME&#x27;</span>,<span class="string">&#x27;XXX&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用library中vars目录下的build.groovy脚本</span></span><br><span class="line">build(map)</span><br></pre></td></tr></table></figure>
+<p>url 、 username 、 password 这三个属性已经唯一确定了一个数据库了， DataSource 则是依赖这三个创建出来的。则多数据源即是配置多个 <code>DataSource</code> (暂且这么理解)。</p>
+<h1 id="整合单一的数据源"><a href="#整合单一的数据源" class="headerlink" title="整合单一的数据源"></a>整合单一的数据源</h1><p>本文使用阿里的数据库连接池 druid ，添加依赖如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--druid连接池--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.1.9&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="Blue-Ocean"><a href="#Blue-Ocean" class="headerlink" title="Blue Ocean"></a>Blue Ocean</h3><p>首先进入Jenkins的Blue Ocean页面，在Jenkins页面左边找到按钮或输入网址<code>http://&lt;jenkins address&gt;/blue</code></p>
-<p><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-1.png" alt="在Jenkins上创建多分支流水线-1"></p>
-<h3 id="创建Pipeline"><a href="#创建Pipeline" class="headerlink" title="创建Pipeline"></a>创建Pipeline</h3><p>点击<code>创建流水线</code>：</p>
-<p><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-2.png" alt="在Jenkins上创建多分支流水线-2"></p>
-<p>选择代码仓库，根据你远程仓库选择对应的：</p>
-<p><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-3.png" alt="在Jenkins上创建多分支流水线-3"></p>
-<p>添加GitHub服务器：</p>
-<p><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-4.png" alt="在Jenkins上创建多分支流水线-4"></p>
-<p><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-5.png" alt="在Jenkins上创建多分支流水线-5"></p>
-<p>选择仓库然后点击创建流水线：</p>
-<p><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-6.png" alt="在Jenkins上创建多分支流水线-6"></p>
-<p>完整步骤图：</p>
-<p><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-7.png" alt="在Jenkins上创建多分支流水线-7"></p>
-<h3 id="配置webhook"><a href="#配置webhook" class="headerlink" title="配置webhook"></a>配置webhook</h3><p>首先让我们看看 <a target="_blank" rel="noopener" href="https://developer.github.com/webhooks/">Github官方</a> 关于Github webhooks的解释： </p>
+<p>阿里的数据库连接池非常强大，比如 数据监控 、 数据库加密 等等内容，本文仅仅演示与Spring Boot整 合的过程，一些其他的功能后续可以自己研究添加。</p>
+<p>Druid连接池的 starter 的自动配置类是 <code>DruidDataSourceAutoConfigure</code> ，类上标注如下一行注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableConfigurationProperties(&#123;DruidStatProperties.class, DataSourceProperties.class&#125;)</span></span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<p>Webhooks allow you to build or set up integrations which subscribe to certain events on GitHub.com.</p>
+<p><code>@EnableConfigurationProperties</code> 这个注解使得配置文件中的配置生效并且映射到指定类的属性。</p>
 </blockquote>
-<p>中文意思就是： webhook允许您构建或设置订阅GitHub.com上某些事件的集成。 通过webhook，我们就可以实现自动化部署。</p>
-<p>进入项目GitHub仓库地址，进入**<code>settings</code><strong>，点击</strong><code> hook</code><strong>，再点击</strong><code>Add webhook</code>**：</p>
-<p><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-8.png" alt="在Jenkins上创建多分支流水线-8"></p>
-<p>填写Jenkins接收事件地址**<code>Payload URL</code>**：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://&lt;Jenkins address&gt;/github-webhook/</span><br></pre></td></tr></table></figure>
+<p><code>DruidStatProperties</code> 中指定的前缀是 <code>spring.datasource.druid</code> ，这个配置主要是用来设置连接池的一些参数。</p>
+<p><code>DatasourcoProperties</code> 中指定的前级是 <code>spring.datasource</code> ，这个主要是用来设置数据库的 <code>url</code>、<code>username</code>、<code>password</code> 等信息。</p>
+<p>因此我们只需要在全局配置文件中指定<strong>数据库的一些配置</strong>以及<strong>连接池的一些配置</strong>信息即可，前缀分别是<code>spring.datasource.druid</code>、<code>spring.datasource</code>，以下是个人随便配置的(application. Yml)：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc\:mysql\://localhost\:3306/xxx?useUnicode\=true&amp;characterEncoding\=UTF-8&amp;zeroDateTimeBehavior\=convertToNull&amp;useSSL\=false&amp;allowMultiQueries\=true&amp;serverTimezone=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">xxxx</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">com.alibaba.druid.pool.DruidDataSource</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">    <span class="attr">druid:</span></span><br><span class="line">      <span class="comment"># 初始化连接池大小</span></span><br><span class="line">      <span class="attr">initial-size:</span> <span class="number">0</span></span><br><span class="line">      <span class="comment"># 连接池最大使用连接数量</span></span><br><span class="line">      <span class="attr">max-active:</span> <span class="number">20</span></span><br><span class="line">      <span class="comment"># 连接池最小空闲</span></span><br><span class="line">      <span class="attr">min-idle:</span> <span class="number">0</span></span><br><span class="line">      <span class="comment"># 获取连接最大等待时间</span></span><br><span class="line">      <span class="attr">max-wait:</span> <span class="number">6000</span></span><br><span class="line">      <span class="attr">validation-query:</span> <span class="string">SELECT</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">test-on-borrow:</span> <span class="literal">false</span></span><br><span class="line">      <span class="attr">test-on-return:</span> <span class="literal">false</span></span><br><span class="line">      <span class="attr">test-while-idle:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒</span></span><br><span class="line">      <span class="attr">time-between-eviction-runs-millis:</span> <span class="number">60000</span></span><br><span class="line">      <span class="comment"># 配置一个连接在池中最小生存的时间，单位是毫秒</span></span><br><span class="line">      <span class="attr">min-evictable-idle-time-millis:</span> <span class="number">25200000</span></span><br><span class="line">      <span class="comment"># 打开removeAbandoned功能,多少时间内必须关闭连接</span></span><br><span class="line">      <span class="attr">removeAbandoned:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 1800秒，也就是30分钟</span></span><br><span class="line">      <span class="attr">remove-abandoned-timeout:</span> <span class="number">1800</span></span><br><span class="line">      <span class="attr">log-abandoned:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">filters:</span> <span class="string">mergeStat</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/%E5%9C%A8Jenkins%E4%B8%8A%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%88%86%E6%94%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-9.png" alt="在Jenkins上创建多分支流水线-9"></p>
+<h1 id="整合Mybatis"><a href="#整合Mybatis" class="headerlink" title="整合Mybatis"></a>整合Mybatis</h1><p>Spring Boot 整合Mybatis其实很简单，简单的几步就搞定，首先添加依赖:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>第二步找到自动配置类 <code>MybatisAutoConfiguration</code> ，有如下一行代码: </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableConfigurationProperties(MybatisProperties.class)</span></span><br></pre></td></tr></table></figure>
+
+<p>可配置的东西很多，比如 XML文件的位置 、 类型处理器 等等，如下简单的配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">type-handlers-package:</span> <span class="string">com.monochrome.dynamicdatasource.typehandler</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>如果需要通过包扫描的方式注入Mapper，则需要在配置类上加入一个注解: @MapperScan ，其中的 value属性指定需要扫描的包。</p>
+<blockquote>
+<p>直接在全局配置文件配置各种属性是一种比较简单的方式，其实的任何组件的整合都有不少于两种的配置方式，下面来介绍下配置类如何配置。</p>
+</blockquote>
+<p><code>MybatisAutoConfiguration</code> 自动配置类有如下一段代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line"><span class="keyword">public</span> SqlSessionFactory <span class="title function_">sqlSessionFactory</span><span class="params">(DataSource dataSource)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>@ConditionalOnMissingBean</code> 和 <code>@Bean</code> 真是老搭档了，意味着我们又可以覆盖，只需要在IOC容器中 注入 。</p>
+</blockquote>
+<p>在自定义配置类中注入即可，如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 注入SqlSessionFactory</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Bean(&quot;mabatisSqlSessionFactory&quot;)</span></span><br><span class="line"><span class="keyword">public</span> SqlSessionFactory <span class="title function_">sqlSessionFactory</span><span class="params">(DataSource dataSource)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">SqlSessionFactoryBean</span> <span class="variable">sqlSessionFactoryBean</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBean</span>();</span><br><span class="line">    sqlSessionFactoryBean.setDataSource(dataSource);</span><br><span class="line">    sqlSessionFactoryBean.setMapperLocations(<span class="keyword">new</span></span><br><span class="line">            <span class="title class_">PathMatchingResourcePatternResolver</span>()</span><br><span class="line">            .getResources(<span class="string">&quot;classpath*:/mapper/**/*.xml&quot;</span>));</span><br><span class="line">    org.apache.ibatis.session.<span class="type">Configuration</span> <span class="variable">configuration</span> <span class="operator">=</span> <span class="keyword">new</span></span><br><span class="line">            <span class="title class_">org</span>.apache.ibatis.session.Configuration();</span><br><span class="line">    <span class="comment">// 自动将数据库中的下划线转换为驼峰格式</span></span><br><span class="line">    configuration.setMapUnderscoreToCamelCase(<span class="literal">true</span>);</span><br><span class="line">    configuration.setDefaultFetchSize(<span class="number">100</span>);</span><br><span class="line">    configuration.setDefaultStatementTimeout(<span class="number">30</span>);</span><br><span class="line">    sqlSessionFactoryBean.setConfiguration(configuration);</span><br><span class="line">    <span class="keyword">return</span> sqlSessionFactoryBean.getObject();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>以上介绍了配置Mybatis的两种方式，其实在大多数场景中使用第一种已经够用了，至于为什么介绍第二种呢？当然是为了多数据源的整合而做准备了。</p>
+</blockquote>
+<p>在 <code>MybatisAutoConfiguration</code> 中有一行很重要的代码，如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConditionalOnSingleCandidate(DataSource.class)</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>@ConditionalOnSingleCandidate</code> 这个注解的意思是当IOC容器中只有一个候选Bean的实例才会生效。</p>
+</blockquote>
+<h1 id="整合多数据源"><a href="#整合多数据源" class="headerlink" title="整合多数据源"></a>整合多数据源</h1><p>上文留下的问题：为什么的Mybatis自动配置上标注如下一行代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConditionalOnSingleCandidate(DataSource.class)</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>以上这行代码的言外之意：当IOC容器中只有一个数据源DataSource，这个自动配置类才会生效。</p>
+</blockquote>
+<p><strong>哦？照这样搞，多数据源是不能用Mybatis吗？</strong></p>
+<p>可能大家会有一个误解，认为多数据源就是多个的 DataSource 并存的，当然这样说也不是不正确。</p>
+<blockquote>
+<p>多数据源的情况下并不是多个数据源并存的，Spring 提供了 AbstractRoutingDataSource 这样一个 抽象类，使得能够在多数据源的情况下任意切换，相当于一个<strong>动态路由</strong>的作用，作者称之为<strong>动态数据源</strong>。因此Mybatis只需要配置这个动态数据源即可。</p>
+</blockquote>
+<h2 id="什么是动态数据源"><a href="#什么是动态数据源" class="headerlink" title="什么是动态数据源?"></a><strong>什么是动态数据源?</strong></h2><p>动态数据源简单的说就是能够自由切换的数据源，类似于一个动态路由的感觉，Spring 提供了一个抽象类 AbstractRoutingDataSource ，这个抽象类中有一个属性，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Map&lt;Object, Object&gt; targetDataSources;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>targetDataSources 是一个 Map 结构，所有需要切换的数据源都存放在其中，根据指定的 KEY 进行切换。当然还有一个默认的数据源。</p>
+</blockquote>
 
     </div>
 
@@ -350,22 +378,19 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Jenkins/" rel="tag"># Jenkins</a>
-              <a href="/tags/Pipeline/" rel="tag"># Pipeline</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Spring-boot/" rel="tag"># Spring boot</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2019/11/29/%E5%AE%89%E8%A3%85Hexo%20framework/" rel="prev" title="安装Hexo framework">
-                  <i class="fa fa-chevron-left"></i> 安装Hexo framework
+                <a href="/2023/01/19/Spring-Boot-Conditional%E6%B3%A8%E8%A7%A3/" rel="prev" title="Spring Boot Conditional注解">
+                  <i class="fa fa-chevron-left"></i> Spring Boot Conditional注解
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2019/12/20/Git%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" rel="next" title="Git开发规范">
-                  Git开发规范 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
