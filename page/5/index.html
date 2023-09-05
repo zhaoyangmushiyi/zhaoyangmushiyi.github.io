@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-count">75</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -203,6 +203,139 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2021/07/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/next/Avatar.png">
+      <meta itemprop="name" content="Monochrome">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monochrome">
+      <meta itemprop="description" content="有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Monochrome">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/07/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">消息队列学习</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-04 10:43:05" itemprop="dateCreated datePublished" datetime="2021-07-04T10:43:05+08:00">2021-07-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-24 18:57:21" itemprop="dateModified" datetime="2022-08-24T18:57:21+08:00">2022-08-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RabbitMQ/" itemprop="url" rel="index"><span itemprop="name">RabbitMQ</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/Kafka/" itemprop="url" rel="index"><span itemprop="name">Kafka</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/RocketMQ/" itemprop="url" rel="index"><span itemprop="name">RocketMQ</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>18k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>17 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="消息中间件"><a href="#消息中间件" class="headerlink" title="消息中间件"></a>消息中间件</h1><h2 id="消息中间件的含义"><a href="#消息中间件的含义" class="headerlink" title="消息中间件的含义"></a>消息中间件的含义</h2><ol>
+<li>利用可靠的消息传递机制进行系统和系统直接的通讯</li>
+<li>通过提供消息传递和消息的派对机制，它可以在分布式系统环境下扩展进程间的通讯</li>
+</ol>
+<h2 id="消息中间件应用的场景"><a href="#消息中间件应用的场景" class="headerlink" title="消息中间件应用的场景"></a>消息中间件应用的场景</h2><ol>
+<li>跨系统数据传递</li>
+<li>高并发的流量削峰</li>
+<li>数据的并发和异步处理</li>
+<li>大数据分析与传递</li>
+<li>分布式事务比如你有一个数据要进行迁移或者请求并发过多的时候，</li>
+</ol>
+<h2 id="常见的消息中间件"><a href="#常见的消息中间件" class="headerlink" title="常见的消息中间件"></a>常见的消息中间件</h2><p>ActiveMQ、RabbitMQ、Kafka、RocketMQ等</p>
+<h2 id="消息中间件的本质及设计"><a href="#消息中间件的本质及设计" class="headerlink" title="消息中间件的本质及设计"></a>消息中间件的本质及设计</h2><p>它是一种接受数据、接受请求、存储数据、发送数据等功能的技术服务</p>
+<p>MQ消息队列：负责数据的传接受，存储和传递，所以性能要高于普通服务和技术</p>
+<h2 id="消息中间件的核心组成部分"><a href="#消息中间件的核心组成部分" class="headerlink" title="消息中间件的核心组成部分"></a>消息中间件的核心组成部分</h2><p>消息的协议<br>消息的持久化机制<br>消息的分发策略<br>消息的高可用，高可靠<br>消息的容错机制</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1220,128 +1353,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://zhaoyangmushiyi.github.io/2020/07/03/MacOS%E5%BC%80%E5%90%AF%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/next/Avatar.png">
-      <meta itemprop="name" content="Monochrome">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monochrome">
-      <meta itemprop="description" content="有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Monochrome">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/07/03/MacOS%E5%BC%80%E5%90%AF%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" class="post-title-link" itemprop="url">MacOS开启端口转发</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-07-03 17:03:39" itemprop="dateCreated datePublished" datetime="2020-07-03T17:03:39+08:00">2020-07-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2021-06-23 19:29:18" itemprop="dateModified" datetime="2021-06-23T19:29:18+08:00">2021-06-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/MacOS/" itemprop="url" rel="index"><span itemprop="name">MacOS</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="在-x2F-etc-x2F-pf-anchors-x2F-目录下新建一个名为com-pow文件，内容如下"><a href="#在-x2F-etc-x2F-pf-anchors-x2F-目录下新建一个名为com-pow文件，内容如下" class="headerlink" title="在&#x2F;etc&#x2F;pf.anchors&#x2F;目录下新建一个名为com.pow文件，内容如下"></a>在&#x2F;etc&#x2F;pf.anchors&#x2F;目录下新建一个名为com.pow文件，内容如下</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rdr pass on en0 inet proto tcp from any to any port 8080 -&gt; 127.0.0.1 port 8080</span><br><span class="line">rdr pass on en5 inet proto tcp from any to any port 8080 -&gt; 127.0.0.1 port 8080</span><br></pre></td></tr></table></figure>
-
-<p>上面的配置标表示的意思是将从en0和en5，目的端口为8080的包转发到8080端口上</p>
-<h3 id="使用pfctl命令检测配置文件"><a href="#使用pfctl命令检测配置文件" class="headerlink" title="使用pfctl命令检测配置文件"></a>使用<code>pfctl</code>命令检测配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pfctl -vnf /etc/pf.anchors/com.pow</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改-etc-pf-conf配置文件"><a href="#修改-etc-pf-conf配置文件" class="headerlink" title="修改/etc/pf.conf配置文件"></a>修改<code>/etc/pf.conf</code>配置文件</h3><p><code>pf</code>启动时会自动装载<code>/etc/pf.conf</code>文件，因此将<code>anchor</code>文件链接到<code>/etc/pf.conf</code>，转发规则就会自动建立了。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在rdr-anchor <span class="string">&quot;com.apple/*&quot;</span>下面增加：</span></span><br><span class="line"></span><br><span class="line">rdr-anchor &quot;pow&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在load anchor <span class="string">&quot;com.apple&quot;</span> from <span class="string">&quot;/etc/pf.anchors/com.apple&quot;</span>后面添加：</span></span><br><span class="line"></span><br><span class="line">load anchor &quot;pow&quot; from &quot;/etc/pf.anchors/com.pow&quot;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>修改后的配置如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scrub-anchor &quot;com.apple/*&quot;</span><br><span class="line">nat-anchor &quot;com.apple/*&quot;</span><br><span class="line">rdr-anchor &quot;com.apple/*&quot;</span><br><span class="line">rdr-anchor &quot;pow&quot;</span><br><span class="line">dummynet-anchor &quot;com.apple/*&quot;</span><br><span class="line">anchor &quot;com.apple/*&quot;</span><br><span class="line">load anchor &quot;com.apple&quot; from &quot;/etc/pf.anchors/com.apple&quot;</span><br><span class="line">load anchor &quot;pow&quot; from &quot;/etc/pf.anchors/com.pow&quot;</span><br></pre></td></tr></table></figure>
-
-<p>导入并运行<code>pf</code>命令</p>
-<p>一定要导入并允许运行<code>pf</code>的命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pfctl -evf /etc/pf.anchors/com.pow</span><br></pre></td></tr></table></figure>
-
-
-<p>设置<code>pf</code>开机自动打开</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pfctl -e</span><br></pre></td></tr></table></figure>
-
-<p>如果想要关闭<code>pf</code>，命令是</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pfctl -d1</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1366,13 +1377,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">657k</span>
+    <span title="站点总字数">668k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">9:57</span>
+    <span title="站点阅读时长">10:07</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
