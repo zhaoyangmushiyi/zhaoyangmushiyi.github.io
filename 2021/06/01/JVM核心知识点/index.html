@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
-
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="Java8  JVM内存结构基本结构与之前类似，只是Java8取消了之前的“永久代”，取而代之的是“元空间”——Metaspace，两者本质是一样的。“永久代”使用的是JVM的堆内存，而“元空间”是直接使用的本机物理内存。">
 <meta property="og:type" content="article">
@@ -63,6 +62,8 @@
 
 
 
+
+
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
@@ -72,8 +73,8 @@
   <div class="headband"></div>
 
   <main class="main">
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
         <span class="toggle-line"></span>
@@ -92,7 +93,7 @@
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
         <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
@@ -112,37 +113,31 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close" role="button">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div class="search-result-container no-result">
-  <div class="search-result-icon">
-    <i class="fa fa-spinner fa-pulse fa-5x"></i>
-  </div>
-</div>
-
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
     </div>
   </div>
 
-</div>
+</header>
         
   
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
   <aside class="sidebar">
 
     <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
@@ -158,18 +153,18 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java8-JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">Java8  JVM内存结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GC-Roots"><span class="nav-number">2.</span> <span class="nav-text">GC Roots</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%8F%AF%E4%BB%A5%E8%A2%AB%E5%9B%9E%E6%94%B6%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">如果判断一个对象可以被回收？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.1.</span> <span class="nav-text">引用计数算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.2.</span> <span class="nav-text">可达性分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%AF%B9%E8%B1%A1%E5%8F%AF%E4%BB%A5%E4%BD%9C%E4%B8%BAGC-Roots%EF%BC%9F"><span class="nav-number">2.2.</span> <span class="nav-text">哪些对象可以作为GC Roots？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%8F%82%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">JVM参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E4%B8%89%E7%A7%8D%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.</span> <span class="nav-text">JVM 三种类型参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E9%85%8D%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.1.</span> <span class="nav-text">标配参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#X%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.2.</span> <span class="nav-text">X参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.3.</span> <span class="nav-text">XX参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-XX%E5%8F%82%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">JVM XX参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.1.</span> <span class="nav-text">布尔类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KV%E9%94%AE%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.2.</span> <span class="nav-text">KV键值类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-Xms-x2F-Xmx%E5%8F%82%E6%95%B0"><span class="nav-number">3.3.</span> <span class="nav-text">JVM Xms&#x2F;Xmx参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E6%9F%A5%E7%9C%8B%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.</span> <span class="nav-text">JVM 查看参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9F%90%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.1.</span> <span class="nav-text">查看某个参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.2.</span> <span class="nav-text">查看所有参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E4%BF%AE%E6%94%B9%E5%90%8E%E7%9A%84%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.3.</span> <span class="nav-text">查看修改后的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%B8%B8%E8%A7%81%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.4.</span> <span class="nav-text">查看常见参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="nav-number">3.5.</span> <span class="nav-text">JVM 常用参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Xmx-x2F-Xms"><span class="nav-number">3.5.1.</span> <span class="nav-text">-Xmx&#x2F;-Xms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xss"><span class="nav-number">3.5.2.</span> <span class="nav-text">-Xss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xmn"><span class="nav-number">3.5.3.</span> <span class="nav-text">-Xmn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-MetaspaceSize"><span class="nav-number">3.5.4.</span> <span class="nav-text">-XX:MetaspaceSize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-PrintGCDetails"><span class="nav-number">3.5.5.</span> <span class="nav-text">-XX:+PrintGCDetails</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-SurvivorRatio"><span class="nav-number">3.5.6.</span> <span class="nav-text">-XX:SurvivorRatio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-NewRatio"><span class="nav-number">3.5.7.</span> <span class="nav-text">-XX:NewRatio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-MaxTenuringThreshold"><span class="nav-number">3.5.8.</span> <span class="nav-text">-XX:MaxTenuringThreshold</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E5%A4%A7%E5%BC%95%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">四大引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">4.1.</span> <span class="nav-text">强引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E5%BC%95%E7%94%A8"><span class="nav-number">4.2.</span> <span class="nav-text">软引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-number">4.3.</span> <span class="nav-text">弱引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakHashMap"><span class="nav-number">4.3.1.</span> <span class="nav-text">WeakHashMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%BC%95%E7%94%A8"><span class="nav-number">4.4.</span> <span class="nav-text">虚引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E9%98%9F%E5%88%97"><span class="nav-number">4.5.</span> <span class="nav-text">引用队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OutOfMemoryError"><span class="nav-number">5.</span> <span class="nav-text">OutOfMemoryError</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#StackOverflowError"><span class="nav-number">5.1.</span> <span class="nav-text">StackOverflowError</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94Java-head-space"><span class="nav-number">5.2.</span> <span class="nav-text">OOM—Java head space</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94GC-overhead-limit-exceeded"><span class="nav-number">5.3.</span> <span class="nav-text">OOM—GC overhead limit exceeded</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94GC-Direct-buffer-memory"><span class="nav-number">5.4.</span> <span class="nav-text">OOM—GC Direct buffer memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94unable-to-create-new-native-thread"><span class="nav-number">5.5.</span> <span class="nav-text">OOM—unable to create new native thread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94Metaspace"><span class="nav-number">5.6.</span> <span class="nav-text">OOM—Metaspace</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.</span> <span class="nav-text">JVM垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E5%A4%A7%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.</span> <span class="nav-text">四大垃圾收集算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86"><span class="nav-number">6.1.1.</span> <span class="nav-text">标记整理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4"><span class="nav-number">6.1.2.</span> <span class="nav-text">标记清除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.3.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.4.</span> <span class="nav-text">分代收集算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E7%A7%8D%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.2.</span> <span class="nav-text">四种垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%B2%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8Serial"><span class="nav-number">6.2.1.</span> <span class="nav-text">串行收集器Serial</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8Parrallel"><span class="nav-number">6.2.2.</span> <span class="nav-text">并行收集器Parrallel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%94%B6%E9%9B%86%E5%99%A8CMS"><span class="nav-number">6.2.3.</span> <span class="nav-text">并发收集器CMS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#G1%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.2.4.</span> <span class="nav-text">G1收集器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.3.</span> <span class="nav-text">默认垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E6%94%B6%E9%9B%86%E5%99%A8%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">6.3.1.</span> <span class="nav-text">默认收集器有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E9%BB%98%E8%AE%A4%E5%9E%83%E5%9C%BE%E4%BF%AE%E6%94%B9%E5%99%A8"><span class="nav-number">6.3.2.</span> <span class="nav-text">查看默认垃圾修改器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E5%A4%A7%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.</span> <span class="nav-text">七大垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">6.4.1.</span> <span class="nav-text">体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serial%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.2.</span> <span class="nav-text">Serial收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ParNew%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.3.</span> <span class="nav-text">ParNew收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parallel-Scavenge%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.4.</span> <span class="nav-text">Parallel Scavenge收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SerialOld%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.5.</span> <span class="nav-text">SerialOld收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ParallelOld%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.6.</span> <span class="nav-text">ParallelOld收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMS%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.7.</span> <span class="nav-text">CMS收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B"><span class="nav-number">6.4.7.1.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">6.4.7.2.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#G1%E6%94%B6%E9%9B%86%E5%99%A8-1"><span class="nav-number">6.4.8.</span> <span class="nav-text">G1收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">6.4.8.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B-1"><span class="nav-number">6.4.8.2.</span> <span class="nav-text">过程</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E2%80%94Linux%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="nav-number">7.</span> <span class="nav-text">附—Linux相关指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#top"><span class="nav-number">7.1.</span> <span class="nav-text">top</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vmstat"><span class="nav-number">7.2.</span> <span class="nav-text">vmstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pidstat"><span class="nav-number">7.3.</span> <span class="nav-text">pidstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#free"><span class="nav-number">7.4.</span> <span class="nav-text">free</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#df"><span class="nav-number">7.5.</span> <span class="nav-text">df</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iostat"><span class="nav-number">7.6.</span> <span class="nav-text">iostat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ifstat"><span class="nav-number">7.7.</span> <span class="nav-text">ifstat</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CPU%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E5%8E%9F%E5%9B%A0%E5%AE%9A%E4%BD%8D"><span class="nav-number">8.</span> <span class="nav-text">CPU占用过高原因定位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7"><span class="nav-number">9.</span> <span class="nav-text">JVM性能调优和监控工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jps"><span class="nav-number">9.1.</span> <span class="nav-text">jps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jstack"><span class="nav-number">9.2.</span> <span class="nav-text">jstack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jinfo-x2F-jstat"><span class="nav-number">9.3.</span> <span class="nav-text">jinfo&#x2F;jstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jmap"><span class="nav-number">9.4.</span> <span class="nav-text">jmap</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java8-JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">Java8  JVM内存结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GC-Roots"><span class="nav-number">2.</span> <span class="nav-text">GC Roots</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%8F%AF%E4%BB%A5%E8%A2%AB%E5%9B%9E%E6%94%B6%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">如果判断一个对象可以被回收？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.1.</span> <span class="nav-text">引用计数算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.2.</span> <span class="nav-text">可达性分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%AF%B9%E8%B1%A1%E5%8F%AF%E4%BB%A5%E4%BD%9C%E4%B8%BAGC-Roots%EF%BC%9F"><span class="nav-number">2.2.</span> <span class="nav-text">哪些对象可以作为GC Roots？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%8F%82%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">JVM参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E4%B8%89%E7%A7%8D%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.</span> <span class="nav-text">JVM 三种类型参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E9%85%8D%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.1.</span> <span class="nav-text">标配参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#X%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.2.</span> <span class="nav-text">X参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.3.</span> <span class="nav-text">XX参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-XX%E5%8F%82%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">JVM XX参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.1.</span> <span class="nav-text">布尔类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KV%E9%94%AE%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.2.</span> <span class="nav-text">KV键值类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-Xms-Xmx%E5%8F%82%E6%95%B0"><span class="nav-number">3.3.</span> <span class="nav-text">JVM Xms&#x2F;Xmx参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E6%9F%A5%E7%9C%8B%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.</span> <span class="nav-text">JVM 查看参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9F%90%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.1.</span> <span class="nav-text">查看某个参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.2.</span> <span class="nav-text">查看所有参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E4%BF%AE%E6%94%B9%E5%90%8E%E7%9A%84%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.3.</span> <span class="nav-text">查看修改后的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%B8%B8%E8%A7%81%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.4.</span> <span class="nav-text">查看常见参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="nav-number">3.5.</span> <span class="nav-text">JVM 常用参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Xmx-Xms"><span class="nav-number">3.5.1.</span> <span class="nav-text">-Xmx&#x2F;-Xms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xss"><span class="nav-number">3.5.2.</span> <span class="nav-text">-Xss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xmn"><span class="nav-number">3.5.3.</span> <span class="nav-text">-Xmn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-MetaspaceSize"><span class="nav-number">3.5.4.</span> <span class="nav-text">-XX:MetaspaceSize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-PrintGCDetails"><span class="nav-number">3.5.5.</span> <span class="nav-text">-XX:+PrintGCDetails</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-SurvivorRatio"><span class="nav-number">3.5.6.</span> <span class="nav-text">-XX:SurvivorRatio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-NewRatio"><span class="nav-number">3.5.7.</span> <span class="nav-text">-XX:NewRatio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XX-MaxTenuringThreshold"><span class="nav-number">3.5.8.</span> <span class="nav-text">-XX:MaxTenuringThreshold</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E5%A4%A7%E5%BC%95%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">四大引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">4.1.</span> <span class="nav-text">强引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E5%BC%95%E7%94%A8"><span class="nav-number">4.2.</span> <span class="nav-text">软引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-number">4.3.</span> <span class="nav-text">弱引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakHashMap"><span class="nav-number">4.3.1.</span> <span class="nav-text">WeakHashMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%BC%95%E7%94%A8"><span class="nav-number">4.4.</span> <span class="nav-text">虚引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E9%98%9F%E5%88%97"><span class="nav-number">4.5.</span> <span class="nav-text">引用队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OutOfMemoryError"><span class="nav-number">5.</span> <span class="nav-text">OutOfMemoryError</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#StackOverflowError"><span class="nav-number">5.1.</span> <span class="nav-text">StackOverflowError</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94Java-head-space"><span class="nav-number">5.2.</span> <span class="nav-text">OOM—Java head space</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94GC-overhead-limit-exceeded"><span class="nav-number">5.3.</span> <span class="nav-text">OOM—GC overhead limit exceeded</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94GC-Direct-buffer-memory"><span class="nav-number">5.4.</span> <span class="nav-text">OOM—GC Direct buffer memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94unable-to-create-new-native-thread"><span class="nav-number">5.5.</span> <span class="nav-text">OOM—unable to create new native thread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOM%E2%80%94Metaspace"><span class="nav-number">5.6.</span> <span class="nav-text">OOM—Metaspace</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.</span> <span class="nav-text">JVM垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E5%A4%A7%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.</span> <span class="nav-text">四大垃圾收集算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86"><span class="nav-number">6.1.1.</span> <span class="nav-text">标记整理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4"><span class="nav-number">6.1.2.</span> <span class="nav-text">标记清除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.3.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.4.</span> <span class="nav-text">分代收集算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E7%A7%8D%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.2.</span> <span class="nav-text">四种垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%B2%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8Serial"><span class="nav-number">6.2.1.</span> <span class="nav-text">串行收集器Serial</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8Parrallel"><span class="nav-number">6.2.2.</span> <span class="nav-text">并行收集器Parrallel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%94%B6%E9%9B%86%E5%99%A8CMS"><span class="nav-number">6.2.3.</span> <span class="nav-text">并发收集器CMS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#G1%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.2.4.</span> <span class="nav-text">G1收集器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.3.</span> <span class="nav-text">默认垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E6%94%B6%E9%9B%86%E5%99%A8%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">6.3.1.</span> <span class="nav-text">默认收集器有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E9%BB%98%E8%AE%A4%E5%9E%83%E5%9C%BE%E4%BF%AE%E6%94%B9%E5%99%A8"><span class="nav-number">6.3.2.</span> <span class="nav-text">查看默认垃圾修改器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E5%A4%A7%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.</span> <span class="nav-text">七大垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">6.4.1.</span> <span class="nav-text">体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serial%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.2.</span> <span class="nav-text">Serial收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ParNew%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.3.</span> <span class="nav-text">ParNew收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parallel-Scavenge%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.4.</span> <span class="nav-text">Parallel Scavenge收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SerialOld%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.5.</span> <span class="nav-text">SerialOld收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ParallelOld%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.6.</span> <span class="nav-text">ParallelOld收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMS%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">6.4.7.</span> <span class="nav-text">CMS收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B"><span class="nav-number">6.4.7.1.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">6.4.7.2.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#G1%E6%94%B6%E9%9B%86%E5%99%A8-1"><span class="nav-number">6.4.8.</span> <span class="nav-text">G1收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">6.4.8.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B-1"><span class="nav-number">6.4.8.2.</span> <span class="nav-text">过程</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E2%80%94Linux%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="nav-number">7.</span> <span class="nav-text">附—Linux相关指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#top"><span class="nav-number">7.1.</span> <span class="nav-text">top</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vmstat"><span class="nav-number">7.2.</span> <span class="nav-text">vmstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pidstat"><span class="nav-number">7.3.</span> <span class="nav-text">pidstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#free"><span class="nav-number">7.4.</span> <span class="nav-text">free</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#df"><span class="nav-number">7.5.</span> <span class="nav-text">df</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iostat"><span class="nav-number">7.6.</span> <span class="nav-text">iostat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ifstat"><span class="nav-number">7.7.</span> <span class="nav-text">ifstat</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CPU%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E5%8E%9F%E5%9B%A0%E5%AE%9A%E4%BD%8D"><span class="nav-number">8.</span> <span class="nav-text">CPU占用过高原因定位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7"><span class="nav-number">9.</span> <span class="nav-text">JVM性能调优和监控工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jps"><span class="nav-number">9.1.</span> <span class="nav-text">jps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jstack"><span class="nav-number">9.2.</span> <span class="nav-text">jstack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jinfo-jstat"><span class="nav-number">9.3.</span> <span class="nav-text">jinfo&#x2F;jstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jmap"><span class="nav-number">9.4.</span> <span class="nav-text">jmap</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Monochrome"
       src="/images/next/Avatar.png">
   <p class="site-author-name" itemprop="name">Monochrome</p>
   <div class="site-description" itemprop="description">有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。</div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
+<div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
@@ -189,36 +184,24 @@
       </div>
   </nav>
 </div>
-  <div class="links-of-author site-overview-item animated">
+  <div class="links-of-author animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
-
-
 
         </div>
       </div>
     </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
-    </header>
 
     
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+  </aside>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    </div>
 
     <div class="main-inner post posts-expand">
 
@@ -303,8 +286,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-        <h1 id="Java8-JVM内存结构"><a href="#Java8-JVM内存结构" class="headerlink" title="Java8  JVM内存结构"></a>Java8  JVM内存结构</h1><p>基本结构与之前类似，只是Java8取消了之前的“永久代”，取而代之的是“元空间”——<strong>Metaspace</strong>，两者本质是一样的。“永久代”使用的是JVM的堆内存，而“元空间”是直接使用的本机物理内存。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="Java8-JVM内存结构"><a href="#Java8-JVM内存结构" class="headerlink" title="Java8  JVM内存结构"></a>Java8  JVM内存结构</h1><p>基本结构与之前类似，只是Java8取消了之前的“永久代”，取而代之的是“元空间”——<strong>Metaspace</strong>，两者本质是一样的。“永久代”使用的是JVM的堆内存，而“元空间”是直接使用的本机物理内存。</p>
 <p><img src="/./images/JVM/JVMMem.png"></p>
 <span id="more"></span>
 
@@ -322,7 +304,7 @@
 <h3 id="XX参数"><a href="#XX参数" class="headerlink" title="XX参数"></a>XX参数</h3><p>重要，用于JVM调优。</p>
 <h2 id="JVM-XX参数"><a href="#JVM-XX参数" class="headerlink" title="JVM XX参数"></a>JVM XX参数</h2><h3 id="布尔类型"><a href="#布尔类型" class="headerlink" title="布尔类型"></a>布尔类型</h3><p><strong>公式</strong>：<code>-XX:+某个属性</code>、<code>-XX:-某个属性</code>，开启或关闭某个功能。比如<code>-XX:+PrintGCDetails</code>，开启GC详细信息。</p>
 <h3 id="KV键值类型"><a href="#KV键值类型" class="headerlink" title="KV键值类型"></a>KV键值类型</h3><p><strong>公式</strong>：<code>-XX:属性key=值value</code>。比如<code>-XX:Metaspace=128m</code>、<code>-XX:MaxTenuringThreshold=15</code>。</p>
-<h2 id="JVM-Xms-x2F-Xmx参数"><a href="#JVM-Xms-x2F-Xmx参数" class="headerlink" title="JVM Xms&#x2F;Xmx参数"></a>JVM Xms&#x2F;Xmx参数</h2><p><code>-Xms</code>和<code>-Xmx</code>十分常见，用于设置<strong>初始堆大小</strong>和<strong>最大堆大小</strong>。第一眼看上去，既不像X参数，也不像XX参数。实际上<code>-Xms</code>等价于<code>-XX:InitialHeapSize</code>，<code>-Xmx</code>等价于<code>-XX:MaxHeapSize</code>。所以<code>-Xms</code>和<code>-Xmx</code>属于XX参数。</p>
+<h2 id="JVM-Xms-Xmx参数"><a href="#JVM-Xms-Xmx参数" class="headerlink" title="JVM Xms&#x2F;Xmx参数"></a>JVM Xms&#x2F;Xmx参数</h2><p><code>-Xms</code>和<code>-Xmx</code>十分常见，用于设置<strong>初始堆大小</strong>和<strong>最大堆大小</strong>。第一眼看上去，既不像X参数，也不像XX参数。实际上<code>-Xms</code>等价于<code>-XX:InitialHeapSize</code>，<code>-Xmx</code>等价于<code>-XX:MaxHeapSize</code>。所以<code>-Xms</code>和<code>-Xmx</code>属于XX参数。</p>
 <h2 id="JVM-查看参数"><a href="#JVM-查看参数" class="headerlink" title="JVM 查看参数"></a>JVM 查看参数</h2><h3 id="查看某个参数"><a href="#查看某个参数" class="headerlink" title="查看某个参数"></a>查看某个参数</h3><p>使用<code>jps -l</code>配合<code>jinfo -flag JVM参数 pid</code> 。先用<code>jsp -l</code>查看java进程，选择某个进程号。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">17888</span> org.jetbrains.jps.cmdline.Launcher</span><br><span class="line"><span class="number">5360</span> org.jetbrains.idea.maven.server.RemoteMavenServer</span><br><span class="line"><span class="number">18052</span> demo3.demo3</span><br></pre></td></tr></table></figure>
 
@@ -337,7 +319,7 @@
 <h3 id="查看常见参数"><a href="#查看常见参数" class="headerlink" title="查看常见参数"></a>查看<strong>常见</strong>参数</h3><p>如果不想查看所有参数，可以用<code>-XX:+PrintCommandLineFlags</code>查看常用参数。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:InitialHeapSize=<span class="number">132375936</span> -XX:MaxHeapSize=<span class="number">2118014976</span> -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC</span><br></pre></td></tr></table></figure>
 
-<h2 id="JVM-常用参数"><a href="#JVM-常用参数" class="headerlink" title="JVM 常用参数"></a>JVM 常用参数</h2><h3 id="Xmx-x2F-Xms"><a href="#Xmx-x2F-Xms" class="headerlink" title="-Xmx&#x2F;-Xms"></a>-Xmx&#x2F;-Xms</h3><p>最大和初始堆大小。最大默认为物理内存的1&#x2F;4，初始默认为物理内存的1&#x2F;64。</p>
+<h2 id="JVM-常用参数"><a href="#JVM-常用参数" class="headerlink" title="JVM 常用参数"></a>JVM 常用参数</h2><h3 id="Xmx-Xms"><a href="#Xmx-Xms" class="headerlink" title="-Xmx&#x2F;-Xms"></a>-Xmx&#x2F;-Xms</h3><p>最大和初始堆大小。最大默认为物理内存的1&#x2F;4，初始默认为物理内存的1&#x2F;64。</p>
 <h3 id="Xss"><a href="#Xss" class="headerlink" title="-Xss"></a>-Xss</h3><p>等价于<code>-XX:ThresholdStackSize</code>。用于设置单个栈的大小，系统默认值是0，<strong>不代表栈大小为0</strong>。而是根据操作系统的不同，有不同的值。比如64位的Linux系统是1024K，而Windows系统依赖于虚拟内存。</p>
 <h3 id="Xmn"><a href="#Xmn" class="headerlink" title="-Xmn"></a>-Xmn</h3><p>新生代大小，一般不调。</p>
 <h3 id="XX-MetaspaceSize"><a href="#XX-MetaspaceSize" class="headerlink" title="-XX:MetaspaceSize"></a>-XX:MetaspaceSize</h3><p>设置元空间大小。</p>
@@ -439,7 +421,7 @@
 <h1 id="CPU占用过高原因定位"><a href="#CPU占用过高原因定位" class="headerlink" title="CPU占用过高原因定位"></a>CPU占用过高原因定位</h1><p>先用<code>top</code>找到CPU占用最高的进程，然后用<code>ps -mp pid -o THREAD,tid,time</code>，得到该<strong>进程</strong>里面占用最高的<strong>线程</strong>。这个线程是10进制的，将其转成16进制，然后用<code>jstack pid | grep tid</code>可以定位到具体哪一行导致了占用过高。</p>
 <h1 id="JVM性能调优和监控工具"><a href="#JVM性能调优和监控工具" class="headerlink" title="JVM性能调优和监控工具"></a>JVM性能调优和监控工具</h1><h2 id="jps"><a href="#jps" class="headerlink" title="jps"></a>jps</h2><p>Java版的<code>ps -ef</code>查看所有JVM进程。</p>
 <h2 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h2><p>查看JVM中运行线程的状态，比较重要。可以定位CPU占用过高位置，定位死锁位置。</p>
-<h2 id="jinfo-x2F-jstat"><a href="#jinfo-x2F-jstat" class="headerlink" title="jinfo&#x2F;jstat"></a>jinfo&#x2F;jstat</h2><p><code>jinfo</code>查看JVM的运行环境参数，比如默认的JVM参数等。<code>jstat</code>统计信息监视工具。</p>
+<h2 id="jinfo-jstat"><a href="#jinfo-jstat" class="headerlink" title="jinfo&#x2F;jstat"></a>jinfo&#x2F;jstat</h2><p><code>jinfo</code>查看JVM的运行环境参数，比如默认的JVM参数等。<code>jstat</code>统计信息监视工具。</p>
 <h2 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h2><p>JVM内存映像工具。</p>
 
     </div>
@@ -458,12 +440,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2021/04/20/JUC%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="prev" title="JUC核心知识点">
-                  <i class="fa fa-chevron-left"></i> JUC核心知识点
+                  <i class="fa fa-angle-left"></i> JUC核心知识点
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2021/06/09/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="next" title="Java设计模式">
-                  Java设计模式 <i class="fa fa-chevron-right"></i>
+                  Java设计模式 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -482,15 +464,14 @@
   <footer class="footer">
     <div class="footer-inner">
 
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Monochrome</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Monochrome</span>
+  </div>
 <div class="wordcount">
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
@@ -523,23 +504,41 @@ var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[
   </footer>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
 
   
-<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.1/dist/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
 <script src="/js/third-party/search/local-search.js"></script>
 
 
 
 
 
+
+
   
 
 
 
 
-<script src="https://unpkg.com/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
 
 <script>
 var options = {

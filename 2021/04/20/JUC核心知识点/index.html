@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
-
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhaoyangmushiyi.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="JMMJMM是指Java内存模型，不是Java内存布局，不是所谓的栈、堆、方法区。 每个Java线程都有自己的工作内存。操作数据，首先从主内存中读，得到一份拷贝，操作完毕后再写回到主内存。 JMM可能带来可见性、原子性和有序性问题。所谓可见性，就是某个线程对主内存内容的更改，应该立刻通知到其它线程。原子性是指一个操作是不可分割的，不能执行到一半，就不执行了。所谓有序性，就是指令是有序的，不会被重排">
 <meta property="og:type" content="article">
@@ -54,6 +53,8 @@
 
 
 
+
+
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
@@ -63,8 +64,8 @@
   <div class="headband"></div>
 
   <main class="main">
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
         <span class="toggle-line"></span>
@@ -83,7 +84,7 @@
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
         <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
@@ -103,37 +104,31 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close" role="button">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div class="search-result-container no-result">
-  <div class="search-result-icon">
-    <i class="fa fa-spinner fa-pulse fa-5x"></i>
-  </div>
-</div>
-
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
     </div>
   </div>
 
-</div>
+</header>
         
   
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
   <aside class="sidebar">
 
     <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
@@ -149,18 +144,18 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JMM"><span class="nav-number">1.</span> <span class="nav-text">JMM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#volatile%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">2.</span> <span class="nav-text">volatile关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">可见性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">有序性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9%E7%94%A8%E5%88%B0%E8%BF%87volatile%EF%BC%9F"><span class="nav-number">2.4.</span> <span class="nav-text">哪些地方用到过volatile？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">2.4.1.</span> <span class="nav-text">单例模式的安全问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CAS"><span class="nav-number">3.</span> <span class="nav-text">CAS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">CAS底层原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS%E7%BC%BA%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">CAS缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ABA%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">ABA问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AtomicReference"><span class="nav-number">4.1.</span> <span class="nav-text">AtomicReference</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AtomicStampedReference%E5%92%8CABA%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3"><span class="nav-number">4.2.</span> <span class="nav-text">AtomicStampedReference和ABA问题的解决</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E7%B1%BB%E4%B8%8D%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">集合类不安全问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">5.1.</span> <span class="nav-text">List</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CopyOnWriteArrayList"><span class="nav-number">5.1.1.</span> <span class="nav-text">CopyOnWriteArrayList</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set"><span class="nav-number">5.2.</span> <span class="nav-text">Set</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashSet%E5%92%8CHashMap"><span class="nav-number">5.2.1.</span> <span class="nav-text">HashSet和HashMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-number">5.3.</span> <span class="nav-text">Map</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E9%94%81"><span class="nav-number">6.</span> <span class="nav-text">Java锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%B9%B3%E9%94%81-x2F-%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81"><span class="nav-number">6.1.</span> <span class="nav-text">公平锁&#x2F;非公平锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81-x2F-%E9%80%92%E5%BD%92%E9%94%81"><span class="nav-number">6.2.</span> <span class="nav-text">可重入锁&#x2F;递归锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E9%85%8D%E5%AF%B9"><span class="nav-number">6.2.1.</span> <span class="nav-text">锁的配对</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%94%81"><span class="nav-number">6.3.</span> <span class="nav-text">自旋锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E9%94%81-x2F-%E7%8B%AC%E5%8D%A0-x2F-%E5%85%B1%E4%BA%AB%E9%94%81"><span class="nav-number">6.4.</span> <span class="nav-text">读写锁&#x2F;独占&#x2F;共享锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Synchronized%E5%92%8CLock%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">6.5.</span> <span class="nav-text">Synchronized和Lock的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CountDownLatch-x2F-CyclicBarrier-x2F-Semaphore"><span class="nav-number">7.</span> <span class="nav-text">CountDownLatch&#x2F;CyclicBarrier&#x2F;Semaphore</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CountDownLatch"><span class="nav-number">7.1.</span> <span class="nav-text">CountDownLatch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%9A%E4%B8%BE%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">7.1.1.</span> <span class="nav-text">枚举类的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CyclicBarrier"><span class="nav-number">7.2.</span> <span class="nav-text">CyclicBarrier</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Semaphore"><span class="nav-number">7.3.</span> <span class="nav-text">Semaphore</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97"><span class="nav-number">8.</span> <span class="nav-text">阻塞队列</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SynchronousQueue"><span class="nav-number">8.1.</span> <span class="nav-text">SynchronousQueue</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Callable%E6%8E%A5%E5%8F%A3"><span class="nav-number">9.</span> <span class="nav-text">Callable接口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E7%9A%84%E5%BA%94%E7%94%A8%E2%80%94%E2%80%94%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-number">10.</span> <span class="nav-text">阻塞队列的应用——生产者消费者</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%A8%A1%E5%BC%8F"><span class="nav-number">10.1.</span> <span class="nav-text">传统模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%A8%A1%E5%BC%8F"><span class="nav-number">10.2.</span> <span class="nav-text">阻塞队列模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E7%9A%84%E5%BA%94%E7%94%A8%E2%80%94%E2%80%94%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">11.</span> <span class="nav-text">阻塞队列的应用——线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">11.1.</span> <span class="nav-text">线程池基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%89%E7%A7%8D%E5%B8%B8%E7%94%A8%E5%88%9B%E5%BB%BA%E6%96%B9%E5%BC%8F"><span class="nav-number">11.2.</span> <span class="nav-text">线程池三种常用创建方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%88%9B%E5%BB%BA%E7%9A%84%E4%B8%83%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="nav-number">11.3.</span> <span class="nav-text">线程池创建的七个参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">11.4.</span> <span class="nav-text">线程池底层原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5"><span class="nav-number">11.5.</span> <span class="nav-text">线程池的拒绝策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E7%94%9F%E4%BA%A7%E4%BD%BF%E7%94%A8%E5%93%AA%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="nav-number">11.6.</span> <span class="nav-text">实际生产使用哪一个线程池？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0%E9%80%89%E6%8B%A9"><span class="nav-number">11.6.1.</span> <span class="nav-text">自定义线程池参数选择</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E7%BC%96%E7%A0%81%E5%92%8C%E5%AE%9A%E4%BD%8D"><span class="nav-number">12.</span> <span class="nav-text">死锁编码和定位</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JMM"><span class="nav-number">1.</span> <span class="nav-text">JMM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#volatile%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">2.</span> <span class="nav-text">volatile关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">可见性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">有序性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9%E7%94%A8%E5%88%B0%E8%BF%87volatile%EF%BC%9F"><span class="nav-number">2.4.</span> <span class="nav-text">哪些地方用到过volatile？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">2.4.1.</span> <span class="nav-text">单例模式的安全问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CAS"><span class="nav-number">3.</span> <span class="nav-text">CAS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">CAS底层原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS%E7%BC%BA%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">CAS缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ABA%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">ABA问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AtomicReference"><span class="nav-number">4.1.</span> <span class="nav-text">AtomicReference</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AtomicStampedReference%E5%92%8CABA%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3"><span class="nav-number">4.2.</span> <span class="nav-text">AtomicStampedReference和ABA问题的解决</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E7%B1%BB%E4%B8%8D%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">集合类不安全问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">5.1.</span> <span class="nav-text">List</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CopyOnWriteArrayList"><span class="nav-number">5.1.1.</span> <span class="nav-text">CopyOnWriteArrayList</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set"><span class="nav-number">5.2.</span> <span class="nav-text">Set</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashSet%E5%92%8CHashMap"><span class="nav-number">5.2.1.</span> <span class="nav-text">HashSet和HashMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-number">5.3.</span> <span class="nav-text">Map</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E9%94%81"><span class="nav-number">6.</span> <span class="nav-text">Java锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%B9%B3%E9%94%81-%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81"><span class="nav-number">6.1.</span> <span class="nav-text">公平锁&#x2F;非公平锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81-%E9%80%92%E5%BD%92%E9%94%81"><span class="nav-number">6.2.</span> <span class="nav-text">可重入锁&#x2F;递归锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E9%85%8D%E5%AF%B9"><span class="nav-number">6.2.1.</span> <span class="nav-text">锁的配对</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%94%81"><span class="nav-number">6.3.</span> <span class="nav-text">自旋锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E9%94%81-%E7%8B%AC%E5%8D%A0-%E5%85%B1%E4%BA%AB%E9%94%81"><span class="nav-number">6.4.</span> <span class="nav-text">读写锁&#x2F;独占&#x2F;共享锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Synchronized%E5%92%8CLock%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">6.5.</span> <span class="nav-text">Synchronized和Lock的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CountDownLatch-CyclicBarrier-Semaphore"><span class="nav-number">7.</span> <span class="nav-text">CountDownLatch&#x2F;CyclicBarrier&#x2F;Semaphore</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CountDownLatch"><span class="nav-number">7.1.</span> <span class="nav-text">CountDownLatch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%9A%E4%B8%BE%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">7.1.1.</span> <span class="nav-text">枚举类的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CyclicBarrier"><span class="nav-number">7.2.</span> <span class="nav-text">CyclicBarrier</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Semaphore"><span class="nav-number">7.3.</span> <span class="nav-text">Semaphore</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97"><span class="nav-number">8.</span> <span class="nav-text">阻塞队列</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SynchronousQueue"><span class="nav-number">8.1.</span> <span class="nav-text">SynchronousQueue</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Callable%E6%8E%A5%E5%8F%A3"><span class="nav-number">9.</span> <span class="nav-text">Callable接口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E7%9A%84%E5%BA%94%E7%94%A8%E2%80%94%E2%80%94%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-number">10.</span> <span class="nav-text">阻塞队列的应用——生产者消费者</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%A8%A1%E5%BC%8F"><span class="nav-number">10.1.</span> <span class="nav-text">传统模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%A8%A1%E5%BC%8F"><span class="nav-number">10.2.</span> <span class="nav-text">阻塞队列模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E7%9A%84%E5%BA%94%E7%94%A8%E2%80%94%E2%80%94%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">11.</span> <span class="nav-text">阻塞队列的应用——线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">11.1.</span> <span class="nav-text">线程池基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%89%E7%A7%8D%E5%B8%B8%E7%94%A8%E5%88%9B%E5%BB%BA%E6%96%B9%E5%BC%8F"><span class="nav-number">11.2.</span> <span class="nav-text">线程池三种常用创建方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%88%9B%E5%BB%BA%E7%9A%84%E4%B8%83%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="nav-number">11.3.</span> <span class="nav-text">线程池创建的七个参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">11.4.</span> <span class="nav-text">线程池底层原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5"><span class="nav-number">11.5.</span> <span class="nav-text">线程池的拒绝策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E7%94%9F%E4%BA%A7%E4%BD%BF%E7%94%A8%E5%93%AA%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="nav-number">11.6.</span> <span class="nav-text">实际生产使用哪一个线程池？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0%E9%80%89%E6%8B%A9"><span class="nav-number">11.6.1.</span> <span class="nav-text">自定义线程池参数选择</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E7%BC%96%E7%A0%81%E5%92%8C%E5%AE%9A%E4%BD%8D"><span class="nav-number">12.</span> <span class="nav-text">死锁编码和定位</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Monochrome"
       src="/images/next/Avatar.png">
   <p class="site-author-name" itemprop="name">Monochrome</p>
   <div class="site-description" itemprop="description">有人住高楼，有人处深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。</div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
+<div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
@@ -180,36 +175,24 @@
       </div>
   </nav>
 </div>
-  <div class="links-of-author site-overview-item animated">
+  <div class="links-of-author animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/zhaoyangmushiyi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaoyangmushiyi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:zhaoyangmushiyi@gmail.com" title="E-Mail → mailto:zhaoyangmushiyi@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
-
-
 
         </div>
       </div>
     </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
-    </header>
 
     
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+  </aside>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    </div>
 
     <div class="main-inner post posts-expand">
 
@@ -294,8 +277,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-        <h1 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h1><p>JMM是指Java<strong>内存模型</strong>，不是Java<strong>内存布局</strong>，不是所谓的栈、堆、方法区。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h1><p>JMM是指Java<strong>内存模型</strong>，不是Java<strong>内存布局</strong>，不是所谓的栈、堆、方法区。</p>
 <p>每个Java线程都有自己的<strong>工作内存</strong>。操作数据，首先从主内存中读，得到一份拷贝，操作完毕后再写回到主内存。</p>
 <p><img src="/images/Java%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89/JMM.png" alt="threadPoolProcedure">JMM可能带来<strong>可见性</strong>、<strong>原子性</strong>和<strong>有序性</strong>问题。所谓可见性，就是某个线程对主内存内容的更改，应该立刻通知到其它线程。原子性是指一个操作是不可分割的，不能执行到一半，就不执行了。所谓有序性，就是指令是有序的，不会被重排。</p>
 <span id="more"></span>
@@ -385,10 +367,10 @@
 <h3 id="HashSet和HashMap"><a href="#HashSet和HashMap" class="headerlink" title="HashSet和HashMap"></a>HashSet和HashMap</h3><p><code>HashSet</code>底层是用<code>HashMap</code>实现的。既然是用<code>HashMap</code>实现的，那<code>HashMap.put()</code>需要传<strong>两个参数</strong>，而<code>HashSet.add()</code>只<strong>传一个参数</strong>，这是为什么？实际上<code>HashSet.add()</code>就是调用的<code>HashMap.put()</code>，只不过<strong>Value</strong>被写死了，是一个<code>private static final Object</code>对象。</p>
 <h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p><code>HashMap</code>不是线程安全的，<code>Hashtable</code>是线程安全的，但是跟<code>Vector</code>类似，太重量级。所以也有类似CopyOnWriteMap，只不过叫<code>ConcurrentHashMap</code>。</p>
 <p>关于集合不安全类请看<a target="_blank" rel="noopener" href="https://github.com/MaJesTySA/JVM-JUC-Core/blob/master/src/thread/ContainerNotSafeDemo.java">ContainerNotSafeDemo</a>。</p>
-<h1 id="Java锁"><a href="#Java锁" class="headerlink" title="Java锁"></a>Java锁</h1><h2 id="公平锁-x2F-非公平锁"><a href="#公平锁-x2F-非公平锁" class="headerlink" title="公平锁&#x2F;非公平锁"></a>公平锁&#x2F;非公平锁</h2><p><strong>概念</strong>：所谓<strong>公平锁</strong>，就是多个线程按照<strong>申请锁的顺序</strong>来获取锁，类似排队，先到先得。而<strong>非公平锁</strong>，则是多个线程抢夺锁，会导致<strong>优先级反转</strong>或<strong>饥饿现象</strong>。</p>
+<h1 id="Java锁"><a href="#Java锁" class="headerlink" title="Java锁"></a>Java锁</h1><h2 id="公平锁-非公平锁"><a href="#公平锁-非公平锁" class="headerlink" title="公平锁&#x2F;非公平锁"></a>公平锁&#x2F;非公平锁</h2><p><strong>概念</strong>：所谓<strong>公平锁</strong>，就是多个线程按照<strong>申请锁的顺序</strong>来获取锁，类似排队，先到先得。而<strong>非公平锁</strong>，则是多个线程抢夺锁，会导致<strong>优先级反转</strong>或<strong>饥饿现象</strong>。</p>
 <p><strong>区别</strong>：公平锁在获取锁时先查看此锁维护的<strong>等待队列</strong>，<strong>为空</strong>或者当前线程是等待队列的<strong>队首</strong>，则直接占有锁，否则插入到等待队列，FIFO原则。非公平锁比较粗鲁，上来直接<strong>先尝试占有锁</strong>，失败则采用公平锁方式。非公平锁的优点是<strong>吞吐量</strong>比公平锁更大。</p>
 <p><code>synchronized</code>和<code>juc.ReentrantLock</code>默认都是<strong>非公平锁</strong>。<code>ReentrantLock</code>在构造的时候传入<code>true</code>则是<strong>公平锁</strong>。</p>
-<h2 id="可重入锁-x2F-递归锁"><a href="#可重入锁-x2F-递归锁" class="headerlink" title="可重入锁&#x2F;递归锁"></a>可重入锁&#x2F;递归锁</h2><p>可重入锁又叫递归锁，指的同一个线程在<strong>外层方法</strong>获得锁时，进入<strong>内层方法</strong>会自动获取锁。也就是说，线程可以进入任何一个它已经拥有锁的代码块。比如<code>get</code>方法里面有<code>set</code>方法，两个方法都有同一把锁，得到了<code>get</code>的锁，就自动得到了<code>set</code>的锁。</p>
+<h2 id="可重入锁-递归锁"><a href="#可重入锁-递归锁" class="headerlink" title="可重入锁&#x2F;递归锁"></a>可重入锁&#x2F;递归锁</h2><p>可重入锁又叫递归锁，指的同一个线程在<strong>外层方法</strong>获得锁时，进入<strong>内层方法</strong>会自动获取锁。也就是说，线程可以进入任何一个它已经拥有锁的代码块。比如<code>get</code>方法里面有<code>set</code>方法，两个方法都有同一把锁，得到了<code>get</code>的锁，就自动得到了<code>set</code>的锁。</p>
 <p>就像有了家门的锁，厕所、书房、厨房就为你敞开了一样。可重入锁可以<strong>避免死锁</strong>的问题。</p>
 <p>ReentrantLockDemo：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Lock;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReentrantLockDemo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Phone phone=<span class="keyword">new</span> <span class="title class_">Phone</span>();</span><br><span class="line">        syncTest(phone);</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        Thread t3=<span class="keyword">new</span> <span class="title class_">Thread</span>(phone);</span><br><span class="line">        Thread t4=<span class="keyword">new</span> <span class="title class_">Thread</span>(phone);</span><br><span class="line">        t3.start();</span><br><span class="line">        t4.start();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">syncTest</span><span class="params">(Phone phone)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                phone.sendSMS();</span><br><span class="line">            &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;t1&quot;</span>).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                phone.sendSMS();</span><br><span class="line">            &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;t2&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Phone</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span>&#123;</span><br><span class="line">    <span class="comment">//Synchronized TEST</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">sendSMS</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getId()+<span class="string">&quot;\t&quot;</span>+<span class="string">&quot;sendSMS()&quot;</span>);</span><br><span class="line">        sendEmail();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">sendEmail</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getId()+<span class="string">&quot;\t&quot;</span>+<span class="string">&quot;sendEmail()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Reentrant TEST</span></span><br><span class="line"></span><br><span class="line">    Lock lock=<span class="keyword">new</span> <span class="title class_">ReentrantLock</span>();</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        get();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">get</span><span class="params">()</span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getId()+<span class="string">&quot;\t&quot;</span>+<span class="string">&quot;get()&quot;</span>);</span><br><span class="line">            set();</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">set</span><span class="params">()</span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getId()+<span class="string">&quot;\t&quot;</span>+<span class="string">&quot;set()&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -406,7 +388,7 @@
 
 
 
-<h2 id="读写锁-x2F-独占-x2F-共享锁"><a href="#读写锁-x2F-独占-x2F-共享锁" class="headerlink" title="读写锁&#x2F;独占&#x2F;共享锁"></a>读写锁&#x2F;独占&#x2F;共享锁</h2><p><strong>读锁</strong>是<strong>共享的</strong>，<strong>写锁</strong>是<strong>独占的</strong>。<code>juc.ReentrantLock</code>和<code>synchronized</code>都是<strong>独占锁</strong>，独占锁就是<strong>一个锁</strong>只能被<strong>一个线程</strong>所持有。有的时候，需要<strong>读写分离</strong>，那么就要引入读写锁，即<code>juc.ReentrantReadWriteLock</code>。</p>
+<h2 id="读写锁-独占-共享锁"><a href="#读写锁-独占-共享锁" class="headerlink" title="读写锁&#x2F;独占&#x2F;共享锁"></a>读写锁&#x2F;独占&#x2F;共享锁</h2><p><strong>读锁</strong>是<strong>共享的</strong>，<strong>写锁</strong>是<strong>独占的</strong>。<code>juc.ReentrantLock</code>和<code>synchronized</code>都是<strong>独占锁</strong>，独占锁就是<strong>一个锁</strong>只能被<strong>一个线程</strong>所持有。有的时候，需要<strong>读写分离</strong>，那么就要引入读写锁，即<code>juc.ReentrantReadWriteLock</code>。</p>
 <p>比如缓存，就需要读写锁来控制。缓存就是一个键值对，以下Demo模拟了缓存的读写操作，读的<code>get</code>方法使用了<code>ReentrantReadWriteLock.ReadLock()</code>，写的<code>put</code>方法使用了<code>ReentrantReadWriteLock.WriteLock()</code>。这样避免了写被打断，实现了多个线程同时读。</p>
 <p>ReadWriteLockDemo</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantReadWriteLock;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Monochrome</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2021/5/22</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReadWriteLockDemo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">MyCache</span> <span class="variable">myCache</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyCache</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">int</span> <span class="variable">tempInt</span> <span class="operator">=</span> i;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; myCache.put(tempInt + <span class="string">&quot;&quot;</span>, tempInt + <span class="string">&quot;&quot;</span>), String.valueOf(i)).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">int</span> <span class="variable">tempInt</span> <span class="operator">=</span> i;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; myCache.get(tempInt + <span class="string">&quot;&quot;</span>), String.valueOf(i)).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyCache</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> Map&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="type">ReentrantReadWriteLock</span> <span class="variable">rwLock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantReadWriteLock</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(String key, Object value)</span> &#123;</span><br><span class="line"></span><br><span class="line">        rwLock.writeLock().lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;\t 正在写入：&quot;</span> + key);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                TimeUnit.MICROSECONDS.sleep(<span class="number">300</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(key, value);</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;\t 写入完成：&quot;</span> + key);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            rwLock.writeLock().unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">get</span><span class="params">(String key)</span> &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        rwLock.readLock().lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;\t 正在读取：&quot;</span> + key);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                TimeUnit.MICROSECONDS.sleep(<span class="number">300</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            value = map.get(key);</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;\t 读取完成：&quot;</span> + value);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">          rwLock.readLock().unlock();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -419,7 +401,7 @@
 <li><strong>是否为公平锁</strong>：<code>sync</code>只能是非公平锁，而<code>Lock</code>既能是公平锁，又能是非公平锁。</li>
 <li>**绑定多个条件<code>Condition</code>**：<code>sync</code>不能，只能随机唤醒。而<code>Lock</code>可以通过<code>Condition</code>来绑定多个条件，精确唤醒。</li>
 </ol>
-<h1 id="CountDownLatch-x2F-CyclicBarrier-x2F-Semaphore"><a href="#CountDownLatch-x2F-CyclicBarrier-x2F-Semaphore" class="headerlink" title="CountDownLatch&#x2F;CyclicBarrier&#x2F;Semaphore"></a>CountDownLatch&#x2F;CyclicBarrier&#x2F;Semaphore</h1><h2 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h2><p><code>CountDownLatch</code>内部维护了一个<strong>计数器</strong>，只有当<strong>计数器&#x3D;&#x3D;0</strong>时，某些线程才会停止阻塞，开始执行。</p>
+<h1 id="CountDownLatch-CyclicBarrier-Semaphore"><a href="#CountDownLatch-CyclicBarrier-Semaphore" class="headerlink" title="CountDownLatch&#x2F;CyclicBarrier&#x2F;Semaphore"></a>CountDownLatch&#x2F;CyclicBarrier&#x2F;Semaphore</h1><h2 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h2><p><code>CountDownLatch</code>内部维护了一个<strong>计数器</strong>，只有当<strong>计数器&#x3D;&#x3D;0</strong>时，某些线程才会停止阻塞，开始执行。</p>
 <p><code>CountDownLatch</code>主要有两个方法，<code>countDown()</code>来让计数器-1，<code>await()</code>来让线程阻塞。当<code>count==0</code>时，阻塞线程自动唤醒。</p>
 <p><strong>案例一班长关门</strong>：main线程是班长，6个线程是学生。只有6个线程运行完毕，都离开教室后，main线程班长才会关教室门。</p>
 <p><strong>案例二秦灭六国</strong>：只有6国都被灭亡后（执行完毕），main线程才会显示“秦国一统天下”。</p>
@@ -682,12 +664,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2021/03/25/Spring%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="Spring源码学习笔记">
-                  <i class="fa fa-chevron-left"></i> Spring源码学习笔记
+                  <i class="fa fa-angle-left"></i> Spring源码学习笔记
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2021/06/01/JVM%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="next" title="JVM核心知识点">
-                  JVM核心知识点 <i class="fa fa-chevron-right"></i>
+                  JVM核心知识点 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -706,15 +688,14 @@
   <footer class="footer">
     <div class="footer-inner">
 
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Monochrome</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Monochrome</span>
+  </div>
 <div class="wordcount">
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
@@ -747,23 +728,41 @@ var _createClass=function(){function n(t,e){for(var i=0;i<e.length;i++){var n=e[
   </footer>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
 
   
-<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.1/dist/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
 <script src="/js/third-party/search/local-search.js"></script>
 
 
 
 
 
+
+
   
 
 
 
 
-<script src="https://unpkg.com/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
 
 <script>
 var options = {
